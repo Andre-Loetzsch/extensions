@@ -1,0 +1,10 @@
+﻿[strings]
+PossibleDeadlockDetected=Possible deadlock detected! The calling thread must not be the background thread.
+BackgroundWorkerHasBeenDisposed=Backgroundworker has been disposed!
+BackgroundWorkerIsNotRunning=Backgroundworker is not running!
+
+
+[strings.de]
+PossibleDeadlockDetected=Möglichen DEADLOCK erkannt! Der aufrufende Thread darf nicht der Hintergrundthread sein.
+BackgroundWorkerHasBeenDisposed=Hintergrundprozess wurde entsorgt!
+BackgroundWorkerIsNotRunning=Backgroundworker läuft nicht!

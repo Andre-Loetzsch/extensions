@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>5.0.0.0</Version>
+    <Company>Joyson Safety Systems Sachsen GmbH</Company>
+    <Copyright>Copyright © Tentakel 2021</Copyright>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>..\Lib\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SR.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SR.strings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="SR.srt.de.resx">
+      <DependentUpon>SR.strings</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SR.srt.resx">
+      <DependentUpon>SR.strings</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SR.strings">
+      <Generator>SRG</Generator>
+      <LastGenOutput>SR.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(SolutionDir)..\..\msbuild\setVariables.cmd&quot; &quot;$(OutDir)&quot; &quot;$(ConfigurationName)&quot; &quot;$(ProjectName)&quot; &quot;$(TargetName)&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectPath)&quot; &quot;$(ProjectFileName)&quot; &quot;$(TargetExt)&quot; &quot;$(TargetFileName)&quot; &quot;$(DevEnvDir)&quot; &quot;$(TargetDir)&quot; &quot;$(ProjectDir)&quot; &quot;$(SolutionFileName)&quot; &quot;$(SolutionPath)&quot; &quot;$(SolutionDir)&quot; &quot;$(SolutionName)&quot; &quot;$(PlatformName)&quot; &quot;$(ProjectExt)&quot; &quot;$(SolutionExt)&quot; &quot;!buildCmdsDir!\updateLib.cmd&quot;" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;$(SolutionDir)..\..\msbuild\setVariables.cmd&quot; &quot;$(OutDir)&quot; &quot;$(ConfigurationName)&quot; &quot;$(ProjectName)&quot; &quot;$(TargetName)&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectPath)&quot; &quot;$(ProjectFileName)&quot; &quot;$(TargetExt)&quot; &quot;$(TargetFileName)&quot; &quot;$(DevEnvDir)&quot; &quot;$(TargetDir)&quot; &quot;$(ProjectDir)&quot; &quot;$(SolutionFileName)&quot; &quot;$(SolutionPath)&quot; &quot;$(SolutionDir)&quot; &quot;$(SolutionName)&quot; &quot;$(PlatformName)&quot; &quot;$(ProjectExt)&quot; &quot;$(SolutionExt)&quot; &quot;!buildCmdsDir!\deploy.cmd&quot;" />
+  </Target>
+
+</Project>
