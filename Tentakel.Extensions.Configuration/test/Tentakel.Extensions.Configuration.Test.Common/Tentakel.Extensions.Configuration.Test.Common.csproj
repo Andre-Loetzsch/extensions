@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
+    <ProjectReference Include="..\..\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
   </ItemGroup>
 
 </Project>

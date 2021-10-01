@@ -27,9 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.csproj" />
+    <ProjectReference Include="..\..\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
+    <ProjectReference Include="..\..\src\Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.csproj" />
     <ProjectReference Include="..\Tentakel.Extensions.Configuration.Test.Common\Tentakel.Extensions.Configuration.Test.Common.csproj" />
-    <ProjectReference Include="..\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
   </ItemGroup>
 
 </Project>
