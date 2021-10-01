@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{C84BEB05-0E2E-4245-A18A-726A4BF0A06D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E97E6DB8-46E1-4803-8F9B-8E2386D5493C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{425E470B-248F-4004-8083-DD32670D8694}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Test", "Tentakel.Extensions.Configuration.Test\Tentakel.Extensions.Configuration.Test.csproj", "{5D4C0810-08BC-4E64-9B3D-A39F30E00CBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Json", "Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.csproj", "{0FE50007-9E3B-491A-8C7E-B6D8C2F7BEA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Json", "src\Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.csproj", "{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Json.Test", "Tentakel.Extensions.Configuration.Json.Test\Tentakel.Extensions.Configuration.Json.Test.csproj", "{F99B2424-89E1-4271-AA2E-03A780F6D4E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.DependencyInjection", "src\Tentakel.Extensions.DependencyInjection\Tentakel.Extensions.DependencyInjection.csproj", "{AD35AC36-DBC9-465C-A066-BA7F524FD22F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Test.Common", "Tentakel.Extensions.Configuration.Test.Common\Tentakel.Extensions.Configuration.Test.Common.csproj", "{96273325-DFD8-4E80-88AA-865903C68DDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Json.Test", "test\Tentakel.Extensions.Configuration.Json.Test\Tentakel.Extensions.Configuration.Json.Test.csproj", "{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tentakel.Extensions.DependencyInjection", "Tentakel.Extensions.DependencyInjection\Tentakel.Extensions.DependencyInjection.csproj", "{42D05ADD-1DD7-4A20-8BCC-B5D1AB6EDEBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Test", "test\Tentakel.Extensions.Configuration.Test\Tentakel.Extensions.Configuration.Test.csproj", "{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tentakel.Extensions.DependencyInjection.Test", "Tentakel.Extensions.DependencyInjection.Test\Tentakel.Extensions.DependencyInjection.Test.csproj", "{57ED9CF3-5CBD-4E1C-B8FF-0A7C14A194EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Test.Common", "test\Tentakel.Extensions.Configuration.Test.Common\Tentakel.Extensions.Configuration.Test.Common.csproj", "{341464E2-46C6-4905-A016-30F0F82A381E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.DependencyInjection.Test", "test\Tentakel.Extensions.DependencyInjection.Test\Tentakel.Extensions.DependencyInjection.Test.csproj", "{6F61B901-9EA2-4592-AD18-0E686DB4980A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,82 +27,48 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C84BEB05-0E2E-4245-A18A-726A4BF0A06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C84BEB05-0E2E-4245-A18A-726A4BF0A06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C84BEB05-0E2E-4245-A18A-726A4BF0A06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C84BEB05-0E2E-4245-A18A-726A4BF0A06D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D4C0810-08BC-4E64-9B3D-A39F30E00CBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D4C0810-08BC-4E64-9B3D-A39F30E00CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D4C0810-08BC-4E64-9B3D-A39F30E00CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D4C0810-08BC-4E64-9B3D-A39F30E00CBD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FE50007-9E3B-491A-8C7E-B6D8C2F7BEA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FE50007-9E3B-491A-8C7E-B6D8C2F7BEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FE50007-9E3B-491A-8C7E-B6D8C2F7BEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FE50007-9E3B-491A-8C7E-B6D8C2F7BEA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F99B2424-89E1-4271-AA2E-03A780F6D4E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F99B2424-89E1-4271-AA2E-03A780F6D4E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F99B2424-89E1-4271-AA2E-03A780F6D4E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F99B2424-89E1-4271-AA2E-03A780F6D4E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96273325-DFD8-4E80-88AA-865903C68DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96273325-DFD8-4E80-88AA-865903C68DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96273325-DFD8-4E80-88AA-865903C68DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96273325-DFD8-4E80-88AA-865903C68DDD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42D05ADD-1DD7-4A20-8BCC-B5D1AB6EDEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42D05ADD-1DD7-4A20-8BCC-B5D1AB6EDEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42D05ADD-1DD7-4A20-8BCC-B5D1AB6EDEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42D05ADD-1DD7-4A20-8BCC-B5D1AB6EDEBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57ED9CF3-5CBD-4E1C-B8FF-0A7C14A194EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57ED9CF3-5CBD-4E1C-B8FF-0A7C14A194EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57ED9CF3-5CBD-4E1C-B8FF-0A7C14A194EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57ED9CF3-5CBD-4E1C-B8FF-0A7C14A194EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341464E2-46C6-4905-A016-30F0F82A381E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341464E2-46C6-4905-A016-30F0F82A381E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341464E2-46C6-4905-A016-30F0F82A381E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341464E2-46C6-4905-A016-30F0F82A381E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C84BEB05-0E2E-4245-A18A-726A4BF0A06D} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
-		{5D4C0810-08BC-4E64-9B3D-A39F30E00CBD} = {425E470B-248F-4004-8083-DD32670D8694}
-		{0FE50007-9E3B-491A-8C7E-B6D8C2F7BEA4} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
-		{F99B2424-89E1-4271-AA2E-03A780F6D4E1} = {425E470B-248F-4004-8083-DD32670D8694}
-		{96273325-DFD8-4E80-88AA-865903C68DDD} = {425E470B-248F-4004-8083-DD32670D8694}
-		{42D05ADD-1DD7-4A20-8BCC-B5D1AB6EDEBA} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
-		{57ED9CF3-5CBD-4E1C-B8FF-0A7C14A194EA} = {425E470B-248F-4004-8083-DD32670D8694}
+		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
+		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
+		{AD35AC36-DBC9-465C-A066-BA7F524FD22F} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
+		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB} = {425E470B-248F-4004-8083-DD32670D8694}
+		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337} = {425E470B-248F-4004-8083-DD32670D8694}
+		{341464E2-46C6-4905-A016-30F0F82A381E} = {425E470B-248F-4004-8083-DD32670D8694}
+		{6F61B901-9EA2-4592-AD18-0E686DB4980A} = {425E470B-248F-4004-8083-DD32670D8694}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F77CE89-A96E-4D67-BAEE-9DFE19BF0D73}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://w16eltfs01:8080/tfs/tentakel
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Tentakel.Extensions.Configuration\\Tentakel.Extensions.Configuration.csproj
-		SccProjectTopLevelParentUniqueName1 = Tentakel.Extensions.Configuration.sln
-		SccProjectName1 = Tentakel.Extensions.Configuration
-		SccLocalPath1 = Tentakel.Extensions.Configuration
-		SccProjectUniqueName2 = Tentakel.Extensions.Configuration.Test\\Tentakel.Extensions.Configuration.Test.csproj
-		SccProjectTopLevelParentUniqueName2 = Tentakel.Extensions.Configuration.sln
-		SccProjectName2 = Tentakel.Extensions.Configuration.Test
-		SccLocalPath2 = Tentakel.Extensions.Configuration.Test
-		SccProjectUniqueName3 = Tentakel.Extensions.Configuration.Json\\Tentakel.Extensions.Configuration.Json.csproj
-		SccProjectTopLevelParentUniqueName3 = Tentakel.Extensions.Configuration.sln
-		SccProjectName3 = Tentakel.Extensions.Configuration.Json
-		SccLocalPath3 = Tentakel.Extensions.Configuration.Json
-		SccProjectUniqueName4 = Tentakel.Extensions.Configuration.Json.Test\\Tentakel.Extensions.Configuration.Json.Test.csproj
-		SccProjectTopLevelParentUniqueName4 = Tentakel.Extensions.Configuration.sln
-		SccProjectName4 = Tentakel.Extensions.Configuration.Json.Test
-		SccLocalPath4 = Tentakel.Extensions.Configuration.Json.Test
-		SccProjectUniqueName5 = Tentakel.Extensions.Configuration.Test.Common\\Tentakel.Extensions.Configuration.Test.Common.csproj
-		SccProjectTopLevelParentUniqueName5 = Tentakel.Extensions.Configuration.sln
-		SccProjectName5 = Tentakel.Extensions.Configuration.Test.Common
-		SccLocalPath5 = Tentakel.Extensions.Configuration.Test.Common
-		SccProjectUniqueName6 = Tentakel.Extensions.DependencyInjection\\Tentakel.Extensions.DependencyInjection.csproj
-		SccProjectTopLevelParentUniqueName6 = Tentakel.Extensions.Configuration.sln
-		SccProjectName6 = Tentakel.Extensions.DependencyInjection
-		SccLocalPath6 = Tentakel.Extensions.DependencyInjection
-		SccProjectUniqueName7 = Tentakel.Extensions.DependencyInjection.Test\\Tentakel.Extensions.DependencyInjection.Test.csproj
-		SccProjectTopLevelParentUniqueName7 = Tentakel.Extensions.Configuration.sln
-		SccProjectName7 = Tentakel.Extensions.DependencyInjection.Test
-		SccLocalPath7 = Tentakel.Extensions.DependencyInjection.Test
 	EndGlobalSection
 EndGlobal
