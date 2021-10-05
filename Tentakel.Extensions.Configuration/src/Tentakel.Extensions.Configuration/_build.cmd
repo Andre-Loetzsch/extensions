@@ -10,5 +10,5 @@ echo %TargetPath%
 echo %TargetPath%
 echo %(TargetPath)
 
-call git rev-parse --abbrev-ref HEAD > "D:\dev\git\tentakel\git-branch"
+rem call git rev-parse --abbrev-ref HEAD > "D:\dev\git\tentakel\git-branch"
 
