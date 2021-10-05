@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A2987C76
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging", "src\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.csproj", "{B78FC8AD-CDF3-4A20-BD26-6209E1E3ABBF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ref", "ref", "{151165BF-49D1-4C40-80F2-104BB5CC8B1C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "..\Tentakel.Extensions.Configuration\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{0CABB428-56C5-4D0D-801B-93167D0B5943}"
 EndProject
 Global
@@ -33,7 +31,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B78FC8AD-CDF3-4A20-BD26-6209E1E3ABBF} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
-		{0CABB428-56C5-4D0D-801B-93167D0B5943} = {151165BF-49D1-4C40-80F2-104BB5CC8B1C}
+		{0CABB428-56C5-4D0D-801B-93167D0B5943} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59DEB116-9148-479C-957C-C816F2AC6903}
