@@ -8,86 +8,30 @@
   </PropertyGroup>
 
   <PropertyGroup>
-
-    <!--<DayOfYear>$([System.DateTime]::Now.DayOfYear)</DayOfYear>
-    <RevisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</RevisionIdx>
-
-
-
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>-->
-
-
-
-    <!--<git-path>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-path>
-    <git-branch-exists>$([System.IO.File]::Exists("$(git-path)\\.git\\HEAD"))</git-branch-exists>
-    <git-branch>none</git-branch>-->
-
-
-    <!--<git-path>$([MSBuild]::GetPathOfFileAbove("HEAD", $(SolutionDir)..\.git))</git-path>
-    -->
-    <!--<git-path>$([MSBuild]::GetPathOfFileAbove(".gitignore", $(SolutionDir)))</git-path>-->
-    <!--
-    -->
-    <!--<git-branch-exists> Condition="'$(git-path)' != ''</git-branch-exists>-->
-    <!--
-    <git-branch-exists>$([System.IO.File]::Exists("$(git-path)\\.git\\HEAD"))</git-branch-exists>
-    <git-branch>none</git-branch>-->
-
-
-
-
-    <!--<git-path>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), "test.txt"))</git-path>-->
-
-
-    <AssemblyVersion>5.0.0.2</AssemblyVersion>
-
+    <Company>Joyson Safety Systems Sachsen GmbH</Company>
+    <AssemblyVersion>5.5.278.1431</AssemblyVersion>
+    <FileVersion>5.5.278.1431</FileVersion>
     <Copyright>Copyright © Tentakel 2021</Copyright>
-
-
-    <!--<AssemblyVersion Condition="'$(AssemblyVersion)' == ''">5.0.0.1</AssemblyVersion>-->
-
-    <!--<AssemblyVersion Condition="'$(AssemblyVersion)' == ''">5.0.0.1</AssemblyVersion>-->
     <Version>5.0.0</Version>
-
-
-
-    <!--<Company Condition="'$(Company)' == ''">Joyson Safety Systems Sachsen GmbH</Company>-->
-    <!--<Company>$(git-repository) $(git-branch)</Company>-->
-
-
-
-    <!--<Copyright Condition="'$(Copyright)' == ''">Copyright © Tentakel 2021 $(git-branch) $(RevisionIdx)</Copyright>
-    <FileVersion Condition="'$(FileVersion)' == ''">$(AssemblyVersion)</FileVersion>-->
-
     <TargetFramework>net5.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  
-
-  
-
 
   <PropertyGroup>
-    <DayOfYear>$([System.DateTime]::Now.DayOfYear)</DayOfYear>
-    <RevisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</RevisionIdx>
-    <AssemblyVersion>5.0.$(DayOfYear).$(RevisionIdx)</AssemblyVersion>
-    <FileVersion>5.0.$(DayOfYear).$(RevisionIdx)</FileVersion>
+    <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
+    <revisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</revisionIdx>
 
     <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
     <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
 
+    <AssemblyVersion Condition="'$(git-branch)' != ''">5.0.$(dayOfYear).$(revisionIdx)</AssemblyVersion>
+    <FileVersion Condition="'$(git-branch)' != ''">5.0.$(dayOfYear).$(revisionIdx)</FileVersion>
+
     <OutputPath Condition="'$(git-branch)' != ''">$(git-repository)\$(git-branch)\bin1\$(Configuration)</OutputPath>
   </PropertyGroup>
-
-  
-
-
-
-
 
 
   <ItemGroup>
