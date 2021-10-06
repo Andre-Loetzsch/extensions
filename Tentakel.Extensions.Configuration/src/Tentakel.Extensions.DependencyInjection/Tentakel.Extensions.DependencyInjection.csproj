@@ -19,19 +19,15 @@
     <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-
-
   <PropertyGroup>
-    <DayOfYear>$([System.DateTime]::Now.DayOfYear)</DayOfYear>
-    <RevisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</RevisionIdx>
-    <AssemblyVersion>5.0.$(DayOfYear).$(RevisionIdx)</AssemblyVersion>
-    <FileVersion>5.0.$(DayOfYear).$(RevisionIdx)</FileVersion>
-
     <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
-
-    <OutputPath Condition="'$(git-branch)' != ''">$(git-repository)\$(git-branch)\bin1\$(Configuration)</OutputPath>
+    <targeDir>$(git-repository)\.targets</targeDir>
+    <Product>Tentakel.Extensions.Configuration</Product>
   </PropertyGroup>
+
+  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\git.targets'))" Project="$(targeDir)\git.targets"> </Import>
+  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>
+
 
   <ItemGroup>
     <Folder Include="Properties\" />
