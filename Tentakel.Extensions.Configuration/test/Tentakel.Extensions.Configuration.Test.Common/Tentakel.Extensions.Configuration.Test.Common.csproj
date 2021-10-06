@@ -17,6 +17,14 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
+    <targeDir>$(git-repository)\.targets</targeDir>
+    <Product>Tentakel.Extensions.Configuration</Product>
+  </PropertyGroup>
+
+  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
   </ItemGroup>
