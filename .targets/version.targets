@@ -1,0 +1,9 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <framework-version Condition="$(TargetFramework) != ''">$(TargetFramework.Replace("v", "").Replace("net", ""))</framework-version>
+    <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
+    <revisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</revisionIdx>
+    <AssemblyVersion Condition="'$(framework-version)' != ''">$(framework-version).$(dayOfYear).$(revisionIdx)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+  </PropertyGroup>
+</Project>
