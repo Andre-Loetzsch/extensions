@@ -9,8 +9,10 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tentakel.Extensions.Configuration.Test.Common;
+
 // ReSharper disable All
 
 namespace Tentakel.Extensions.Configuration.Test
@@ -185,12 +187,12 @@ namespace Tentakel.Extensions.Configuration.Test
             var serviceProviderFactory = new DefaultServiceProviderFactory();
             var containerBuilder = serviceProviderFactory.CreateBuilder(services);
             var serviceProvider = serviceProviderFactory.CreateServiceProvider(containerBuilder);
-            var descriptionsProvider = serviceProvider.GetRequiredService<ConfiguredTypesProvider>();
+            var configuredTypesProvider = serviceProvider.GetRequiredService<ConfiguredTypesProvider>();
             var waitHandle = new AutoResetEvent(false);
 
-            descriptionsProvider.ConfigurationChanged += () => waitHandle.Set();
+            configuredTypesProvider.ConfigurationChanged += () => waitHandle.Set();
 
-            Assert.IsTrue(descriptionsProvider.TryGet<object>("Test", out var obj));
+            Assert.IsTrue(configuredTypesProvider.TryGet<object>("Test", out var obj));
             var c1 = obj as Class1;
             Assert.IsNotNull(c1);
             Assert.AreEqual("Value1", c1.Property1);
@@ -209,7 +211,7 @@ namespace Tentakel.Extensions.Configuration.Test
             File.WriteAllText(testSettingsPath, jsonStr);
 
             Assert.IsTrue(waitHandle.WaitOne(1500));
-            Assert.IsTrue(descriptionsProvider.TryGet("Test", out obj));
+            Assert.IsTrue(configuredTypesProvider.TryGet("Test", out obj));
             var c2 = obj as Class2;
             Assert.IsNotNull(c2);
             Assert.AreEqual("Value2", c2.Property2);
@@ -286,6 +288,64 @@ namespace Tentakel.Extensions.Configuration.Test
         public void TestTryGetInvalidOperationException()
         {
             new ConfiguredTypes().TryGet<object>("C1", out _);
+        }
+
+
+
+
+        [TestMethod]
+        public void TestCreateHostConfigurationFromJsonStream2()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath);
+
+               
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+                var configurationRoot = (IConfigurationRoot)configuration;
+
+                collection.AddSingleton(configurationRoot);
+                collection.TryAddSingleton<ConfiguredTypesProvider>();
+                collection.TryAddSingleton<IConfiguredTypes>(provider =>
+                {
+                    return provider.GetService<ConfiguredTypesProvider>();
+                });
+
+                collection.Configure<Class1>(configuration.GetSection("Class1"));
+                collection.Configure<Class1>("C1", configurationRoot.GetSection("Class1:C1"));
+                collection.Configure<Class1>("C2", configurationRoot.GetSection("Class1:C2"));
+
+
+            }).Build();
+
+
+            var monitor = host.Services.GetRequiredService<IOptionsSnapshot<Class1>>();
+
+
+            var currentValue = monitor.Value.Property1;
+
+            var a = monitor.Get("C1").Property1;
+            var b = monitor.Get("C2").Property1;
+
+            return;
+
+
+            var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
+            var objects = configuredTypes.GetAll<object>().ToList();
+
+            Assert.AreEqual(2, objects.Count);
+            Assert.AreEqual(typeof(Class1), objects[0].GetType());
+            Assert.AreEqual(typeof(Class1), objects[1].GetType());
+            Assert.AreEqual(typeof(Class2), objects[2].GetType());
+            Assert.AreEqual(typeof(Class2), objects[3].GetType());
+            Assert.AreEqual(typeof(Class3), objects[4].GetType());
+            Assert.AreEqual(typeof(Class3), objects[5].GetType());
         }
     }
 }

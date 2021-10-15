@@ -1,0 +1,72 @@
+{
+  "types": {
+    "C1": {
+      "Type": "Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common"
+    },
+    "C2": {
+      "Type": "Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common"
+    },
+
+    "A": {
+      "C3": {
+        "Type": "Tentakel.Extensions.Configuration.Test.Common.Class2, Tentakel.Extensions.Configuration.Test.Common"
+      },
+      "C4": {
+        "Type": "Tentakel.Extensions.Configuration.Test.Common.Class2, Tentakel.Extensions.Configuration.Test.Common"
+      }
+    },
+    "B": {
+      "C5": {
+        "Type": "Tentakel.Extensions.Configuration.Test.Common.Class3, Tentakel.Extensions.Configuration.Test.Common"
+      },
+      "C6": {
+        "Type": "Tentakel.Extensions.Configuration.Test.Common.Class3, Tentakel.Extensions.Configuration.Test.Common"
+      }
+    }
+  },
+
+
+  "Class1": {
+    "Property1": "Value0",
+
+    "C1": {
+      "Property1": "Value1"
+    },
+    "C2": {
+      "Property1": "Value2"
+    },
+    "C3": {
+      "Property1": "Value3"
+    },
+    "C4": {
+      "Property1": "Value4"
+    },
+    "C5": {
+      "Property1": "Value5"
+    },
+    "C6": {
+      "Property1": "Value6"
+    }
+  },
+
+
+
+  "C1": {
+    "Property2": "Value1"
+  },
+  "C2": {
+    "Property3": "Value1"
+  },
+  "C3": {
+    "Property3": "Value2"
+  },
+  "C4": {
+    "Property3": "Value2"
+  },
+  "C5": {
+    "Property3": "Value3"
+  },
+  "C6": {
+    "Property3": "Value3"
+  }
+}

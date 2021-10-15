@@ -47,4 +47,10 @@
     <ProjectReference Include="..\..\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appTypes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

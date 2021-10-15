@@ -73,8 +73,7 @@ namespace Tentakel.Extensions.DependencyInjection.Test
             var host = new HostBuilder().ConfigureServices(collection =>
             {
                 collection
-                    .AddConfiguredTypes()
-                    .AddConfiguredServices<IInterface1>();
+                    .AddConfiguredTypes();
 
             }).ConfigureAppConfiguration(builder =>
             {
@@ -82,14 +81,14 @@ namespace Tentakel.Extensions.DependencyInjection.Test
             }).Build();
 
 
-            var list1 = host.Services.GetRequiredService<IEnumerable<IInterface1>>().ToList();
+            var list1 = host.Services.GetRequiredServices<IInterface1>().ToList();
             Assert.IsNotNull(list1);
             Assert.AreEqual(2, list1.Count);
             Assert.AreEqual("Value1A", list1[0].Property1);
             Assert.AreEqual("Value1B", list1[1].Property1);
 
 
-            var list2 = host.Services.GetRequiredService<IEnumerable<IInterface1>>().ToList();
+            var list2 = host.Services.GetRequiredServices<IInterface1>().ToList();
             Assert.IsNotNull(list2);
             Assert.AreEqual(2, list2.Count);
             Assert.AreEqual("Value1A", list2[0].Property1);
@@ -116,9 +115,7 @@ namespace Tentakel.Extensions.DependencyInjection.Test
 
             var host = new HostBuilder().ConfigureServices(collection =>
             {
-                collection
-                    .AddConfiguredTypes()
-                    .AddConfiguredService<IInterface1>("C1A");
+                collection.AddConfiguredTypes();
 
             }).ConfigureAppConfiguration(builder =>
             {
@@ -126,14 +123,50 @@ namespace Tentakel.Extensions.DependencyInjection.Test
             }).Build();
 
 
-            var service1 = host.Services.GetRequiredService<IInterface1>();
-            Assert.IsNotNull(service1);
-            Assert.AreEqual("Value1A", service1.Property1);
+            var serviceA1 = host.Services.GetRequiredService<IInterface1>("C1A");
+            Assert.IsNotNull(serviceA1);
+            Assert.AreEqual("Value1A", serviceA1.Property1);
 
-            var service2 = host.Services.GetRequiredService<IInterface1>();
-            Assert.IsNotNull(service2);
-            Assert.AreEqual("Value1A", service1.Property1);
-            Assert.AreSame(service1, service2);
+            var serviceA2 = host.Services.GetRequiredService<IInterface1>("C1A");
+            Assert.IsNotNull(serviceA2);
+            Assert.AreEqual("Value1A", serviceA2.Property1);
+            Assert.AreSame(serviceA1, serviceA2);
+
+            var serviceB = host.Services.GetRequiredService<IInterface1>("C1B");
+            Assert.IsNotNull(serviceB);
+            Assert.AreEqual("Value1B", serviceB.Property1);
+            Assert.AreSame(serviceB, serviceB);
+
+            var services = host.Services.GetRequiredServices<IInterface1>().ToList();
+
+            Assert.AreEqual(2, services.Count);
+            Assert.AreEqual("Value1A", services[0].Property1);
+            Assert.AreEqual("Value1B", services[1].Property1);
+        }
+
+
+
+
+
+
+        // TODO move to class
+        [TestMethod]
+        public void TestCreateHostConfigurationFromJsonStream1()
+        {
+            var host = new HostBuilder().ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+            }).Build();
+
+            var c1OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class1>>();
+
+            var c2OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class2>>();
+
+            Assert.IsNotNull(c1OptionsMonitor.Get("c1"));
+            Assert.IsNotNull(c2OptionsMonitor.Get("c2"));
+
+
+
         }
     }
 }

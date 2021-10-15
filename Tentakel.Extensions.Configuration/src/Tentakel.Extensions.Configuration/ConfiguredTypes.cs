@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Extensions.Configuration;
 
 namespace Tentakel.Extensions.Configuration
@@ -36,7 +35,6 @@ namespace Tentakel.Extensions.Configuration
 
         public bool TryGet<T>(string key, out T instance)
         {
-            //File.Exists("D:\\dev\\git\\tentakel\\.git\\HEAD").Substring(16).Replace((char)13, (char)20)
             instance = this.Get<T>(key);
             return instance != null;
         }

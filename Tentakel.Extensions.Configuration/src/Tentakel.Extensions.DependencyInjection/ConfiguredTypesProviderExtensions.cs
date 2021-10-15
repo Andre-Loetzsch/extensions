@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,15 +9,7 @@ namespace Tentakel.Extensions.DependencyInjection
 {
     public static class ConfiguredTypesProviderExtensions
     {
-        public static IServiceCollection AddConfiguredServices<TService>(this IServiceCollection collection)
-        {
-            return collection.AddTransient(provider => provider.GetRequiredService<IConfiguredTypes>().GetAll<TService>());
-        }
-
-        public static IServiceCollection AddConfiguredService<TService>(this IServiceCollection collection, string key) where TService : class
-        {
-            return collection.AddTransient(provider => provider.GetRequiredService<IConfiguredTypes>().Get<TService>(key));
-        }
+        #region IServiceCollection
 
         public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, string section = "types")
         {
@@ -39,7 +32,28 @@ namespace Tentakel.Extensions.DependencyInjection
             collection.TryAddSingleton<ConfiguredTypesProvider>();
             collection.TryAddSingleton<IConfiguredTypes>(provider => provider.GetRequiredService<ConfiguredTypesProvider>());
 
+            collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+
+
             return collection;
         }
+
+        #endregion
+
+
+        #region IServiceProvider
+
+        public static T GetRequiredService<T>(this IServiceProvider provider, string key)
+        {
+            return provider.GetRequiredService<IConfiguredTypes>().Get<T>(key);
+        }
+
+
+        public static IEnumerable<T> GetRequiredServices<T>(this IServiceProvider provider)
+        {
+            return provider.GetRequiredService<IConfiguredTypes>().GetAll<T>();
+        }
+
+        #endregion
     }
 }
