@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
@@ -300,7 +301,7 @@ namespace Tentakel.Extensions.Configuration.Test
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
-                configurationBuilder.AddJsonFile(testSettingsPath);
+                configurationBuilder.AddJsonFile(testSettingsPath, false, true);
 
                
 
@@ -336,12 +337,19 @@ namespace Tentakel.Extensions.Configuration.Test
 
             //return;
 
+            Task.Run(() =>
+            {
+                var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
+                var objects = configuredTypes.GetAll<object>().ToList();
 
-            var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
-            var objects = configuredTypes.GetAll<object>().ToList();
+                var c2A = configuredTypes.Get<Class2>("types:A:C3");
+                var c3B = configuredTypes.Get<Class3>("types:B:C6");
 
-            var c2A = configuredTypes.Get<Class2>("types:A:C3");
-            var c3B = configuredTypes.Get<Class3>("types:B:C6");
+
+            });
+
+
+            Thread.Sleep(100000);
           
         }
     }
