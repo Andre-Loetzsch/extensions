@@ -36,7 +36,8 @@
       "Property1": "Value2"
     },
     "C3": {
-      "Property1": "Value3"
+      "Property1": "Value3",
+     
     },
     "C4": {
       "Property1": "Value4"
@@ -45,7 +46,7 @@
       "Property1": "Value5"
     },
     "C6": {
-      "Property1": "Value6"
+      "Property1": "Value6",
     }
   },
 
@@ -58,7 +59,8 @@
     "Property3": "Value1"
   },
   "C3": {
-    "Property3": "Value2"
+    "Property3": "Value2",
+    "Property2": "Value3"
   },
   "C4": {
     "Property3": "Value2"
@@ -67,6 +69,7 @@
     "Property3": "Value3"
   },
   "C6": {
-    "Property3": "Value3"
+    "Property3": "Value3",
+
   }
 }

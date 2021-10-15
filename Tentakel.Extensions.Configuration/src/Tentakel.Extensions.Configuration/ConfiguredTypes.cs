@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace Tentakel.Extensions.Configuration
@@ -43,7 +44,30 @@ namespace Tentakel.Extensions.Configuration
         {
             this.TestConfigurationRootIsNotNull();
 
-            if (!this.TryGetValue(key, out var item)) return default;
+            if (!this.TryGetValue(key, out var item))
+            {
+                var splitKey = key.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                if (splitKey.Count < 2) return default;
+
+                splitKey.RemoveAt(splitKey.Count -1);
+
+                var section = string.Join(":", splitKey);
+                key = key.Substring(section.Length +1);
+
+
+
+
+                if (!this.ConfigurationRoot.GetSection(section).Exists()) return default;
+
+                var configuredTypes = this.ConfigurationRoot.GetSection(section).Get<ConfiguredTypes>();
+
+                if (!configuredTypes.TryGetValue(key, out item)) return default;
+                if (item?.Type == null) return default;
+
+                item.Instance = this.ConfigurationRoot.GetSection(key.Replace("__", ":")).Get(Type.GetType(item.Type, true));
+
+                this.Add(key, item);
+            }
 
             if (item.Instance == null)
             {

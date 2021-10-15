@@ -317,35 +317,32 @@ namespace Tentakel.Extensions.Configuration.Test
                     return provider.GetService<ConfiguredTypesProvider>();
                 });
 
-                collection.Configure<Class1>(configuration.GetSection("Class1"));
-                collection.Configure<Class1>("C1", configurationRoot.GetSection("Class1:C1"));
-                collection.Configure<Class1>("C2", configurationRoot.GetSection("Class1:C2"));
+                collection.Configure<ConfiguredTypes>(configuration.GetSection("types"));
+                collection.Configure<ConfiguredTypes>("C1", configurationRoot.GetSection("types:A"));
+                collection.Configure<ConfiguredTypes>("C2", configurationRoot.GetSection("types:B"));
 
 
             }).Build();
 
 
-            var monitor = host.Services.GetRequiredService<IOptionsSnapshot<Class1>>();
+            //var monitor = host.Services.GetRequiredService<IOptionsSnapshot<ConfiguredTypesProvider>>();
 
 
-            var currentValue = monitor.Value.Property1;
+            //var currentValue = monitor.Value.Get<Class1>("C1");
 
-            var a = monitor.Get("C1").Property1;
-            var b = monitor.Get("C2").Property1;
+            //var a = monitor.Get("types:A").Get<Class2>("C3");
+            //var b = monitor.Get("types:A").Get<Class2>("C4");
 
-            return;
+
+            //return;
 
 
             var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
             var objects = configuredTypes.GetAll<object>().ToList();
 
-            Assert.AreEqual(2, objects.Count);
-            Assert.AreEqual(typeof(Class1), objects[0].GetType());
-            Assert.AreEqual(typeof(Class1), objects[1].GetType());
-            Assert.AreEqual(typeof(Class2), objects[2].GetType());
-            Assert.AreEqual(typeof(Class2), objects[3].GetType());
-            Assert.AreEqual(typeof(Class3), objects[4].GetType());
-            Assert.AreEqual(typeof(Class3), objects[5].GetType());
+            var c2A = configuredTypes.Get<Class2>("types:A:C3");
+            var c3B = configuredTypes.Get<Class3>("types:B:C6");
+          
         }
     }
 }
