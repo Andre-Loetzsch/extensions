@@ -9,10 +9,7 @@ namespace Tentakel.Extensions.Configuration
         IEnumerable<T> GetAll<T>();
         bool TryGet<T>(string key, out T value);
         T Get<T>(string key);
-    }
 
-    public interface IConfiguredTypesOptionsMonitor<out TOptions> 
-    {
-        TOptions Get(string name);
+        IReadOnlyCollection<string> GetKeys<T>();
     }
 }

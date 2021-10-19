@@ -5,6 +5,12 @@
     },
     "C2A": {
       "Type": "Tentakel.Extensions.Configuration.Test.Common.Class2, Tentakel.Extensions.Configuration.Test.Common"
+    },
+    "C3A": {
+      "Type": "Tentakel.Extensions.Configuration.Test.Common.Class3, Tentakel.Extensions.Configuration.Test.Common"
+    },
+    "C2B": {
+      "Type": "Tentakel.Extensions.Configuration.Test.Common.Class2, Tentakel.Extensions.Configuration.Test.Common"
     }
   },
 
@@ -39,6 +45,9 @@
   },
   "C2A": {
     "Property2": "Value2A"
+  },
+  "C2B": {
+    "Property2": "Value2B"
   },
   "C3A": {
     "Property3": "Value3A"

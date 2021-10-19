@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +47,7 @@ namespace Tentakel.Extensions.Configuration.Test
 
             var configuredTypes = configurationRoot.GetSection("types").Get<ConfiguredTypes>();
             configuredTypes.ConfigurationRoot = configurationRoot;
-            configuredTypes["EXC"] = new ConfiguredType {Type = typeof(Class3).FullName};
+            configuredTypes["EXC"] = new ConfiguredType { Type = typeof(Class3).FullName };
 
             Assert.IsTrue(configuredTypes.TryGet<Class1>("C1", out var c1));
             Assert.AreEqual(typeof(Class1), c1.GetType());
@@ -246,13 +245,13 @@ namespace Tentakel.Extensions.Configuration.Test
                 var serviceProvider = collection.BuildServiceProvider();
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
                 var configurationRoot = (IConfigurationRoot)configuration;
-                
+
                 collection.AddSingleton(configurationRoot);
                 collection.TryAddSingleton<ConfiguredTypesProvider>();
                 collection.TryAddSingleton<IConfiguredTypes>(provider =>
                 {
                     return provider.GetService<ConfiguredTypesProvider>();
-                } );
+                });
 
                 collection.Configure<ConfiguredTypes>(configurationRoot.GetSection("types"));
 
@@ -260,7 +259,7 @@ namespace Tentakel.Extensions.Configuration.Test
 
             var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
             var objects = configuredTypes.GetAll<object>().ToList();
-            
+
             Assert.AreEqual(6, objects.Count);
             Assert.AreEqual(typeof(Class1), objects[0].GetType());
             Assert.AreEqual(typeof(Class1_2), objects[1].GetType());
@@ -268,6 +267,63 @@ namespace Tentakel.Extensions.Configuration.Test
             Assert.AreEqual(typeof(Class2), objects[3].GetType());
             Assert.AreEqual(typeof(Class2_3), objects[4].GetType());
             Assert.AreEqual(typeof(Class3), objects[5].GetType());
+        }
+
+        [TestMethod]
+        public void TestConfigureOptions()
+        {
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json"), false, true);
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+                collection.AddSingleton((IConfigurationRoot)configuration);
+                collection.AddSingleton(collection);
+
+                collection.TryAddSingleton<ConfigureOptions>();
+                collection.TryAddSingleton<ConfiguredTypesProvider>();
+                collection.TryAddSingleton<IConfiguredTypes>(provider =>
+                {
+                    return provider.GetService<ConfiguredTypesProvider>();
+                });
+
+                collection.Configure<ConfiguredTypes>(configuration.GetSection("types"));
+
+                serviceProvider = collection.BuildServiceProvider();
+                serviceProvider.GetRequiredService<ConfigureOptions>().Configure();
+
+            }).Build();
+
+            var c1Monitor = host.Services.GetRequiredService<IOptionsMonitor<Class1>>();
+            Assert.AreEqual("Value1A", c1Monitor.Get("C1A").Property1);
+
+            var c2Monitor = host.Services.GetRequiredService<IOptionsMonitor<Class2>>();
+            Assert.AreEqual("Value2A", c2Monitor.Get("C2A").Property2);
+
+            var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
+
+            foreach (var key in configuredTypes.GetKeys<Class1>())
+            {
+                Assert.AreNotSame(configuredTypes.Get<Class1>(key), c1Monitor.Get(key));
+
+                Assert.AreEqual(
+                    configuredTypes.Get<Class1>(key).Property1, 
+                    c1Monitor.Get(key).Property1);
+            }
+
+            foreach (var key in configuredTypes.GetKeys<Class2>())
+            {
+                Assert.AreNotSame(configuredTypes.Get<Class2>(key), c2Monitor.Get(key));
+
+                Assert.AreEqual(
+                    configuredTypes.Get<Class2>(key).Property2, 
+                    c2Monitor.Get(key).Property2);
+            }
+
         }
 
         [TestMethod]
@@ -289,68 +345,6 @@ namespace Tentakel.Extensions.Configuration.Test
         public void TestTryGetInvalidOperationException()
         {
             new ConfiguredTypes().TryGet<object>("C1", out _);
-        }
-
-
-
-
-        [TestMethod]
-        public void TestCreateHostConfigurationFromJsonStream2()
-        {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
-
-            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
-            {
-                configurationBuilder.AddJsonFile(testSettingsPath, false, true);
-
-               
-
-            }).ConfigureServices(collection =>
-            {
-                var serviceProvider = collection.BuildServiceProvider();
-                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                var configurationRoot = (IConfigurationRoot)configuration;
-
-                collection.AddSingleton(configurationRoot);
-                collection.TryAddSingleton<ConfiguredTypesProvider>();
-                collection.TryAddSingleton<IConfiguredTypes>(provider =>
-                {
-                    return provider.GetService<ConfiguredTypesProvider>();
-                });
-
-                collection.Configure<ConfiguredTypes>(configuration.GetSection("types"));
-                collection.Configure<ConfiguredTypes>("C1", configurationRoot.GetSection("types:A"));
-                collection.Configure<ConfiguredTypes>("C2", configurationRoot.GetSection("types:B"));
-
-
-            }).Build();
-
-
-            //var monitor = host.Services.GetRequiredService<IOptionsSnapshot<ConfiguredTypesProvider>>();
-
-
-            //var currentValue = monitor.Value.Get<Class1>("C1");
-
-            //var a = monitor.Get("types:A").Get<Class2>("C3");
-            //var b = monitor.Get("types:A").Get<Class2>("C4");
-
-
-            //return;
-
-            Task.Run(() =>
-            {
-                var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
-                var objects = configuredTypes.GetAll<object>().ToList();
-
-                var c2A = configuredTypes.Get<Class2>("types:A:C3");
-                var c3B = configuredTypes.Get<Class3>("types:B:C6");
-
-
-            });
-
-
-            Thread.Sleep(100000);
-          
         }
     }
 }

@@ -1,56 +1,65 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using Microsoft.Extensions.Options;
 
 namespace Tentakel.Extensions.Configuration
 {
-    public class ConfiguredTypesOptionsMonitor<TOptions> : IConfiguredTypesOptionsMonitor<TOptions> where TOptions : class, new()
+    public class ConfiguredTypesOptionsMonitor<TOptions> : IDisposable, IConfiguredTypesOptionsMonitor<TOptions> where TOptions : class, new()
     {
-
-        private List<TOptions> _options;
+        private readonly ConcurrentDictionary<string, TOptions> _cache = new(); 
         private readonly IConfiguredTypes _configuredTypes;
         private readonly List<IDisposable> _registrations = new();
-        internal event Action<TOptions, string> _onChange;
+        private event Action<TOptions, string> Changed;
 
-        public ConfiguredTypesOptionsMonitor(IServiceProvider provider)
+        public ConfiguredTypesOptionsMonitor(IConfiguredTypes configuredTypes)
         {
-            this._configuredTypes = provider.GetRequiredService<IConfiguredTypes>();
-            this._options = new List<TOptions>(this._configuredTypes.GetAll<TOptions>());
+            this._configuredTypes = configuredTypes;
 
             this._configuredTypes.ConfigurationChanged += () =>
             {
-                this._options = new List<TOptions>(this._configuredTypes.GetAll<TOptions>());
-
-
-
-
-
+                foreach (var key in this._cache.Keys.ToList())
+                {
+                    this._cache.TryRemove(key, out _);
+                    var options = this.Get(key);
+                    this.Changed?.Invoke(options, key);
+                }
             };
         }
 
+        public IDisposable OnChange(Action<TOptions, string> listener)
+        {
+            var disposable = new ChangeTrackerDisposable(this, listener);
+            this.Changed += disposable.OnChange;
+            this._registrations.Add(disposable);
 
+            return disposable;
+        }
 
+        public IReadOnlyCollection<string> GetKeys()
+        {
+            return this._configuredTypes.GetKeys<TOptions>();
+        }
 
 
         public TOptions Get(string name)
         {
-            return this._configuredTypes.Get<TOptions>(name);
+            name ??= Options.DefaultName;
+            return this._cache.GetOrAdd(name, key => this._configuredTypes.Get<TOptions>(key));
         }
-
-        public IEnumerable<TOptions> GetAll()
-        {
-            return this._configuredTypes.GetAll<TOptions>();
-
-        }
+       
 
         public bool TryGet(string key, out TOptions value)
         {
-            return this._configuredTypes.TryGet(key, out value);
+            if (!this._configuredTypes.TryGet(key, out value)) return false;
+            var value1 = value;
+            this._cache.AddOrUpdate(key, value, (_, _) => value1);
+            return true;
         }
 
 
-        internal sealed class ChangeTrackerDisposable : IDisposable
+        private sealed class ChangeTrackerDisposable : IDisposable
         {
             private readonly Action<TOptions, string> _listener;
             private readonly ConfiguredTypesOptionsMonitor<TOptions> _monitor;
@@ -63,7 +72,20 @@ namespace Tentakel.Extensions.Configuration
 
             public void OnChange(TOptions options, string name) => this._listener.Invoke(options, name);
 
-            public void Dispose() => this._monitor._onChange -= this.OnChange;
+            public void Dispose() => this._monitor.Changed -= this.OnChange;
         }
+
+
+        public void Dispose()
+        {
+            // Remove all subscriptions to the change tokens
+            foreach (var registration in this._registrations)
+            {
+                registration.Dispose();
+            }
+
+            this._registrations.Clear();
+        }
+
     }
 }
