@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -18,12 +20,13 @@ namespace Tentakel.Extensions.Configuration
             this._configuredTypes = optionsMonitor.CurrentValue ?? new ConfiguredTypes();
             this._configuredTypes.ConfigurationRoot = configurationRoot;
 
-            optionsMonitor.OnChange((serviceTypeConfig, _) =>
+            optionsMonitor.OnChange((serviceTypeConfig, name) =>
             {
+                if (name != Options.DefaultName) return;
+
                 serviceTypeConfig ??= new ConfiguredTypes();
                 serviceTypeConfig.ConfigurationRoot = configurationRoot;
                 this._configuredTypes = serviceTypeConfig;
-
                 this.ConfigurationChanged?.Invoke();
             });
         }
@@ -41,6 +44,13 @@ namespace Tentakel.Extensions.Configuration
         public T Get<T>(string key)
         {
             return this._configuredTypes.Get<T>(key);
+        }
+
+        public IReadOnlyCollection<string> GetKeys<T>()
+        {
+            return new ReadOnlyCollection<string>(
+                this._configuredTypes.Where(x => x.Value.Instance is T).Select(x => x.Key).ToList());
+            
         }
     }
 }

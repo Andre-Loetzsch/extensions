@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tentakel.Extensions.Configuration;
 using Tentakel.Extensions.Configuration.Test.Common;
@@ -149,22 +153,48 @@ namespace Tentakel.Extensions.DependencyInjection.Test
 
 
 
-        // TODO move to class
+
         [TestMethod]
-        public void TestCreateHostConfigurationFromJsonStream1()
+        public void TestConfiguredTypesOptionsMonitor()
         {
-            var host = new HostBuilder().ConfigureServices(collection =>
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
+            var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath, false, true);
+
+            }).ConfigureServices(collection =>
             {
                 collection.AddConfiguredTypes();
+
             }).Build();
 
-            var c1OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class1>>();
 
+            var c1OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class1>>();
             var c2OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class2>>();
 
-            Assert.IsNotNull(c1OptionsMonitor.Get("c1"));
-            Assert.IsNotNull(c2OptionsMonitor.Get("c2"));
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
 
+            Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A").Property1);
+            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A").Property2);
+
+            var waitHandle = new AutoResetEvent(false);
+
+            var disp1 = c1OptionsMonitor.OnChange((class1, s) =>
+            {
+                if (s != "C1A") return;
+                waitHandle.Set();
+            });
+           
+
+
+            File.Copy(testSettingsPath1, testSettingsPath, true);
+            Assert.IsTrue(waitHandle.WaitOne(300000));
+
+
+            disp1.Dispose();
 
 
         }

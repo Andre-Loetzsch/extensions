@@ -31,15 +31,24 @@ namespace Tentakel.Extensions.DependencyInjection
             collection.AddSingleton(configurationRoot);
             collection.TryAddSingleton<ConfiguredTypesProvider>();
             collection.TryAddSingleton<IConfiguredTypes>(provider => provider.GetRequiredService<ConfiguredTypesProvider>());
-
             collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
 
+            return collection;
+        }
+
+        public static IServiceCollection AddConfigureOptions(this IServiceCollection collection)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+           
+            collection.TryAddSingleton<ConfigureOptions>();
+
+            var serviceProvider = collection.BuildServiceProvider();
+            serviceProvider.GetRequiredService<ConfigureOptions>().Configure();
 
             return collection;
         }
 
         #endregion
-
 
         #region IServiceProvider
 
