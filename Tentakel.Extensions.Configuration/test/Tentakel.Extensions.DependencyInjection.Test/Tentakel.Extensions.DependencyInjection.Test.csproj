@@ -53,6 +53,9 @@
     <None Update="appTypes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="appTypesSub.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appTypes1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

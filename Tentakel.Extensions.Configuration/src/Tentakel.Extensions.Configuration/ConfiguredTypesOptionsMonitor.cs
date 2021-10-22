@@ -15,6 +15,8 @@ namespace Tentakel.Extensions.Configuration
 
         private readonly List<IDisposable> _registrations = new();
         private event Action<TOptions, string, string> Changed;
+        private event Action<string> ConfigurationChanged;
+
 
         public ConfiguredTypesOptionsMonitor(IOptionsMonitor<ConfiguredTypes> optionsMonitor, IConfigurationRoot configurationRoot)
         {
@@ -23,15 +25,28 @@ namespace Tentakel.Extensions.Configuration
 
             this._optionsMonitor.OnChange((_, name) =>
             {
+                this.ConfigurationChanged?.Invoke(name);
                 var innerCache = this.GetInnerCache(name);
 
                 foreach (var key in innerCache.Keys.ToList())
                 {
+                    if (!this.IsConfigured(name, key)) continue;
                     innerCache.TryRemove(key, out var options);
                     options = this.Get(name, key);
                     this.Changed?.Invoke(options, name, key);
                 }
             });
+        }
+
+        #region IConfiguredTypesOptionsMonitor
+
+        public IDisposable OnChange(Action<string> listener)
+        {
+            var disposable = new ChangeTrackerDisposable(this, listener);
+            this.ConfigurationChanged +=  disposable.ConfigurationChanged;
+            this._registrations.Add(disposable);
+
+            return disposable;
         }
 
         public IDisposable OnChange(Action<TOptions, string> listener)
@@ -51,9 +66,6 @@ namespace Tentakel.Extensions.Configuration
 
             return disposable;
         }
-
-
-
 
         public IReadOnlyCollection<string> GetKeys()
         {
@@ -79,18 +91,17 @@ namespace Tentakel.Extensions.Configuration
                 GetOrCreateInstance(this.GetConfiguredTypes(name).Get<TOptions>(k)));
         }
 
-        public bool TryGet(string key, out TOptions value)
-        {
-            return this.TryGet(Options.DefaultName, key, out value);
-        }
-
-        public bool TryGet(string name, string key, out TOptions value)
-        {
-            value = this.Get(name, key);
-            return value != null;
-        }
+        #endregion
 
         #region private members
+
+        private bool IsConfigured(string name, string key)
+        {
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            return this.GetConfiguredTypes(name).Get<TOptions>(key) != null;
+        }
 
         private ConfiguredTypes GetConfiguredTypes(string name)
         {
@@ -112,27 +123,38 @@ namespace Tentakel.Extensions.Configuration
 
         private sealed class ChangeTrackerDisposable : IDisposable
         {
-            private readonly Action<TOptions, string> _listener;
-            private readonly Action<TOptions, string, string> _namedListener;
+            private readonly Action<string> _configurationChangedListener;
+            private readonly Action<TOptions, string> _optionsKeyListener;
+            private readonly Action<TOptions, string, string> _optionsNameKeyListener;
 
             private readonly ConfiguredTypesOptionsMonitor<TOptions> _monitor;
 
+            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<string> listener)
+            {
+                this._configurationChangedListener = listener;
+                this._monitor = monitor;
+            }
+
             public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions, string> listener)
             {
-                this._listener = listener;
+                this._optionsKeyListener = listener;
                 this._monitor = monitor;
             }
 
             public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions, string, string> listener)
             {
-                this._namedListener = listener;
+                this._optionsNameKeyListener = listener;
                 this._monitor = monitor;
             }
 
+            public void ConfigurationChanged(string name)
+            {
+                this._configurationChangedListener?.Invoke(name);
+            }
             public void OnChange(TOptions options, string name, string key)
             {
-                this._listener?.Invoke(options, key);
-                this._namedListener?.Invoke(options, name, key);
+                this._optionsKeyListener?.Invoke(options, key);
+                this._optionsNameKeyListener?.Invoke(options, name, key);
             }
 
             public void Dispose() => this._monitor.Changed -= this.OnChange;
