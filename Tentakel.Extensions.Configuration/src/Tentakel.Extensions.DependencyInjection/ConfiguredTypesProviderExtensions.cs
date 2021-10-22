@@ -41,6 +41,7 @@ namespace Tentakel.Extensions.DependencyInjection
             if (collection == null) throw new ArgumentNullException(nameof(collection));
            
             collection.TryAddSingleton<ConfigureOptions>();
+            collection.TryAddSingleton(collection);
 
             var serviceProvider = collection.BuildServiceProvider();
             serviceProvider.GetRequiredService<ConfigureOptions>().Configure();
