@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using Tentakel.Extensions.Configuration.Test.Common;
 namespace Tentakel.Extensions.DependencyInjection.Test
 {
     [TestClass]
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
     // ReSharper disable once InconsistentNaming
     public class IServiceCollectionExtensionTest
     {
@@ -148,21 +150,124 @@ namespace Tentakel.Extensions.DependencyInjection.Test
             Assert.AreEqual("Value1B", services[1].Property1);
         }
 
+        [TestMethod]
+        public void TestOptionsMonitor()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
+            var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
+            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            File.Copy(testSettingsPath, testSettingsPath2, true);
 
 
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath2, false, true);
+
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes().AddConfigureOptions();
+
+            }).Build();
 
 
+            var c1OptionsMonitor = host.Services.GetRequiredService<IOptionsMonitor<Class1>>();
+            var c2OptionsMonitor = host.Services.GetRequiredService<IOptionsMonitor<Class2>>();
+            var c3OptionsMonitor = host.Services.GetRequiredService<IOptionsMonitor<Class3>>();
 
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1B"));
+            
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2B"));
+
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3A"));
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3B"));
+
+            Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A").Property1);
+            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A").Property2);
+
+            var onChangeResult1 = new Dictionary<string, Class1>();
+            var onChangeResult2 = new Dictionary<string, Class2>();
+            var onChangeResult3 = new Dictionary<string, Class3>();
+
+            var waitHandle1 = new AutoResetEvent(false);
+            var waitHandle2 = new AutoResetEvent(false);
+            var waitHandle3 = new AutoResetEvent(false);
+
+            var disp1 = c1OptionsMonitor.OnChange((class1, s) =>
+            {
+                onChangeResult1.Add(s, class1);
+                if (onChangeResult1.Count < 1) return;
+                waitHandle1.Set();
+            });
+
+            var disp2 = c2OptionsMonitor.OnChange((class2, s) =>
+            {
+                onChangeResult2.Add(s, class2);
+                if (onChangeResult2.Count < 1) return;
+                waitHandle2.Set();
+            });
+
+            var disp3 = c3OptionsMonitor.OnChange((class3, s) =>
+            {
+                onChangeResult3.Add(s, class3);
+                waitHandle3.Set();
+            });
+
+            File.Copy(testSettingsPath1, testSettingsPath2, true);
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[]{ waitHandle1, waitHandle2 }, 300));
+            Assert.IsFalse(waitHandle3.WaitOne(300));
+
+
+            Assert.AreEqual(1, onChangeResult1.Count);
+            Assert.AreEqual(1, onChangeResult2.Count);
+            Assert.AreEqual(0, onChangeResult3.Count);
+
+            Assert.IsTrue(onChangeResult1.TryGetValue("C1A", out var c1A) && c1A.Property1 == "Value1AX");
+            Assert.IsFalse(onChangeResult1.TryGetValue("C1B", out var c1B) && c1B.Property1 == "Value1BX");
+
+            Assert.IsTrue(onChangeResult2.TryGetValue("C2A", out var c2A) && c2A.Property2 == "Value2AX");
+            Assert.IsFalse(onChangeResult2.TryGetValue("C2B", out var c2B) && c2B.Property2 == "Value2BX");
+
+            Assert.IsFalse(onChangeResult3.TryGetValue("C3A", out var c3A) && c3A.Property3 == "Value3AX");
+            Assert.IsFalse(onChangeResult3.TryGetValue("C3B", out var c3B) && c3B.Property3 == "Value3BX");
+
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1B"));
+
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2B"));
+
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3A"));
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3B"));
+
+            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get("C1A").Property1);
+            Assert.IsNull(c1OptionsMonitor.Get("C1B").Property1);
+
+            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get("C2A").Property2);
+            Assert.IsNull(c2OptionsMonitor.Get("C2B").Property2);
+
+            Assert.IsNull(c3OptionsMonitor.Get("C3A").Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C3B").Property3);
+
+            disp1.Dispose();
+            disp2.Dispose();
+            disp3.Dispose();
+        }
 
         [TestMethod]
         public void TestConfiguredTypesOptionsMonitor()
         {
             var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
             var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
+            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            File.Copy(testSettingsPath, testSettingsPath2, true);
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
-                configurationBuilder.AddJsonFile(testSettingsPath, false, true);
+                configurationBuilder.AddJsonFile(testSettingsPath2, false, true);
 
             }).ConfigureServices(collection =>
             {
@@ -173,30 +278,92 @@ namespace Tentakel.Extensions.DependencyInjection.Test
 
             var c1OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class1>>();
             var c2OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class2>>();
+            var c3OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class3>>();
 
             Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1B"));
+
             Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2B"));
+
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3A"));
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3B"));
 
             Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A").Property1);
-            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A").Property2);
+            Assert.IsNull(c1OptionsMonitor.Get("C1B").Property1);
 
-            var waitHandle = new AutoResetEvent(false);
+            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A").Property2);
+            Assert.IsNull(c2OptionsMonitor.Get("C2B").Property2);
+
+            Assert.IsNull(c3OptionsMonitor.Get("C3A").Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C3B").Property3);
+
+            var onChangeResult1 = new Dictionary<string, Class1>();
+            var onChangeResult2 = new Dictionary<string, Class2>();
+            var onChangeResult3 = new Dictionary<string, Class3>();
+
+            var waitHandle1 = new AutoResetEvent(false);
+            var waitHandle2 = new AutoResetEvent(false);
+            var waitHandle3 = new AutoResetEvent(false);
 
             var disp1 = c1OptionsMonitor.OnChange((class1, s) =>
             {
-                if (s != "C1A") return;
-                waitHandle.Set();
+                onChangeResult1.Add(s, class1);
+                if (onChangeResult1.Count < 2) return;
+                waitHandle1.Set();
             });
-           
 
+            var disp2 = c2OptionsMonitor.OnChange((class2, s) =>
+            {
+                onChangeResult2.Add(s, class2);
+                if (onChangeResult2.Count < 2) return;
+                waitHandle2.Set();
+            });
 
-            File.Copy(testSettingsPath1, testSettingsPath, true);
-            Assert.IsTrue(waitHandle.WaitOne(300000));
+            var disp3 = c3OptionsMonitor.OnChange((class3, s) =>
+            {
+                onChangeResult3.Add(s, class3);
+                if (onChangeResult3.Count < 2) return;
+                waitHandle3.Set();
+            });
 
+            File.Copy(testSettingsPath1, testSettingsPath2, true);
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle1, waitHandle2, waitHandle3 }, 300));
+
+            Assert.AreEqual(2, onChangeResult1.Count);
+            Assert.AreEqual(2, onChangeResult2.Count);
+            Assert.AreEqual(2, onChangeResult3.Count);
+
+            Assert.IsTrue(onChangeResult1.TryGetValue("C1A", out var c1A) && c1A.Property1 == "Value1AX");
+            Assert.IsTrue(onChangeResult1.TryGetValue("C1B", out var c1B) && c1B.Property1 == "Value1BX");
+
+            Assert.IsTrue(onChangeResult2.TryGetValue("C2A", out var c2A) && c2A.Property2 == "Value2AX");
+            Assert.IsTrue(onChangeResult2.TryGetValue("C2B", out var c2B) && c2B.Property2 == "Value2BX");
+
+            Assert.IsTrue(onChangeResult3.TryGetValue("C3A", out var c3A) && c3A.Property3 == "Value3AX");
+            Assert.IsTrue(onChangeResult3.TryGetValue("C3B", out var c3B) && c3B.Property3 == "Value3BX");
+
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
+            Assert.IsNotNull(c1OptionsMonitor.Get("C1B"));
+
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
+            Assert.IsNotNull(c2OptionsMonitor.Get("C2B"));
+
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3A"));
+            Assert.IsNotNull(c3OptionsMonitor.Get("C3B"));
+
+            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get("C1A").Property1);
+            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get("C1B").Property1);
+
+            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get("C2A").Property2);
+            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get("C2B").Property2);
+
+            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get("C3A").Property3);
+            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get("C3B").Property3);
 
             disp1.Dispose();
-
-
+            disp2.Dispose();
+            disp3.Dispose();
         }
     }
 }
