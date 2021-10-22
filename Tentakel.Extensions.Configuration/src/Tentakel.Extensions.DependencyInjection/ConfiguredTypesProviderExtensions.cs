@@ -11,7 +11,7 @@ namespace Tentakel.Extensions.DependencyInjection
     {
         #region IServiceCollection
 
-        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, string section = "types")
+        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, string section = "types", string name = null)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
 
@@ -19,15 +19,23 @@ namespace Tentakel.Extensions.DependencyInjection
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var configurationRoot = (IConfigurationRoot)configuration;
 
-            return collection.AddConfiguredTypes(configurationRoot, section);
+            return collection.AddConfiguredTypes(configurationRoot, section, name);
         }
 
-        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, IConfigurationRoot configurationRoot, string section = "types")
+        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, IConfigurationRoot configurationRoot, string section = "types", string name = null)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
             if (configurationRoot == null) throw new ArgumentNullException(nameof(configurationRoot));
 
-            collection.Configure<ConfiguredTypes>(configurationRoot.GetSection(section));
+            if (string.IsNullOrEmpty(name))
+            {
+                collection.Configure<ConfiguredTypes>(configurationRoot.GetSection(section));
+            }
+            else
+            {
+                collection.Configure<ConfiguredTypes>(name, configurationRoot.GetSection(section));
+            }
+
             collection.AddSingleton(configurationRoot);
             collection.TryAddSingleton<ConfiguredTypesProvider>();
             collection.TryAddSingleton<IConfiguredTypes>(provider => provider.GetRequiredService<ConfiguredTypesProvider>());
@@ -39,7 +47,7 @@ namespace Tentakel.Extensions.DependencyInjection
         public static IServiceCollection AddConfigureOptions(this IServiceCollection collection)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
-           
+
             collection.TryAddSingleton<ConfigureOptions>();
             collection.TryAddSingleton(collection);
 
