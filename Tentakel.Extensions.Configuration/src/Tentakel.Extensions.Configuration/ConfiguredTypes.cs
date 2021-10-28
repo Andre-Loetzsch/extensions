@@ -45,28 +45,7 @@ namespace Tentakel.Extensions.Configuration
         {
             this.TestConfigurationRootIsNotNull();
 
-            if (!this.TryGetValue(key, out var item))
-            {
-                //var splitKey = key.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                //if (splitKey.Count < 2) return default;
-
-                //splitKey.RemoveAt(splitKey.Count -1);
-
-                //var section = string.Join(":", splitKey);
-                //key = key.Substring(section.Length +1);
-
-                //if (!this.ConfigurationRoot.GetSection(section).Exists()) return default;
-
-                //var configuredTypes = this.ConfigurationRoot.GetSection(section).Get<ConfiguredTypes>();
-
-                //if (!configuredTypes.TryGetValue(key, out item)) return default;
-                //if (item?.Type == null) return default;
-
-                //item.Instance = this.ConfigurationRoot.GetSection(key.Replace("__", ":")).Get(Type.GetType(item.Type, true));
-
-                //this.Add(key, item);
-                return default;
-            }
+            if (!this.TryGetValue(key, out var item)) return default;
 
             if (item.Instance == null)
             {
@@ -86,10 +65,26 @@ namespace Tentakel.Extensions.Configuration
 
         public IReadOnlyCollection<string> GetKeys<T>()
         {
+            //return new ReadOnlyCollection<string>(
+            //    this.Where(x => Type.GetType(x.Value.Type) is T).Select(x => x.Key).ToList());
             return new ReadOnlyCollection<string>(
-                this.Where(x => Type.GetType(x.Value.Type) is T).Select(x => x.Key).ToList());
-
+                this.Where(x => x.Value.Instance is T ||this.GetType(x.Value).IsAssignableFrom(typeof(T))).Select(x => x.Key).ToList());
         }
+
+
+        private Type GetType(ConfiguredType configuredType)
+        {
+            try
+            {
+                return Type.GetType(configuredType.Type, true);
+            }
+            catch (Exception ex)
+            {
+                configuredType.Instance = ex;
+                return ex.GetType();
+            }
+        }
+
 
         private void TestConfigurationRootIsNotNull()
         {

@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -369,7 +368,7 @@ namespace Tentakel.Extensions.DependencyInjection.Test
 
             Assert.IsTrue(onChangeResult2.TryGetValue(":C2A", out var c2A) && c2A.Property2 == "Value2AX");
             Assert.IsTrue(onChangeResult2.TryGetValue(":C2B", out var c2B) && c2B.Property2 == "Value2BX");
-            Assert.IsTrue(onChangeResult2.TryGetValue("sub:SC2A", out var sSC2A) && sSC2A.Property2 == "ValueS2A");
+            Assert.IsTrue(onChangeResult2.TryGetValue("sub:SC2A", out var sSc2A) && sSc2A.Property2 == "ValueS2A");
 
             Assert.IsTrue(onChangeResult3.TryGetValue(":C3A", out var c3A) && c3A.Property3 == "Value3AX");
             Assert.IsTrue(onChangeResult3.TryGetValue(":C3B", out var c3B) && c3B.Property3 == "Value3BX");
