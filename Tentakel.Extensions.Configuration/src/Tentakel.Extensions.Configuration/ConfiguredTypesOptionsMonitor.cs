@@ -30,7 +30,6 @@ namespace Tentakel.Extensions.Configuration
 
                 foreach (var key in innerCache.Keys.ToList())
                 {
-                    if (!this.IsConfigured(name, key)) continue;
                     innerCache.TryRemove(key, out var options);
                     options = this.Get(name, key);
                     this.Changed?.Invoke(options, name, key);
@@ -94,14 +93,6 @@ namespace Tentakel.Extensions.Configuration
         #endregion
 
         #region private members
-
-        private bool IsConfigured(string name, string key)
-        {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            if (key == null) throw new ArgumentNullException(nameof(key));
-
-            return this.GetConfiguredTypes(name).Get<TOptions>(key) != null;
-        }
 
         private ConfiguredTypes GetConfiguredTypes(string name)
         {
