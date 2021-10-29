@@ -40,6 +40,7 @@ namespace Tentakel.Extensions.DependencyInjection
             collection.TryAddSingleton<ConfiguredTypesProvider>();
             collection.TryAddSingleton<IConfiguredTypes>(provider => provider.GetRequiredService<ConfiguredTypesProvider>());
             collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+            collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor), typeof(ConfiguredTypesOptionsMonitor));
 
             return collection;
         }

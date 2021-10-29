@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Tentakel.Extensions.Configuration
 {
-    public interface IConfiguredTypesOptionsMonitor<out TOptions>
+    public interface IConfiguredTypesOptionsMonitor
     {
-        IReadOnlyCollection<string> GetKeys();
-        IReadOnlyCollection<string> GetKeys(string name);
+        IReadOnlyCollection<string> GetKeys<TOptions>();
+        IReadOnlyCollection<string> GetKeys<TOptions>(string name);
 
-        TOptions Get(string key);
-        TOptions Get(string name, string key);
+        TOptions Get<TOptions>(string key);
+        TOptions Get<TOptions>(string name, string key);
 
         IDisposable OnChange(Action<string> listener);
-        IDisposable OnChange(Action<TOptions, string> listener);
-        IDisposable OnChange(Action<TOptions, string, string> listener);
+        IDisposable OnChange<TOptions>(Action<TOptions, string> listener);
+        IDisposable OnChange<TOptions>(Action<TOptions, string, string> listener);
     }
 }

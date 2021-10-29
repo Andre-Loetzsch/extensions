@@ -56,11 +56,13 @@ namespace Tentakel.Extensions.Configuration.Test
             var configuredTypes = configurationRoot.GetSection("types").Get<ConfiguredTypes>();
             configuredTypes.ConfigurationRoot = configurationRoot;
 
-            var services = new ServiceCollection().AddOptions();
-            services.AddSingleton<IConfigurationRoot>(configurationRoot);
-            services.AddSingleton(configuredTypes);
-            services.TryAddSingleton<ConfiguredTypesProvider>();
-            services.Configure<ConfiguredTypes>(configurationRoot.GetSection("types"));
+            var services = new ServiceCollection()
+                .AddOptions()
+                .AddSingleton<IConfigurationRoot>(configurationRoot)
+                .AddSingleton(configuredTypes);
+           
+            services.Configure<ConfiguredTypes>(configurationRoot.GetSection("types"))
+                .TryAddSingleton<ConfiguredTypesProvider>();
 
             var serviceProviderFactory = new DefaultServiceProviderFactory();
             var containerBuilder = serviceProviderFactory.CreateBuilder(services);
@@ -164,10 +166,7 @@ namespace Tentakel.Extensions.Configuration.Test
 
                 collection.TryAddSingleton<ConfigureOptions>();
                 collection.TryAddSingleton<ConfiguredTypesProvider>();
-                collection.TryAddSingleton<IConfiguredTypes>(provider =>
-                {
-                    return provider.GetService<ConfiguredTypesProvider>();
-                });
+                collection.TryAddSingleton<IConfiguredTypes>(provider => provider.GetService<ConfiguredTypesProvider>());
 
                 collection.Configure<ConfiguredTypes>(configuration.GetSection("types"));
 
