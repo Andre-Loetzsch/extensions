@@ -65,10 +65,9 @@ namespace Tentakel.Extensions.Configuration
 
         public IReadOnlyCollection<string> GetKeys<T>()
         {
-            //return new ReadOnlyCollection<string>(
-            //    this.Where(x => Type.GetType(x.Value.Type) is T).Select(x => x.Key).ToList());
             return new ReadOnlyCollection<string>(
-                this.Where(x => x.Value.Instance is T ||this.GetType(x.Value).IsAssignableFrom(typeof(T))).Select(x => x.Key).ToList());
+                this.Where(x => x.Value.Instance is T || typeof(T).IsAssignableFrom(this.GetType(x.Value)))
+                    .Select(x => x.Key).ToList());
         }
 
 
@@ -84,7 +83,6 @@ namespace Tentakel.Extensions.Configuration
                 return ex.GetType();
             }
         }
-
 
         private void TestConfigurationRootIsNotNull()
         {
