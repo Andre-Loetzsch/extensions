@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -514,6 +516,151 @@ namespace Tentakel.Extensions.Configuration.Test
             var c1OptionsMonitorB = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
 
             Assert.AreSame(c1OptionsMonitorA, c1OptionsMonitorB);
+        }
+
+        [TestMethod]
+        public void TestGenericClassOnChange()
+        {
+            const string types = "{ \"types\": { \"C1A\": { \"Type\": \"Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common\"}, \"C1B\": {\"Type\":   \"Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common\" }, \"C1C\": { \"Type\": \"Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common\" } } }";
+
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A1.json"), "{\"C1A\": {\"Property1\": \"Value1A\"}}");
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B1.json"), "{\"C1B\": {\"Property1\": \"Value1B\"}}");
+
+            var ms = new MemoryStream();
+            var buffer = Encoding.UTF8.GetBytes(types);
+            ms.Write(buffer, 0, buffer.Length);
+            ms.Position = 0;
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonStream(ms)
+                    .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A1.json"), false, true)
+                    .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B1.json"), false, true);
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+                collection
+                    .AddSingleton((IConfigurationRoot)configuration)
+                    .Configure<Class1>("A", configuration.GetSection("C1A"))
+                    .Configure<Class1>("B", configuration.GetSection("C1B"))
+                    .Configure<ConfiguredTypes>(configuration.GetSection("types"))
+
+                    .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+
+            }).Build();
+
+            var c1OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class1>>();
+
+            Assert.IsNotNull(c1OptionsMonitor);
+
+            var class1A = c1OptionsMonitor.Get("C1A");
+            var class1B = c1OptionsMonitor.Get("C1B");
+            var waitHandle = new AutoResetEvent(false);
+
+            c1OptionsMonitor.OnChange((class1, name) =>
+            {
+                if (name == "C1A" && class1A != class1) class1A = class1;
+                if (name == "C1B" && class1B != class1) class1B = class1;
+                waitHandle.Set();
+            });
+
+            Assert.IsNotNull(class1A);
+            Assert.IsNotNull(class1A);
+
+            Assert.AreEqual("Value1A", class1A.Property1);
+            Assert.AreEqual("Value1B", class1B.Property1);
+
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A1.json"), "{\"C1A\": {\"Property1\": \"Value2A\"}}");
+            Assert.IsTrue(waitHandle.WaitOne(300));
+            Assert.IsTrue(waitHandle.WaitOne(300));
+
+            Assert.AreEqual("Value2A", class1A.Property1);
+            Assert.AreEqual("Value1B", class1B.Property1);
+
+            waitHandle.Reset();
+
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B1.json"), "{\"C1B\": {\"Property1\": \"Value2B\"}}");
+            Assert.IsTrue(waitHandle.WaitOne(300));
+            Assert.IsTrue(waitHandle.WaitOne(300));
+
+            Assert.AreEqual("Value2A", class1A.Property1);
+            Assert.AreEqual("Value2B", class1B.Property1);
+        }
+
+        [TestMethod]
+        public void TestNonGenericClassOnChange()
+        {
+            const string types = "{ \"types\": { \"C1A\": { \"Type\": \"Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common\"}, \"C1B\": {\"Type\":   \"Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common\" }, \"C1C\": { \"Type\": \"Tentakel.Extensions.Configuration.Test.Common.Class1, Tentakel.Extensions.Configuration.Test.Common\" } } }";
+
+            var ms = new MemoryStream();
+            var buffer = Encoding.UTF8.GetBytes(types);
+            ms.Write(buffer, 0, buffer.Length);
+            ms.Position = 0;
+
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A2.json"), "{\"C1A\": {\"Property1\": \"Value1A\"}}");
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B2.json"), "{\"C1B\": {\"Property1\": \"Value1B\"}}");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonStream(ms)
+                    .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A2.json"), false, true)
+                    .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B2.json"), false, true);
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+                collection
+                    .AddSingleton((IConfigurationRoot)configuration)
+                    .Configure<Class1>("A", configuration.GetSection("C1A"))
+                    .Configure<Class1>("B", configuration.GetSection("C1B"))
+                    .Configure<ConfiguredTypes>(configuration.GetSection("types"))
+                    .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor), typeof(ConfiguredTypesOptionsMonitor));
+
+            }).Build();
+
+            var c1OptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
+
+            Assert.IsNotNull(c1OptionsMonitor);
+
+            var class1A = c1OptionsMonitor.Get<Class1>("C1A");
+            var class1B = c1OptionsMonitor.Get<Class1>("C1B");
+            var waitHandle = new AutoResetEvent(false);
+
+            c1OptionsMonitor.OnChange<Class1>((class1, name) =>
+            {
+                if (name == "C1A" && class1A != class1) class1A = class1;
+                if (name == "C1B" && class1B != class1) class1B = class1;
+                waitHandle.Set();
+            });
+
+            Assert.IsNotNull(class1A);
+            Assert.IsNotNull(class1A);
+
+            Assert.AreEqual("Value1A", class1A.Property1);
+            Assert.AreEqual("Value1B", class1B.Property1);
+
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A2.json"), "{\"C1A\": {\"Property1\": \"Value2A\"}}");
+            Assert.IsTrue(waitHandle.WaitOne(300));
+            Assert.IsTrue(waitHandle.WaitOne(300));
+
+            Assert.AreEqual("Value2A", class1A.Property1);
+            Assert.AreEqual("Value1B", class1B.Property1);
+
+            waitHandle.Reset();
+
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B2.json"), "{\"C1B\": {\"Property1\": \"Value2B\"}}");
+            Assert.IsTrue(waitHandle.WaitOne(300));
+            Assert.IsTrue(waitHandle.WaitOne(300));
+
+            Assert.AreEqual("Value2A", class1A.Property1);
+            Assert.AreEqual("Value2B", class1B.Property1);
         }
     }
 }
