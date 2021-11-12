@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tentakel.Extensions.Configuration
 {
-    public interface IConfiguredTypesOptionsMonitor
+    public interface IConfiguredTypesOptionsMonitor : IDisposable
     {
         IReadOnlyCollection<string> GetKeys<TOptions>();
         IReadOnlyCollection<string> GetKeys<TOptions>(string name);

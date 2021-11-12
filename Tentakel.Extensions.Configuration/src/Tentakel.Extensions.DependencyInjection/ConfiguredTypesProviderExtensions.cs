@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -37,8 +38,6 @@ namespace Tentakel.Extensions.DependencyInjection
             }
 
             collection.AddSingleton(configurationRoot);
-            collection.TryAddSingleton<ConfiguredTypesProvider>();
-            collection.TryAddSingleton<IConfiguredTypes>(provider => provider.GetRequiredService<ConfiguredTypesProvider>());
             collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
             collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor), typeof(ConfiguredTypesOptionsMonitor));
 
@@ -64,13 +63,14 @@ namespace Tentakel.Extensions.DependencyInjection
 
         public static T GetRequiredService<T>(this IServiceProvider provider, string key)
         {
-            return provider.GetRequiredService<IConfiguredTypes>().Get<T>(key);
+            return provider.GetRequiredService<IConfiguredTypesOptionsMonitor>().Get<T>(key);
         }
 
 
         public static IEnumerable<T> GetRequiredServices<T>(this IServiceProvider provider)
         {
-            return provider.GetRequiredService<IConfiguredTypes>().GetAll<T>();
+            return provider.GetRequiredService<IConfiguredTypesOptionsMonitor<T>>().GetKeys()
+                .Select(key => provider.GetRequiredService<IConfiguredTypesOptionsMonitor<T>>().Get(key));
         }
 
         #endregion

@@ -587,6 +587,8 @@ namespace Tentakel.Extensions.Configuration.Test
             Assert.IsTrue(waitHandle.WaitOne(300));
             Assert.IsTrue(waitHandle.WaitOne(300));
 
+            Thread.Sleep(300);
+
             Assert.AreEqual("Value2A", class1A.Property1);
             Assert.AreEqual("Value2B", class1B.Property1);
         }

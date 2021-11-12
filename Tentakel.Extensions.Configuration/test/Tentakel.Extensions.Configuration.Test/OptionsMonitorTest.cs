@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Tentakel.Extensions.Configuration.Test
     {
     
         [TestMethod]
-        public void TestHostBuilderConfiguration()
+        public void TestMergedConfiguration()
         {
             var dict = new Dictionary<string, object>
             {
@@ -73,9 +74,12 @@ namespace Tentakel.Extensions.Configuration.Test
                 collection.TryAddSingleton(collection);
 
                 serviceProvider = collection.BuildServiceProvider();
-                serviceProvider.GetRequiredService<ConfigureOptions>().Configure();
-                serviceProvider.GetRequiredService<ConfigureOptions>().Configure("A");
-                serviceProvider.GetRequiredService<ConfigureOptions>().Configure("B");
+
+                var configureOptions = serviceProvider.GetRequiredService<ConfigureOptions>();
+
+                configureOptions.Configure();
+                configureOptions.Configure("A");
+                configureOptions.Configure("B");
 
             }).Build();
 
@@ -112,5 +116,57 @@ namespace Tentakel.Extensions.Configuration.Test
             Assert.IsNull(c3OptionsMonitor.Get("C2").Property3);
         }
 
+        [TestMethod]
+        public void TestOptionsMonitorGet()
+        {
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json"), false, true);
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+                collection.AddSingleton((IConfigurationRoot)configuration)
+                    .AddSingleton(collection);
+
+                collection.TryAddSingleton<ConfigureOptions>();
+                collection.TryAddSingleton<ConfiguredTypesOptionsMonitor>();
+                collection.Configure<ConfiguredTypes>(configuration.GetSection("types"));
+
+                serviceProvider = collection.BuildServiceProvider();
+                serviceProvider.GetRequiredService<ConfigureOptions>().Configure();
+                collection.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor), typeof(ConfiguredTypesOptionsMonitor));
+
+            }).Build();
+
+            var c1Monitor = host.Services.GetRequiredService<IOptionsMonitor<Class1>>();
+            Assert.AreEqual("Value1A", c1Monitor.Get("C1A").Property1);
+
+            var c2Monitor = host.Services.GetRequiredService<IOptionsMonitor<Class2>>();
+            Assert.AreEqual("Value2A", c2Monitor.Get("C2A").Property2);
+
+            var configuredTypes = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
+
+            foreach (var key in configuredTypes.GetKeys<Class1>())
+            {
+                Assert.AreNotSame(configuredTypes.Get<Class1>(key), c1Monitor.Get(key));
+
+                Assert.AreEqual(
+                    configuredTypes.Get<Class1>(key).Property1,
+                    c1Monitor.Get(key).Property1);
+            }
+
+            foreach (var key in configuredTypes.GetKeys<Class2>())
+            {
+                Assert.AreNotSame(configuredTypes.Get<Class2>(key), c2Monitor.Get(key));
+
+                Assert.AreEqual(
+                    configuredTypes.Get<Class2>(key).Property2,
+                    c2Monitor.Get(key).Property2);
+            }
+
+        }
     }
 }

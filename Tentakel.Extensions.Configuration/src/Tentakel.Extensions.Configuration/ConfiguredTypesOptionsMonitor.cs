@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace Tentakel.Extensions.Configuration
 {
-    public class ConfiguredTypesOptionsMonitor : IDisposable, IConfiguredTypesOptionsMonitor
+    public class ConfiguredTypesOptionsMonitor : IConfiguredTypesOptionsMonitor
     {
         private readonly IOptionsMonitor<ConfiguredTypes> _optionsMonitor;
         private readonly IConfigurationRoot _configurationRoot;
@@ -16,13 +16,13 @@ namespace Tentakel.Extensions.Configuration
         private readonly List<IDisposable> _registrations = new();
         private event Action<object, string, string> Changed;
         private event Action<string> ConfigurationChanged;
-
+        
         public ConfiguredTypesOptionsMonitor(IOptionsMonitor<ConfiguredTypes> optionsMonitor, IConfigurationRoot configurationRoot)
         {
             this._optionsMonitor = optionsMonitor ?? throw new ArgumentNullException(nameof(optionsMonitor));
             this._configurationRoot = configurationRoot ?? throw new ArgumentNullException(nameof(configurationRoot));
 
-            this._optionsMonitor.OnChange((_, name) =>
+            this._optionsMonitor.OnChange((types, name) =>
             {
                 this.ConfigurationChanged?.Invoke(name);
                 var innerCache = this.GetInnerCache(name);
