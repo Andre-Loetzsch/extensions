@@ -48,8 +48,8 @@ namespace Tentakel.Extensions.DependencyInjection.Test
                 builder.AddJsonStream(ms);
             }).Build();
 
-            var configuredTypes = host.Services.GetRequiredService<IConfiguredTypes>();
-            var objects = configuredTypes.GetAll<object>().ToList();
+            var typesOptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
+            var objects = typesOptionsMonitor.GetAll<object>().ToList();
 
             Assert.AreEqual(6, objects.Count);
             Assert.AreEqual(typeof(Class1), objects[0].GetType());
@@ -505,7 +505,7 @@ namespace Tentakel.Extensions.DependencyInjection.Test
             var disp3 = c3OptionsMonitor.OnChange((class3, name, key) =>
             {
                 onChangeResult3.Add($"{name}:{key}", class3);
-                if (onChangeResult3.Count < 2) return;
+                if (onChangeResult3.Count < 3) return;
                 waitHandle3.Set();
             });
 

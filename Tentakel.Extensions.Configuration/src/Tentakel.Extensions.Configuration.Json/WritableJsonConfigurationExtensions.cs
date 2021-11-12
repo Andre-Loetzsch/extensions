@@ -9,18 +9,15 @@ namespace Tentakel.Extensions.Configuration.Json
 {
     public static class WritableJsonConfigurationExtensions
     {
-
         public static IConfigurationBuilder AddWritableJsonFile(this IConfigurationBuilder builder, string path)
         {
             return AddWritableJsonFile(builder, provider: null, path: path, optional: false, reloadOnChange: false);
         }
 
-
         public static IConfigurationBuilder AddWritableJsonFile(this IConfigurationBuilder builder, string path, bool optional)
         {
             return AddWritableJsonFile(builder, provider: null, path: path, optional: optional, reloadOnChange: false);
         }
-
 
         public static IConfigurationBuilder AddWritableJsonFile(this IConfigurationBuilder builder, string path, bool optional, bool reloadOnChange)
         {
