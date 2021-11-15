@@ -8,7 +8,7 @@ using Tentakel.Extensions.Configuration;
 
 namespace Tentakel.Extensions.DependencyInjection
 {
-    public static class ConfiguredTypesProviderExtensions
+    public static class ConfiguredTypesExtensions
     {
         #region IServiceCollection
 

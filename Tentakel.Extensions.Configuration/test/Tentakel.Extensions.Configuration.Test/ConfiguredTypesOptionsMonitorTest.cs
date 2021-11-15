@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tentakel.Extensions.Configuration.Test.Common;
 
@@ -493,6 +494,11 @@ namespace Tentakel.Extensions.Configuration.Test
             var c1OptionsMonitorB = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class1>>();
 
             Assert.AreSame(c1OptionsMonitorA, c1OptionsMonitorB);
+
+            var c1OptionsMonitorC = host.Services.GetRequiredService<IOptionsMonitor<Class1>>();
+            var c1OptionsMonitorD = host.Services.GetRequiredService<IOptionsMonitor<Class1>>();
+
+            Assert.AreSame(c1OptionsMonitorC, c1OptionsMonitorD);
         }
 
         [TestMethod]
