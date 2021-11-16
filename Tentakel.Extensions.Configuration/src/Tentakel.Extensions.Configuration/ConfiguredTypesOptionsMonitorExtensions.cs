@@ -22,6 +22,11 @@ namespace Tentakel.Extensions.Configuration
             return configuredTypesOptionsMonitor.GetKeys<TOptions>().Select(configuredTypesOptionsMonitor.Get<TOptions>).ToList();
         }
 
+        public static IEnumerable<TOptions> GetAll<TOptions>(this IConfiguredTypesOptionsMonitor configuredTypesOptionsMonitor, string name)
+        {
+            return configuredTypesOptionsMonitor.GetKeys<TOptions>(name).Select(configuredTypesOptionsMonitor.Get<TOptions>).ToList();
+        }
+
 
 
         public static bool TryGet<TOptions>(this IConfiguredTypesOptionsMonitor<TOptions> configuredTypesOptionsMonitor, string key, out TOptions options)
@@ -39,6 +44,11 @@ namespace Tentakel.Extensions.Configuration
         public static IEnumerable<TOptions> GetAll<TOptions>(this IConfiguredTypesOptionsMonitor<TOptions> configuredTypesOptionsMonitor)
         {
             return configuredTypesOptionsMonitor.GetKeys().Select(configuredTypesOptionsMonitor.Get).ToList();
+        }
+
+        public static IEnumerable<TOptions> GetAll<TOptions>(this IConfiguredTypesOptionsMonitor<TOptions> configuredTypesOptionsMonitor, string name)
+        {
+            return configuredTypesOptionsMonitor.GetKeys(name).Select(configuredTypesOptionsMonitor.Get).ToList();
         }
     }
 }

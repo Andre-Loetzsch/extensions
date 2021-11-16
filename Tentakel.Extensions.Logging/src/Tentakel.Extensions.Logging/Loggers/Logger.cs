@@ -18,7 +18,7 @@ namespace Tentakel.Extensions.Logging.Loggers
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (!(state is LogEntry logEntry))
+            if (state is not LogEntry logEntry)
             {
                 logEntry = new LogEntry
                 {

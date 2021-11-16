@@ -4,17 +4,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Tentakel.Extensions.Logging.LoggerSinks
 {
-    public class ConsoleColorSink : ILoggerSink
+    public class ConsoleSink : ILoggerSink
     {
-        public ConsoleColorSink()
-        {
-        }
-
-        public ConsoleColorSink(string name)
-        {
-            this.Name = name;
-        }
-
         public string Name { get; set; }
         public string[] Categories { get; set; }
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
