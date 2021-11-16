@@ -1,27 +1,51 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Tentakel.Extensions.Configuration;
 using Tentakel.Extensions.Logging.Loggers;
 
 namespace Tentakel.Extensions.Logging.Providers
 {
     public class LoggerSinkProvider : ILoggerProvider, ISupportExternalScope
     {
+        private readonly IConfiguredTypesOptionsMonitor<ILoggerSink> _options;
         private IExternalScopeProvider _scopeProvider;
         private readonly BackgroundWorker _backgroundWorker;
+        private readonly Dictionary<string, ILoggerSink> _loggerSinks = new(StringComparer.Ordinal);
 
-        public LoggerSinkProvider()
+
+        public LoggerSinkProvider(IConfiguredTypesOptionsMonitor<ILoggerSink> options)
         {
+            this._options = options ?? throw new ArgumentNullException(nameof(options));
+            
+            this._options.OnChange((sink, name, _) =>
+            {
+                if (this.ConfigurationName != name) return;
+                this.AddOrUpdateLoggerSink(sink);
+            });
+           
+            this.AddOrUpdateLoggerSinks(options.GetAll());
+
             this._backgroundWorker = new BackgroundWorker(new Logger(this, "Tentakel.Logger"));
             this._backgroundWorker.Start();
         }
 
-        #region Add/Update/Remove logger sink
+        private string _configurationName = string.Empty;
+        public string ConfigurationName
+        {
+            get => this._configurationName;
+            set
+            {
+                this._configurationName = value;
 
-        private readonly ConcurrentDictionary<string, ILoggerSink> _loggerSinks = new();
+                this.ClearLoggerSinks();
+                this.AddOrUpdateLoggerSinks(this._options.GetAll(this._configurationName));
+            }
+        }
+
+        #region Add/Update/Remove logger sink
 
         public void AddOrUpdateLoggerSink(ILoggerSink loggerSink)
         {
@@ -38,7 +62,7 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public bool RemoveLoggerSink(string name)
         {
-            return this._loggerSinks.TryRemove(name, out _);
+            return this._loggerSinks.Remove(name);
         }
 
         public void ClearLoggerSinks() => this._loggerSinks.Clear();
@@ -46,7 +70,6 @@ namespace Tentakel.Extensions.Logging.Providers
         public IEnumerable<ILoggerSink> LoggerSinks => this._loggerSinks.Values;
 
         #endregion
-
 
         #region ISupportExternalScope
 
@@ -142,17 +165,9 @@ namespace Tentakel.Extensions.Logging.Providers
 
         #region IDisposable
 
-        ~LoggerSinkProvider()
-        {
-            this.Dispose(false);
-        }
+        public bool IsDisposed { get; private set; }
 
         public void Dispose()
-        {
-            this.Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
         {
             if (this.IsDisposed) return;
             this.IsDisposed = true;
@@ -162,15 +177,12 @@ namespace Tentakel.Extensions.Logging.Providers
                 this._backgroundWorker.Dispose();
             }
             catch 
-            { 
-                //
+            {
+                // Swallow exceptions on dispose.
             }
 
-            if (!disposing) return;
             GC.SuppressFinalize(this);
         }
-
-        public bool IsDisposed { get; private set; }
 
         #endregion
     }

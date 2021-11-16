@@ -35,4 +35,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
+  </ItemGroup>
+
 </Project>

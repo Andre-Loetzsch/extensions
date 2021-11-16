@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "..\Tentakel.Extensions.Configuration\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{0CABB428-56C5-4D0D-801B-93167D0B5943}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tentakel.Extensions.Logging.Test", "Tentakel.Extensions.Logging.Test\Tentakel.Extensions.Logging.Test.csproj", "{62CFF84D-F32A-4616-A341-923D5CABB052}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{0CABB428-56C5-4D0D-801B-93167D0B5943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CABB428-56C5-4D0D-801B-93167D0B5943}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CABB428-56C5-4D0D-801B-93167D0B5943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62CFF84D-F32A-4616-A341-923D5CABB052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62CFF84D-F32A-4616-A341-923D5CABB052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62CFF84D-F32A-4616-A341-923D5CABB052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62CFF84D-F32A-4616-A341-923D5CABB052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B78FC8AD-CDF3-4A20-BD26-6209E1E3ABBF} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
 		{0CABB428-56C5-4D0D-801B-93167D0B5943} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
+		{62CFF84D-F32A-4616-A341-923D5CABB052} = {A2987C76-E7C2-4631-A5B4-B44CF0F00564}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59DEB116-9148-479C-957C-C816F2AC6903}
