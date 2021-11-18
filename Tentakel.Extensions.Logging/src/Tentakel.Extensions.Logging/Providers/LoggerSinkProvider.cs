@@ -8,6 +8,7 @@ using Tentakel.Extensions.Logging.Loggers;
 
 namespace Tentakel.Extensions.Logging.Providers
 {
+    [ProviderAlias("Tentakel")]
     public class LoggerSinkProvider : ILoggerProvider, ISupportExternalScope
     {
         private readonly IConfiguredTypesOptionsMonitor<ILoggerSink> _options;

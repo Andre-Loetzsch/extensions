@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,51 +19,61 @@ namespace Tentakel.Extensions.Logging.Test
     [TestClass]
     public class LoggerSinkProviderTest
     {
+
+        [TestMethod]
+        public void TestLoggerSinkBaseDefaultName()
+        {
+            Assert.AreEqual(nameof(FakeLoggerSink), new FakeLoggerSink().Name);
+        }
+
+
+
         [TestMethod]
         public void TestMethod1()
         {
-            var dict = new Dictionary<string, object>
+            var defaultCfg = new Dictionary<string, object>
             {
-                ["C1"] = new ConsoleColorSink { Categories = new[] { "A", "B", "A1" }, ForegroundColor = ConsoleColor.Blue, LogLevel = LogLevel.Debug, Name = "Blue" },
-                ["C2"] = new ConsoleColorSink { Categories = new[] { "B", "C", "A2" }, ForegroundColor = ConsoleColor.DarkGreen, LogLevel = LogLevel.Debug, Name = "DarkGreen" },
-                ["C3"] = new ConsoleColorSink { Categories = new[] { "C", "A", "A3" }, ForegroundColor = ConsoleColor.DarkRed, LogLevel = LogLevel.Debug, Name = "DarkRed" }
+                ["sink 1"] = new FakeLoggerSink { Categories = new[] { "A", "B", "A1" }, LogLevel = LogLevel.Debug, Name = "Sink 1" },
+                ["sink 2"] = new FakeLoggerSink { Categories = new[] { "B", "C", "A2" }, LogLevel = LogLevel.Debug, Name = "Sink 2" },
+                ["sink 3"] = new FakeLoggerSink { Categories = new[] { "C", "A", "A3" }, LogLevel = LogLevel.Debug, Name = "Sink 3" }
             };
 
-            var dictA = new Dictionary<string, object>
+            var prodCfg = new Dictionary<string, object>
             {
-                ["C1A"] = new ConsoleColorSink { Categories = new[] { "A", "B", "A1" }, ForegroundColor = ConsoleColor.Blue, LogLevel = LogLevel.Debug, Name = "Blue" },
-                ["C2A"] = new ConsoleColorSink { Categories = new[] { "B", "C", "A2" }, ForegroundColor = ConsoleColor.DarkGreen, LogLevel = LogLevel.Debug, Name = "DarkGreen" },
-                ["C3A"] = new ConsoleColorSink { Categories = new[] { "C", "A", "A3" }, ForegroundColor = ConsoleColor.DarkRed, LogLevel = LogLevel.Debug, Name = "DarkRed" }
+                ["sink 4"] = new FakeLoggerSink { Categories = new[] { "A", "B", "A1" }, LogLevel = LogLevel.Debug, Name = "Sink 4" },
+                ["sink 5"] = new FakeLoggerSink { Categories = new[] { "B", "C", "A2" }, LogLevel = LogLevel.Debug, Name = "Sink 5" },
+                ["sink 6"] = new FakeLoggerSink { Categories = new[] { "C", "A", "A3" }, LogLevel = LogLevel.Debug, Name = "Sink 6" }
             };
 
-            var dictB = new Dictionary<string, object>
+            var devCfg = new Dictionary<string, object>
             {
-                ["C1B"] = new ConsoleColorSink { Categories = new[] { "A", "B", "A1" }, ForegroundColor = ConsoleColor.Blue, LogLevel = LogLevel.Debug, Name = "Blue" },
-                ["C2B"] = new ConsoleColorSink { Categories = new[] { "B", "C", "A2" }, ForegroundColor = ConsoleColor.DarkGreen, LogLevel = LogLevel.Debug, Name = "DarkGreen" },
-                ["C3B"] = new ConsoleColorSink { Categories = new[] { "C", "A", "A3" }, ForegroundColor = ConsoleColor.DarkRed, LogLevel = LogLevel.Debug, Name = "DarkRed" }
+                ["sink 7"] = new FakeLoggerSink { Categories = new[] { "A", "B", "A1" }, LogLevel = LogLevel.Debug, Name = "Sink 7" },
+                ["sink 8"] = new FakeLoggerSink { Categories = new[] { "B", "C", "A2" }, LogLevel = LogLevel.Debug, Name = "Sink 8" },
+                ["sink 9"] = new FakeLoggerSink { Categories = new[] { "C", "A", "A3" }, LogLevel = LogLevel.Debug, Name = "Sink 9" }
             };
 
-            var ms = new MemoryStream();
-            var buffer = Encoding.UTF8.GetBytes(JsonStringBuilder.Build(dict, "types"));
-            ms.Write(buffer, 0, buffer.Length);
-            ms.Position = 0;
+            var defaultMs = new MemoryStream();
+            var buffer = Encoding.UTF8.GetBytes(JsonStringBuilder.Build(defaultCfg, "types"));
+            defaultMs.Write(buffer, 0, buffer.Length);
+            defaultMs.Position = 0;
 
-            var msA = new MemoryStream();
-            buffer = Encoding.UTF8.GetBytes(JsonStringBuilder.Build(dictA, "typesA"));
-            msA.Write(buffer, 0, buffer.Length);
-            msA.Position = 0;
+            var prodMs = new MemoryStream();
+            buffer = Encoding.UTF8.GetBytes(JsonStringBuilder.Build(prodCfg, "prodCfg"));
+            prodMs.Write(buffer, 0, buffer.Length);
+            prodMs.Position = 0;
 
-            var msB = new MemoryStream();
-            buffer = Encoding.UTF8.GetBytes(JsonStringBuilder.Build(dictB, "typesB"));
-            msB.Write(buffer, 0, buffer.Length);
-            msB.Position = 0;
+            var devMs = new MemoryStream();
+            buffer = Encoding.UTF8.GetBytes(JsonStringBuilder.Build(devCfg, "devCfg"));
+            devMs.Write(buffer, 0, buffer.Length);
+            devMs.Position = 0;
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
-                configurationBuilder.AddJsonStream(ms)
-                    .AddJsonStream(msA)
-                    .AddJsonStream(msB)
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                configurationBuilder
+                    .AddJsonStream(defaultMs)
+                    .AddJsonStream(prodMs)
+                    .AddJsonStream(devMs)
+                    .AddJsonFile("appsettings.json");
 
             }).ConfigureServices(collection =>
             {
@@ -74,32 +83,112 @@ namespace Tentakel.Extensions.Logging.Test
                 collection
                     .AddSingleton((IConfigurationRoot)configuration)
                     .Configure<ConfiguredTypes>(configuration.GetSection("types"))
-                    .Configure<ConfiguredTypes>("A", configuration.GetSection("typesA"))
-                    .Configure<ConfiguredTypes>("B", configuration.GetSection("typesB"))
+                    //.Configure<ConfiguredTypes>(configuration.GetSection("defaultCfg"))
+                    .Configure<ConfiguredTypes>("prod", configuration.GetSection("prodCfg"))
+                    .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
+                    .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+
+                collection.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
+
+            }).ConfigureLogging((hostingContext, logging) =>
+            {
+                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+             
+            }).Build();
+
+
+            var loggerSinkProvider = host.Services.GetRequiredService<IEnumerable<ILoggerProvider>>().First(x => x.GetType() == typeof(LoggerSinkProvider));
+            var loggerSinkMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<FakeLoggerSink>>();
+
+
+
+
+            var sink1 = loggerSinkMonitor.Get("sink 1");
+
+
+            //var loggerSinks = provider.LoggerSinks.ToList();
+            var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
+
+         
+            var loggerA = loggerFactory.CreateLogger("A");
+            var loggerB = loggerFactory.CreateLogger("B");
+            var loggerC = loggerFactory.CreateLogger("C");
+
+       
+            loggerA.LogDebug("Test D");
+
+
+            //loggerA.LogInformation("Test I");
+
+            //var t = typeof(LoggerSinkProvider).AssemblyQualifiedName;
+
+            Thread.Sleep(1000);
+
+            Assert.AreEqual(1, sink1.Entries.Count);
+
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile("logging.json");
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+                collection
+                    .AddSingleton((IConfigurationRoot)configuration)
+                    .Configure<ConfiguredTypes>(configuration.GetSection("defaultCfg"))
+                    .Configure<ConfiguredTypes>("prod", configuration.GetSection("prodCfg"))
+                    .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
                     .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
                 collection.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
+
+            }).ConfigureLogging((hostingContext, logging) =>
+            {
+                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
 
             }).Build();
 
 
-            //ILoggerFactory loggerFactory = new LoggerFactory().AddConsole((_, __) => true);
-            //ILogger logger = loggerFactory.CreateLogger<Program>();
+            var loggerSinkProvider = host.Services.GetRequiredService<IEnumerable<ILoggerProvider>>().First(x => x.GetType() == typeof(LoggerSinkProvider));
+            var loggerSinkMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<FakeLoggerSink>>();
 
 
-            var provider = host.Services.GetRequiredService<IEnumerable<ILoggerProvider>>();//.First();
+
+
+            var sink1 = loggerSinkMonitor.Get("sink 1");
+
 
             //var loggerSinks = provider.LoggerSinks.ToList();
             var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
+
 
             var loggerA = loggerFactory.CreateLogger("A");
             var loggerB = loggerFactory.CreateLogger("B");
             var loggerC = loggerFactory.CreateLogger("C");
 
-            loggerA.LogDebug("TestX");
+
+            loggerA.LogDebug("Test D");
 
 
-            Thread.Sleep(10000);
+            //loggerA.LogInformation("Test I");
+
+            //var t = typeof(LoggerSinkProvider).AssemblyQualifiedName;
+
+            Thread.Sleep(1000);
+
+            Assert.AreEqual(1, sink1.Entries.Count);
 
         }
+
+
+
     }
 }
