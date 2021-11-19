@@ -48,7 +48,7 @@ namespace Tentakel.Extensions.Configuration
 
         public static IEnumerable<TOptions> GetAll<TOptions>(this IConfiguredTypesOptionsMonitor<TOptions> configuredTypesOptionsMonitor, string name)
         {
-            return configuredTypesOptionsMonitor.GetKeys(name).Select(configuredTypesOptionsMonitor.Get).ToList();
+            return configuredTypesOptionsMonitor.GetKeys(name).Select(key => configuredTypesOptionsMonitor.Get(name, key)).ToList();
         }
     }
 }
