@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Tentakel.Extensions.Logging
 {
+    [DebuggerDisplay("{LogEntryId} Msg: {Message} LogCategory: SourceCategory: {SourceCategory} Source: {Source}")]
     public class LogEntry
     {
         private static long logEntryId;

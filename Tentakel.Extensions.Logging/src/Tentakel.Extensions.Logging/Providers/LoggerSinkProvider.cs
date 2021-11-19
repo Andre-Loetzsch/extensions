@@ -92,6 +92,16 @@ namespace Tentakel.Extensions.Logging.Providers
 
         #region public member IsEnabled/Log
 
+        public bool WaitOne(TimeSpan timeout)
+        {
+            return this._backgroundWorker.WaitOne(timeout);
+        }
+
+        public bool WaitOne(int millisecondsTimeout)
+        {
+            return this._backgroundWorker.WaitOne(millisecondsTimeout);
+        }
+
         public bool IsEnabled(LogLevel logLevel)
         {
             return this._loggerSinks.Any(x => x.Value.IsEnabled(logLevel));
@@ -144,7 +154,6 @@ namespace Tentakel.Extensions.Logging.Providers
 
                     logEntry.LoggerSinkName = loggerSink.Name;
                     logEntry.LoggerSinkType = loggerSink.GetType();
-
                     loggerSink.Log(logEntry);
                 }
 
@@ -167,7 +176,6 @@ namespace Tentakel.Extensions.Logging.Providers
         #region IDisposable
 
         public bool IsDisposed { get; private set; }
-
         public void Dispose()
         {
             if (this.IsDisposed) return;
