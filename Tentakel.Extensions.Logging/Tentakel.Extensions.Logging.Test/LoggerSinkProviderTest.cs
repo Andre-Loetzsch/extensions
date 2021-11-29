@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -11,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tentakel.Extensions.Configuration;
-using Tentakel.Extensions.Logging.LoggerSinks;
 using Tentakel.Extensions.Logging.Providers;
 
 namespace Tentakel.Extensions.Logging.Test
@@ -26,10 +23,8 @@ namespace Tentakel.Extensions.Logging.Test
             Assert.AreEqual(nameof(FakeLoggerSink), new FakeLoggerSink().Name);
         }
 
-
-
         [TestMethod]
-        public void TestMethod1()
+        public void TestAddJsonStream()
         {
             var defaultCfg = new Dictionary<string, object>
             {
@@ -86,13 +81,98 @@ namespace Tentakel.Extensions.Logging.Test
                     .Configure<ConfiguredTypes>("prod", configuration.GetSection("prodCfg"))
                     .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
                     .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+            
 
+            }).ConfigureLogging((hostingContext, logging) =>
+            {
+                logging
+                    .ClearProviders()
+                    .AddConfiguration(hostingContext.Configuration.GetSection("Logging"))
+                    .Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
+            }).Build();
+
+
+            var loggerSinkProvider = (LoggerSinkProvider)host.Services.GetRequiredService<IEnumerable<ILoggerProvider>>().First(x => x.GetType() == typeof(LoggerSinkProvider));
+            var loggerSinkMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<FakeLoggerSink>>();
+
+            var sinks = new Dictionary<string, FakeLoggerSink>
+            {
+                ["sink 1"] = loggerSinkMonitor.Get("sink 1"),
+                ["sink 2"] = loggerSinkMonitor.Get("sink 2"),
+                ["sink 3"] = loggerSinkMonitor.Get("sink 3"),
+                ["sink 4"] = loggerSinkMonitor.Get("prod", "sink 4"),
+                ["sink 5"] = loggerSinkMonitor.Get("prod", "sink 5"),
+                ["sink 6"] = loggerSinkMonitor.Get("prod", "sink 6"),
+                ["sink 7"] = loggerSinkMonitor.Get("dev", "sink 7"),
+                ["sink 8"] = loggerSinkMonitor.Get("dev", "sink 8"),
+                ["sink 9"] = loggerSinkMonitor.Get("dev", "sink 9")
+            };
+
+            var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
+            var loggerA = loggerFactory.CreateLogger("A");
+            var loggerB = loggerFactory.CreateLogger("B");
+            var loggerC = loggerFactory.CreateLogger("C");
+            var loggerD = loggerFactory.CreateLogger("D");
+
+            Log(loggerA, loggerB, loggerC, loggerD);
+
+            Assert.IsTrue(loggerSinkProvider.WaitOne(300));
+
+            AssertDefaultCfg(sinks);
+
+            foreach (var sink in sinks.Values)
+            {
+                sink.Entries.Clear();
+            }
+
+            loggerSinkProvider.ConfigurationName = "prod";
+
+            Log(loggerA, loggerB, loggerC, loggerD);
+
+            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+
+            AssertProdCfg(sinks);
+
+            foreach (var sink in sinks.Values)
+            {
+                sink.Entries.Clear();
+            }
+
+            loggerSinkProvider.ConfigurationName = "dev";
+
+            Log(loggerA, loggerB, loggerC, loggerD);
+
+            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+
+            AssertDevCfg(sinks);
+        }
+
+        [TestMethod]
+        public void TesAddJsonFile()
+        {
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile("logging.json");
+
+            }).ConfigureServices(collection =>
+            {
+                var serviceProvider = collection.BuildServiceProvider();
+                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+                collection
+                    .AddSingleton((IConfigurationRoot)configuration)
+                    .Configure<ConfiguredTypes>(configuration.GetSection("defaultCfg"))
+                    .Configure<ConfiguredTypes>("prod", configuration.GetSection("prodCfg"))
+                    .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
+                    .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
                 collection.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
 
             }).ConfigureLogging((hostingContext, logging) =>
             {
                 logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-             
+
             }).Build();
 
 
@@ -149,8 +229,8 @@ namespace Tentakel.Extensions.Logging.Test
             Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
 
             AssertDevCfg(sinks);
-        }
 
+        }
 
         private static void Log(ILogger loggerA, ILogger loggerB, ILogger loggerC, ILogger loggerD)
         {
@@ -169,7 +249,6 @@ namespace Tentakel.Extensions.Logging.Test
             loggerC.LogError("Test C Error");
             loggerD.LogError("Test D Error");
         }
-
 
         private static void AssertDefaultCfg(Dictionary<string, FakeLoggerSink> sinks)
         {
@@ -209,70 +288,5 @@ namespace Tentakel.Extensions.Logging.Test
             Assert.AreEqual(6, sinks["sink 8"].Entries.Count);
             Assert.AreEqual(3, sinks["sink 9"].Entries.Count);
         }
-
-
-
-        [TestMethod]
-        public void TestMethod2()
-        {
-            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
-            {
-                configurationBuilder
-                    .AddJsonFile("appsettings.json")
-                    .AddJsonFile("logging.json");
-
-            }).ConfigureServices(collection =>
-            {
-                var serviceProvider = collection.BuildServiceProvider();
-                var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-
-                collection
-                    .AddSingleton((IConfigurationRoot)configuration)
-                    .Configure<ConfiguredTypes>(configuration.GetSection("defaultCfg"))
-                    .Configure<ConfiguredTypes>("prod", configuration.GetSection("prodCfg"))
-                    .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
-                    .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
-                collection.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
-
-            }).ConfigureLogging((hostingContext, logging) =>
-            {
-                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-
-            }).Build();
-
-
-            var loggerSinkProvider = host.Services.GetRequiredService<IEnumerable<ILoggerProvider>>().First(x => x.GetType() == typeof(LoggerSinkProvider));
-            var loggerSinkMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<FakeLoggerSink>>();
-
-
-
-
-            var sink1 = loggerSinkMonitor.Get("sink 1");
-
-
-            //var loggerSinks = provider.LoggerSinks.ToList();
-            var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
-
-
-            var loggerA = loggerFactory.CreateLogger("A");
-            var loggerB = loggerFactory.CreateLogger("B");
-            var loggerC = loggerFactory.CreateLogger("C");
-
-
-            loggerA.LogDebug("Test D");
-
-
-            //loggerA.LogInformation("Test I");
-
-            //var t = typeof(LoggerSinkProvider).AssemblyQualifiedName;
-
-            Thread.Sleep(1000);
-
-            Assert.AreEqual(1, sink1.Entries.Count);
-
-        }
-
-
-
     }
 }

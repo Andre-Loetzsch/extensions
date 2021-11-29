@@ -19,29 +19,29 @@
     "Categories": [
       "A",
       "B",
-      "A1"
+      "D"
     ],
-    "LogLevel": 1
+    "LogLevel": "Debug"
   },
   "sink 2": {
     "Entries": [],
     "Name": "Sink 2",
     "Categories": [
+      "A",
       "B",
-      "C",
-      "A2"
+      "C"
     ],
-    "LogLevel": 1
+    "LogLevel": "Information"
   },
   "sink 3": {
     "Entries": [],
     "Name": "Sink 3",
     "Categories": [
-      "C",
       "A",
-      "A3"
+      "C",
+      "D"
     ],
-    "LogLevel": 1
+    "LogLevel": "Error"
   },
   "prodCfg": {
     "sink 4": {
@@ -63,29 +63,29 @@
     "Categories": [
       "A",
       "B",
-      "A1"
+      "D"
     ],
-    "LogLevel": 1
+    "LogLevel": "Debug"
   },
   "sink 5": {
     "Entries": [],
     "Name": "Sink 5",
     "Categories": [
+      "A",
       "B",
-      "C",
-      "A2"
+      "C"
     ],
-    "LogLevel": 1
+    "LogLevel": "Information"
   },
   "sink 6": {
     "Entries": [],
     "Name": "Sink 6",
     "Categories": [
-      "C",
       "A",
-      "A3"
+      "C",
+      "D"
     ],
-    "LogLevel": 1
+    "LogLevel": "Error"
   },
   "devCfg": {
     "sink 7": {
@@ -107,28 +107,28 @@
     "Categories": [
       "A",
       "B",
-      "A1"
+      "D"
     ],
-    "LogLevel": 1
+    "LogLevel": "Debug"
   },
   "sink 8": {
     "Entries": [],
     "Name": "Sink 8",
     "Categories": [
+      "A",
       "B",
-      "C",
-      "A2"
+      "C"
     ],
-    "LogLevel": 1
+    "LogLevel": "Information"
   },
   "sink 9": {
     "Entries": [],
     "Name": "Sink 9",
     "Categories": [
-      "C",
       "A",
-      "A3"
+      "C",
+      "D"
     ],
-    "LogLevel": 1
+    "LogLevel": "Error"
   }
 }

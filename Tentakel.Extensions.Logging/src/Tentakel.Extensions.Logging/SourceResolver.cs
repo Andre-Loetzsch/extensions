@@ -51,8 +51,8 @@ namespace Tentakel.Extensions.Logging
                 if (method.DeclaringType.Namespace.StartsWith("Microsoft.Extensions.Logging")) break;
                 if (method.DeclaringType.Namespace.StartsWith("Microsoft")) continue;
                 if (namespaceIgnoreList.Contains(method.DeclaringType.Namespace)) continue;
-
-                if (method.DeclaringType.Namespace.StartsWith("Tentakel.Extensions.Logging")) break;
+                //if (method.DeclaringType.Namespace.StartsWith("Tentakel.Extensions.Logging")) break;
+                if (method.DeclaringType.Namespace == typeof(Logger).Namespace) break;
                 if (typeIgnoreList.Contains(method.DeclaringType)) continue;
                 
                 stackTraceSource = $"{method.DeclaringType}.{method.Name}()";

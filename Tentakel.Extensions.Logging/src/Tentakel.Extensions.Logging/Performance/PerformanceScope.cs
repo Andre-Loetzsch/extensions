@@ -16,7 +16,7 @@ namespace Tentakel.Extensions.Logging.Performance
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._policies = policies ?? throw new ArgumentNullException(nameof(policies));
-            this._innerScope = innerScope ?? throw new ArgumentNullException(nameof(logger));
+            this._innerScope = innerScope ?? throw new ArgumentNullException(nameof(innerScope));
         }
 
         public void SetPerformanceControlPoint(string policyName)
