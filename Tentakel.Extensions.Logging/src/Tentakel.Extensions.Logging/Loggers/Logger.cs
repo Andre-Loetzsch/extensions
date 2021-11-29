@@ -26,7 +26,7 @@ namespace Tentakel.Extensions.Logging.Loggers
                     EventId = eventId.Id,
                     Message = state.ToString(),
                     State = state,
-                    Exception = exception,
+                    Exception = exception
                 };
 
                 if (state is IEnumerable<KeyValuePair<string, object>> attributes)

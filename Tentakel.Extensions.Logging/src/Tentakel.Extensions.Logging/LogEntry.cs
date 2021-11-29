@@ -30,15 +30,6 @@ namespace Tentakel.Extensions.Logging
             this.LogCategory = string.Empty;
             this.DateTimeFormat = "yyyy-MM-dd HH:mm:ss fff";
 
-
-            // TODO implement properties
-            //if (!this.IsRunningInBackground)
-            //{
-            //    this.LogicalOperationId = Logger.GetLogicalOperationId();
-            //    this.LogicalOperationStack = Logger.GetLogicalOperationStack();
-            //    this.LogicalOperationStackNesting = Logger.GetLogicalOperationStackNesting();
-            //}
-
             Interlocked.Increment(ref logEntryId);
             this.LogEntryId = logEntryId;
         }
@@ -56,15 +47,11 @@ namespace Tentakel.Extensions.Logging
         public string ProcessName { get; set; } = processName;
         public int ThreadId { get; set; }
         public string ThreadName { get; set; }
-        
         public Type LoggerSinkType { get; set; }
         public string LoggerSinkName { get; set; }
         public StackTrace StackTrace { get; set; }
         public Exception Exception { get; set; }
         public object State { get; set; }
-        public int LogicalOperationStackNesting { get; set; }
-        public string LogicalOperationStack { get; set; }
-        public string LogicalOperationId { get; set; }
         public object Correlation { get; set; }
         public LogLevel LogLevel { get; set; }
         public string LogCategory { get; set; }
@@ -74,7 +61,6 @@ namespace Tentakel.Extensions.Logging
         public string Message { get; set; }
         public string DateTimeFormat { get; set; }
         public IDictionary<string, object> Attributes { get; set; }
-
         public List<LogScopeInfo> Scopes { get; set; }
 
         #endregion
@@ -95,9 +81,6 @@ namespace Tentakel.Extensions.Logging
                    $"|LogEntryId:{this.LogEntryId}" +
                    $"|ThreadName:{this.ThreadName}" +
                    $"|ThreadId:{this.ThreadId}" +
-                   $"|LogicalOperationId:{this.LogicalOperationId}" +
-                   $"|LogicalOperationStackNesting:{this.LogicalOperationStackNesting}" +
-                   $"|LogicalOperationStack:{this.LogicalOperationStack}" +
                    $"|Correlation:{this.Correlation}" +
                    $"|LogLevel:{this.LogLevel}" +
                    $"|LogCategory:{this.LogCategory}" +
