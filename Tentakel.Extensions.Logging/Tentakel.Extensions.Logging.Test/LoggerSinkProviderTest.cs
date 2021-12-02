@@ -234,6 +234,9 @@ namespace Tentakel.Extensions.Logging.Test
 
         private static void Log(ILogger loggerA, ILogger loggerB, ILogger loggerC, ILogger loggerD)
         {
+
+            //loggerA.BeginScope()
+
             loggerA.LogDebug("Test A Debug");
             loggerB.LogDebug("Test B Debug");
             loggerC.LogDebug("Test C Debug");
