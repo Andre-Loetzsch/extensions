@@ -352,5 +352,4 @@ MigrationBackup/
 # Binaries
 *.dll
 *.pdb
-.vscode/tasks.json
-.vscode/launch.json
+.vscode/
