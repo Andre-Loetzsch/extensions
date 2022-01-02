@@ -352,4 +352,6 @@ MigrationBackup/
 # Binaries
 *.dll
 *.pdb
+
+# visual code
 .vscode/
