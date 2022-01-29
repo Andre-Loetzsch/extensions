@@ -2,13 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
+using Tentakel.Extensions.Configuration;
 using Tentakel.Extensions.Logging.Performance;
+using Tentakel.Extensions.Logging.Providers;
 
 namespace Tentakel.Extensions.Logging
 {
     public static class LoggerSinkExtensions
     {
+
+        public static ILoggingBuilder AddLoggerSinkProvider(this ILoggingBuilder builder)
+        {
+            builder.AddConfiguration();
+            builder.Services.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
+            return builder;
+        }
 
         public static PerformanceScope BeginPerformanceScope<TState>(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, TState state)
         {
@@ -43,7 +56,7 @@ namespace Tentakel.Extensions.Logging
             {
                 if (sb.Length > 0) sb.Append("; ");
                 var key = k.Replace("; ", ";").Replace(", ", ",");
-                var value = v == null ? string.Empty : v?.ToString()?.Replace("; ", ";").Replace(", ", ","); 
+                var value = v == null ? string.Empty : v?.ToString()?.Replace("; ", ";").Replace(", ", ",");
                 sb.Append(key).Append(", ").Append(value);
             }
 
