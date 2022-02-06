@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C3438BC8-8648-41C2-924A-BF84E028FD4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.Abstractions", "src\Tentakel.Extensions.Logging.Abstractions\Tentakel.Extensions.Logging.Abstractions.csproj", "{491D6155-B899-4B27-A764-4349281DFA36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{491D6155-B899-4B27-A764-4349281DFA36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{491D6155-B899-4B27-A764-4349281DFA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{491D6155-B899-4B27-A764-4349281DFA36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{491D6155-B899-4B27-A764-4349281DFA36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{491D6155-B899-4B27-A764-4349281DFA36} = {C3438BC8-8648-41C2-924A-BF84E028FD4C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB84ABD6-506F-4D77-8231-4285FBC53E02}
+	EndGlobalSection
+EndGlobal

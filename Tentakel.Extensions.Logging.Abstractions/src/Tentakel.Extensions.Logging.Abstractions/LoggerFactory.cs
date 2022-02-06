@@ -12,10 +12,24 @@ namespace Tentakel.Extensions.Logging.Abstractions
             return instance.CreateLogger(categoryName);
         }
 
+        public static ILogger CreateLogger<T>()
+        {
+            return instance.CreateLogger<T>();
+        }
+
+        static ILogger CreateLogger(Type type)
+        {
+            return instance.CreateLogger(type);
+        }
+
         public static void InitLoggerFactory(this IServiceProvider provider)
         {
             LoggerFactory.instance = provider.GetService(typeof(ILoggerFactory)) as ILoggerFactory ?? new NullLoggerFactory();
         }
     }
+
+
+
     
+
 }

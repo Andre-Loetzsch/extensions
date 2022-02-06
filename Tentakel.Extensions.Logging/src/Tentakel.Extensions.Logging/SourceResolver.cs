@@ -22,7 +22,7 @@ namespace Tentakel.Extensions.Logging
             typeIgnoreList.Add(typeof(Trace));
             typeIgnoreList.Add(typeof(TraceSource));
 
-            typeIgnoreList.Add(typeof(LoggerSinkExtensions));
+            typeIgnoreList.Add(typeof(LoggerExtensions));
             typeIgnoreList.Add(typeof(LoggerSinkProvider));
             typeIgnoreList.Add(typeof(Logger));
 

@@ -7,36 +7,18 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Tentakel.Extensions.Configuration;
-using Tentakel.Extensions.Logging.Performance;
 using Tentakel.Extensions.Logging.Providers;
 
 namespace Tentakel.Extensions.Logging
 {
-    public static class LoggerSinkExtensions
+    public static class LoggerExtensions
     {
-
         public static ILoggingBuilder AddLoggerSinkProvider(this ILoggingBuilder builder)
         {
             builder.AddConfiguration();
             builder.Services.TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
             return builder;
-        }
-
-        public static PerformanceScope BeginPerformanceScope<TState>(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, TState state)
-        {
-            if (logger == null) throw new ArgumentNullException(nameof(logger));
-            if (policies == null) throw new ArgumentNullException(nameof(policies));
-
-            return new PerformanceScope(logger, policies, logger.BeginScope(state));
-        }
-
-        public static PerformanceScope BeginPerformanceScope(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, string messageFormat, params object[] args)
-        {
-            if (logger == null) throw new ArgumentNullException(nameof(logger));
-            if (policies == null) throw new ArgumentNullException(nameof(policies));
-
-            return new PerformanceScope(logger, policies, logger.BeginScope(messageFormat, args));
         }
 
         #region IDictionary<string, object>.ToLogString()

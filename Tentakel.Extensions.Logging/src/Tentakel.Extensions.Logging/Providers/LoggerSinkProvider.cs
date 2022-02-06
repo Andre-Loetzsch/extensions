@@ -136,7 +136,7 @@ namespace Tentakel.Extensions.Logging.Providers
                         }
                 }
             }, logEntry.State);
-
+             
 
             this._backgroundWorker.AddBackgroundAction(() =>
             {
