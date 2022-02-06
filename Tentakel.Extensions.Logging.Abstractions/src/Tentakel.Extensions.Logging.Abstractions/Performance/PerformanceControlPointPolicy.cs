@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace Tentakel.Extensions.Logging.Performance
+namespace Tentakel.Extensions.Logging.Abstractions.Performance
 {
     public class PerformanceControlPointPolicy
     {

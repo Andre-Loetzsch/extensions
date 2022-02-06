@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32106.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging", "src\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.csproj", "{B78FC8AD-CDF3-4A20-BD26-6209E1E3ABBF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "..\Tentakel.Extensions.Configuration\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{0CABB428-56C5-4D0D-801B-93167D0B5943}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.Abstractions", "src\Tentakel.Extensions.Logging.Abstractions\Tentakel.Extensions.Logging.Abstractions.csproj", "{B0CFB85B-514E-4B8D-9D3F-8AF2AF3FFE98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.Test", "tests\Tentakel.Extensions.Logging.Test\Tentakel.Extensions.Logging.Test.csproj", "{4F0F7C2F-F1AA-4EAD-9BAC-D7C34090D1B6}"
 EndProject
@@ -29,10 +27,6 @@ Global
 		{0CABB428-56C5-4D0D-801B-93167D0B5943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CABB428-56C5-4D0D-801B-93167D0B5943}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CABB428-56C5-4D0D-801B-93167D0B5943}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0CFB85B-514E-4B8D-9D3F-8AF2AF3FFE98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0CFB85B-514E-4B8D-9D3F-8AF2AF3FFE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0CFB85B-514E-4B8D-9D3F-8AF2AF3FFE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0CFB85B-514E-4B8D-9D3F-8AF2AF3FFE98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F0F7C2F-F1AA-4EAD-9BAC-D7C34090D1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F0F7C2F-F1AA-4EAD-9BAC-D7C34090D1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F0F7C2F-F1AA-4EAD-9BAC-D7C34090D1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,7 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B78FC8AD-CDF3-4A20-BD26-6209E1E3ABBF} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
 		{0CABB428-56C5-4D0D-801B-93167D0B5943} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
-		{B0CFB85B-514E-4B8D-9D3F-8AF2AF3FFE98} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
 		{4F0F7C2F-F1AA-4EAD-9BAC-D7C34090D1B6} = {A2987C76-E7C2-4631-A5B4-B44CF0F00564}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
