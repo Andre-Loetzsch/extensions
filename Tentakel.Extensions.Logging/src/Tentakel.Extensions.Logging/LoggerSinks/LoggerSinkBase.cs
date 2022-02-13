@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 
 namespace Tentakel.Extensions.Logging.LoggerSinks
 {
-    public abstract class LoggerSinkBase : ILoggerSink
+    public abstract class LoggerSinkBase : ILoggerSink, IDisposable
     {
         protected LoggerSinkBase()
         {
@@ -24,5 +25,29 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
         }
 
         public abstract void Log(LogEntry logEntry);
+
+        #region IDisposable
+
+        private bool _isDisposed;
+
+        ~LoggerSinkBase()
+        {
+            this?.Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this._isDisposed) return;
+            this._isDisposed = true;
+
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

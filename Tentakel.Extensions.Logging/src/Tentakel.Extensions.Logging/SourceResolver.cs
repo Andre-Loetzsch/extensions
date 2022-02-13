@@ -15,7 +15,7 @@ namespace Tentakel.Extensions.Logging
 
         static SourceResolver()
         {
-            typeIgnoreList.Add(Type.GetType("System.Threading.ThreadHelper", true));
+            //typeIgnoreList.Add(Type.GetType("System.Threading.ThreadHelper", true));
             typeIgnoreList.Add(typeof(Thread));
             typeIgnoreList.Add(typeof(ExecutionContext));
             typeIgnoreList.Add(typeof(BackgroundWorker));
@@ -31,9 +31,9 @@ namespace Tentakel.Extensions.Logging
 
         public static bool TryFindStackTraceSource(Type logSourceType, StackTrace stackTrace, out string stackTraceSource)
         {
-            if (stackTrace == null) throw new ArgumentNullException(nameof(stackTrace));
             stackTraceSource = null;
 
+            if (stackTrace == null) return false;
             if (stackTrace.FrameCount == 0) return false;
 
             var frames = stackTrace.GetFrames();

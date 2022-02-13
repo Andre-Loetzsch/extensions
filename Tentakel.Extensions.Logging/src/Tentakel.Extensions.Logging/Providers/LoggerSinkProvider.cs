@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Configuration;
 using Tentakel.Extensions.Logging.Loggers;
@@ -15,21 +15,28 @@ namespace Tentakel.Extensions.Logging.Providers
         private IExternalScopeProvider _scopeProvider;
         private readonly BackgroundWorker _backgroundWorker;
         private readonly Dictionary<string, ILoggerSink> _loggerSinks = new(StringComparer.Ordinal);
+        private readonly AutoResetEvent _wait = new(false);
 
+
+        public LoggerSinkProvider()
+        {
+            this._backgroundWorker = new BackgroundWorker(this);
+            this._backgroundWorker.Start();
+        }
 
         public LoggerSinkProvider(IConfiguredTypesOptionsMonitor<ILoggerSink> options)
         {
             this._options = options ?? throw new ArgumentNullException(nameof(options));
-            
+
             this._options.OnChange((sink, name, _) =>
             {
                 if (this.ConfigurationName != name) return;
                 this.AddOrUpdateLoggerSink(sink);
             });
-           
+
             this.AddOrUpdateLoggerSinks(options.GetAll());
 
-            this._backgroundWorker = new BackgroundWorker(new Logger(this, "Tentakel.Logger"));
+            this._backgroundWorker = new BackgroundWorker(this);
             this._backgroundWorker.Start();
         }
 
@@ -91,17 +98,7 @@ namespace Tentakel.Extensions.Logging.Providers
         #endregion
 
         #region public member IsEnabled/Log
-
-        public bool WaitOne(TimeSpan timeout)
-        {
-            return this._backgroundWorker.WaitOne(timeout);
-        }
-
-        public bool WaitOne(int millisecondsTimeout)
-        {
-            return this._backgroundWorker.WaitOne(millisecondsTimeout);
-        }
-
+       
         public bool IsEnabled(LogLevel logLevel)
         {
             return this._loggerSinks.Any(x => x.Value.IsEnabled(logLevel));
@@ -109,7 +106,9 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public void Log(LogEntry logEntry)
         {
-            logEntry.StackTrace ??= new StackTrace();
+
+            // TODO logEntry.StackTrace ??= new StackTrace();
+            //logEntry.StackTrace ??= new StackTrace();
 
             this.ScopeProvider?.ForEachScope((value, loggingProps) =>
             {
@@ -136,31 +135,95 @@ namespace Tentakel.Extensions.Logging.Providers
                         }
                 }
             }, logEntry.State);
-             
 
-            this._backgroundWorker.AddBackgroundAction(() =>
-            {
-                var loggerSinks = this._loggerSinks.Values
-                    .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
-                                x.IsEnabled(logEntry.LogLevel)).ToList();
+            this._backgroundWorker.AddLogEntry(logEntry);
 
-                foreach (var loggerSink in loggerSinks)
-                {
-                    if (string.IsNullOrEmpty(logEntry.Source) &&
-                        SourceResolver.TryFindStackTraceSource(loggerSink.GetType(), logEntry.StackTrace, out var source))
-                    {
-                        logEntry.Source = source;
-                    }
+            //this.InternalLog(logEntry);
 
-                    logEntry.LoggerSinkName = loggerSink.Name;
-                    logEntry.LoggerSinkType = loggerSink.GetType();
-                    loggerSink.Log(logEntry);
-                }
 
-                logEntry.LoggerSinkName = null;
-                logEntry.LoggerSinkType = null;
-            });
+            //this._backgroundWorker.AddBackgroundAction(() =>
+            //{
+            //    var loggerSinks = this._loggerSinks.Values
+            //        .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
+            //                    x.IsEnabled(logEntry.LogLevel)).ToList();
+
+            //    foreach (var loggerSink in loggerSinks)
+            //    {
+            //        if (string.IsNullOrEmpty(logEntry.Source) &&
+            //            SourceResolver.TryFindStackTraceSource(loggerSink.GetType(), logEntry.StackTrace, out var source))
+            //        {
+            //            logEntry.Source = source;
+            //        }
+
+            //        logEntry.LoggerSinkName = loggerSink.Name;
+            //        logEntry.LoggerSinkType = loggerSink.GetType().Name;
+            //        loggerSink.Log(logEntry);
+            //    }
+
+            //    logEntry.LoggerSinkName = null;
+            //    logEntry.LoggerSinkType = null;
+            //});
+
+            //var loggerSinks = this._loggerSinks.Values
+            //        .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
+            //                    x.IsEnabled(logEntry.LogLevel)).ToList();
+
+            //foreach (var loggerSink in loggerSinks)
+            //{
+            //    if (string.IsNullOrEmpty(logEntry.Source) &&
+            //        SourceResolver.TryFindStackTraceSource(loggerSink.GetType(), logEntry.StackTrace, out var source))
+            //    {
+            //        logEntry.Source = source;
+            //    }
+
+            //    logEntry.LoggerSinkName = loggerSink.Name;
+            //    logEntry.LoggerSinkType = loggerSink.GetType().Name;
+
+            //    this._backgroundWorker.AddBackgroundAction(() =>
+            //    {
+            //        loggerSink.Log(logEntry);
+            //    });
+
+
+            //}
+
+            //logEntry.LoggerSinkName = null;
+            //logEntry.LoggerSinkType = null;
+
+
+            //var loggerSinks = this._loggerSinks.Values
+            //    .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
+            //                x.IsEnabled(logEntry.LogLevel)).ToList();
+
+            //foreach (var loggerSink in loggerSinks)
+            //{
+            //    if (string.IsNullOrEmpty(logEntry.Source) &&
+            //        SourceResolver.TryFindStackTraceSource(loggerSink.GetType(), logEntry.StackTrace, out var source))
+            //    {
+            //        logEntry.Source = source;
+            //    }
+
+            //    logEntry.LoggerSinkName = loggerSink.Name;
+            //    logEntry.LoggerSinkType = loggerSink.GetType().Name;
+            //    loggerSink.Log(logEntry);
+            //}
+
+            //logEntry.LoggerSinkName = null;
+            //logEntry.LoggerSinkType = null;
+
         }
+
+
+        public int WaitOn(int millisecondsTimeout)
+        {
+            return this.WaitOn(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        }
+
+        public int WaitOn(TimeSpan timeout)
+        {
+            return this._wait.WaitOne(timeout) ? 0 : this._backgroundWorker.UndoneLogs;
+        }
+
 
         #endregion
 
@@ -169,6 +232,36 @@ namespace Tentakel.Extensions.Logging.Providers
         internal IExternalScopeProvider ScopeProvider
         {
             get { return this._scopeProvider ??= new LoggerExternalScopeProvider(); }
+        }
+
+        internal void InternalLog(LogEntry logEntry)
+        {
+            var loggerSinks = this._loggerSinks.Values
+                  .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
+                              x.IsEnabled(logEntry.LogLevel)).ToList();
+
+            foreach (var loggerSink in loggerSinks)
+            {
+                if (string.IsNullOrEmpty(logEntry.Source) &&
+                    SourceResolver.TryFindStackTraceSource(loggerSink.GetType(), logEntry.StackTrace, out var source))
+                {
+                    logEntry.Source = source;
+                }
+
+                logEntry.LoggerSinkName = loggerSink.Name;
+                logEntry.LoggerSinkType = loggerSink.GetType().Name;
+                loggerSink.Log(logEntry);
+            }
+
+            logEntry.LoggerSinkName = null;
+            logEntry.LoggerSinkType = null;
+
+        }
+
+        internal void BackgroundStackIsEmpty()
+        {
+            this._wait.Reset();
+            this._wait.Set();
         }
 
         #endregion
@@ -185,7 +278,7 @@ namespace Tentakel.Extensions.Logging.Providers
             {
                 this._backgroundWorker.Dispose();
             }
-            catch 
+            catch
             {
                 // Swallow exceptions on dispose.
             }

@@ -47,7 +47,7 @@ namespace Tentakel.Extensions.Logging
         public string ProcessName { get; set; } = processName;
         public int ThreadId { get; set; }
         public string ThreadName { get; set; }
-        public Type LoggerSinkType { get; set; }
+        public string LoggerSinkType { get; set; }
         public string LoggerSinkName { get; set; }
         public StackTrace StackTrace { get; set; }
         public Exception Exception { get; set; }
