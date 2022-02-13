@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Tentakel.Extensions.Logging.Background;
 using Tentakel.Extensions.Logging.Loggers;
 using Tentakel.Extensions.Logging.Providers;
 

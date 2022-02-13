@@ -23,6 +23,7 @@ namespace Tentakel.Extensions.Logging.JsonFile.Tests
             for (var i = 0; i < 1000000; ++i)
             {
                 logger.LogDebug("Hello, file logger!");
+                //Thread.Sleep(1);
             }
 
             var diff = DateTime.Now - now;
@@ -39,8 +40,12 @@ namespace Tentakel.Extensions.Logging.JsonFile.Tests
 
             Debug.WriteLine($"ElapsedSeconds: {diff2.TotalSeconds} Total: {total.TotalSeconds}");
 
-            Thread.Sleep(15000);
+            for (int i = 0; i < 200; i++)
+            {
+                GC.Collect(0);
+                Thread.Sleep(1000);
+            }
 
-         }
+        }
     }
 }
