@@ -1,27 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
 
-namespace Tentakel.Extensions.Logging
+namespace Tentakel.Extensions.Logging.Background
 {
     internal class BackgroundWorker : IDisposable
     {
         private LoggerSinkProvider _provider;
         private readonly ILogger _logger;
-
         private Thread BackgroundThread;
-
-        private readonly List<LogEntry> _logEntryCache = new();
-        private readonly List<LogEntry> _logEntryBackgroundStack = new();
-
         private readonly ManualResetEvent _wait;
-
         private bool _logEntryBackgroundStackIsEmpty = true;
-
+        private LogEntryStackManager _logEntryStackManager = new();
         public BackgroundWorker(LoggerSinkProvider provider)
         {
             this._provider = provider;
@@ -35,23 +28,21 @@ namespace Tentakel.Extensions.Logging
         {
             get
             {
-                lock (this._logEntryCache)
+                lock (this._logEntryStackManager)
                 {
-                    return this._logEntryCache.Count + this._logEntryBackgroundStack.Count;
+                    return this._logEntryStackManager.AddStack.Length + this._logEntryStackManager.GetStack.Length;
                 }
             }
         }
-
-
 
         public void AddLogEntry(LogEntry logEntry)
         {
             if (this.IsDisposed) return;
             if (logEntry == null) return;
 
-            lock (this._logEntryCache)
+            lock (this._logEntryStackManager)
             {
-                this._logEntryCache.Add(logEntry);
+                this._logEntryStackManager.AddLogEntry(logEntry);
                 if (!this._logEntryBackgroundStackIsEmpty) return;
                 this._wait.Reset();
                 this._wait.Set();
@@ -102,7 +93,7 @@ namespace Tentakel.Extensions.Logging
                 }
                 else
                 {
-                    lock (this._logEntryCache)
+                    lock (this._logEntryStackManager)
                     {
                         this._logEntryBackgroundStackIsEmpty = true;
                         this._provider.BackgroundStackIsEmpty();
@@ -111,9 +102,9 @@ namespace Tentakel.Extensions.Logging
                     this._wait.Reset();
                     this._wait.WaitOne();
 
-                    Thread.Sleep(10);
+                    //Thread.Sleep(10);
 
-                    lock (this._logEntryCache)
+                    lock (this._logEntryStackManager)
                     {
                         this._logEntryBackgroundStackIsEmpty = false;
                     }
@@ -121,34 +112,20 @@ namespace Tentakel.Extensions.Logging
             }
         }
 
-        private int _index;
-
         private LogEntry GetNextLogEntry()
         {
-            this._index++;
+            var next = this._logEntryStackManager.GetLogEntry();
 
-            if (this._index >=  this._logEntryBackgroundStack.Count)
+            if (next == null)
             {
-                this._index = 0;
-
-                lock (this._logEntryCache)
+                lock (this._logEntryStackManager)
                 {
-                    Debug.WriteLine($"_logEntryCache.Count: {_logEntryCache.Count}");
-
-                    this._logEntryBackgroundStack.Clear();
-                    this._logEntryBackgroundStack.AddRange(this._logEntryCache);
-                    this._logEntryCache.Clear();
-
-                    if (this._logEntryBackgroundStack.Count == 0) return null;
-
+                    this._logEntryStackManager.ChangPointer();
+                    next = this._logEntryStackManager.GetLogEntry();
                 }
             }
 
-            //next = this._logEntryBackgroundStack.FirstOrDefault();
-            //if (next != null) this._logEntryBackgroundStack.Remove(next);
-
-            return this._logEntryBackgroundStack[this._index];
-
+            return next;
         }
 
         #region IDisposable
@@ -170,14 +147,12 @@ namespace Tentakel.Extensions.Logging
             this.Stop();
             this.IsDisposed = true;
 
-            this._logEntryCache.Clear();
-            this._logEntryBackgroundStack.Clear();
+            this._logEntryStackManager.Dispose();
 
             if (this._wait?.SafeWaitHandle != null && !this._wait.SafeWaitHandle.IsClosed)
             {
                 this._wait.Dispose();
             }
-
 
             if (disposing) GC.SuppressFinalize(this);
         }
