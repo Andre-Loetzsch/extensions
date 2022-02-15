@@ -2,6 +2,7 @@
 using Xunit;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Tentakel.Extensions.Logging.JsonFile.Tests
 {
@@ -22,7 +23,7 @@ namespace Tentakel.Extensions.Logging.JsonFile.Tests
 
             for (var i = 0; i < 1000000; ++i)
             {
-                logger.LogDebug("Hello, file logger!");
+                logger.LogDebug1("Hello, file logger!");
                 //Thread.Sleep(1);
             }
 
@@ -40,12 +41,34 @@ namespace Tentakel.Extensions.Logging.JsonFile.Tests
 
             Debug.WriteLine($"ElapsedSeconds: {diff2.TotalSeconds} Total: {total.TotalSeconds}");
 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 20; i++)
             {
                 GC.Collect(0);
                 Thread.Sleep(1000);
             }
 
         }
+    }
+
+    public static class Extensions
+    {
+        public static void LogDebug1(this ILogger logger, string? message, [CallerMemberName] string member = "", [CallerFilePath] string source = "", params object[] args)
+        {
+            var list = new List<object>(new object[]{member, source });
+
+            if (args != null)  list.AddRange(args);
+
+            logger.Log(LogLevel.Debug, message, list.ToArray());
+        }
+
+        public static void LogDebug(this ILogger logger, Exception? exception, string? message, 
+            [CallerMemberName] string member = "", [CallerFilePath] string source = "",  params object?[] args)
+        {
+
+
+
+            logger.Log(LogLevel.Debug, exception, message, args);
+        }
+
     }
 }
