@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 
@@ -47,7 +48,7 @@ namespace Tentakel.Extensions.Logging
         public string ProcessName { get; set; } = processName;
         public int ThreadId { get; set; }
         public string ThreadName { get; set; }
-        public string LoggerSinkType { get; set; }
+        public Type LoggerSinkType { get; set; }
         public string LoggerSinkName { get; set; }
         public StackTrace StackTrace { get; set; }
         public Exception Exception { get; set; }
@@ -57,7 +58,57 @@ namespace Tentakel.Extensions.Logging
         public string LogCategory { get; set; }
         public int EventId { get; set; }
         public string SourceCategory { get; set; }
-        public string Source { get; set; }
+
+
+        internal string _source;
+        public string Source
+        { 
+            get
+            {
+                if (string.IsNullOrEmpty(this._source) &&
+                 this.Attributes.TryGetValue("assembly.FullName", out var value) && value is string assemblyFullName &&
+                    this.Attributes.TryGetValue("callerFilePath", out value) && value is string callerFilePath &&
+                    this.Attributes.TryGetValue("callerMemberName", out value) && value is string callerMemberName &&
+                    this.Attributes.TryGetValue("callerLineNumber", out value) && value is int callerLineNumber)
+                {
+
+                    var assemblyName = assemblyFullName.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    var indexOf = callerFilePath.IndexOf(assemblyName);
+
+                    if (indexOf > 0)
+                    {
+                        var source = string
+                            .Join(".", callerFilePath
+                            .Replace("\\", ".")
+                            .Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[..^1])[indexOf..];
+
+                        this._source = $"{source}.{callerMemberName}[{callerLineNumber}]";
+                    }
+                }
+                else
+                {
+                    if (this.StackTrace != null)
+                    {
+                        if (SourceResolver.TryFindStackTraceSource(this.LoggerSinkType, this.StackTrace, out var source))
+                        {
+                            this._source = source;
+                        }
+                    }
+                }
+
+                return this._source;    
+            }
+
+            set
+            {
+                this._source = value;   
+            }
+        }
+
+
+
+
+
         public string Message { get; set; }
         public string DateTimeFormat { get; set; }
         public IDictionary<string, object> Attributes { get; set; }

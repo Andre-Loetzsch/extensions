@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
@@ -99,7 +100,7 @@ namespace Tentakel.Extensions.Logging.Providers
         #endregion
 
         #region public member IsEnabled/Log
-       
+
         public bool IsEnabled(LogLevel logLevel)
         {
             return this._loggerSinks.Any(x => x.Value.IsEnabled(logLevel));
@@ -108,8 +109,11 @@ namespace Tentakel.Extensions.Logging.Providers
         public void Log(LogEntry logEntry)
         {
 
-            // TODO logEntry.StackTrace ??= new StackTrace();
-            //logEntry.StackTrace ??= new StackTrace();
+            if (string.IsNullOrEmpty(logEntry._source) && !logEntry.Attributes.ContainsKey("callerFilePath"))
+            {
+                // TODO logEntry.StackTrace ??= new StackTrace();
+                logEntry.StackTrace ??= new StackTrace();
+            }
 
             this.ScopeProvider?.ForEachScope((value, loggingProps) =>
             {
@@ -169,20 +173,15 @@ namespace Tentakel.Extensions.Logging.Providers
 
         internal void InternalLog(LogEntry logEntry)
         {
+
             var loggerSinks = this._loggerSinks.Values
                   .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
                               x.IsEnabled(logEntry.LogLevel)).ToList();
 
             foreach (var loggerSink in loggerSinks)
             {
-                if (string.IsNullOrEmpty(logEntry.Source) &&
-                    SourceResolver.TryFindStackTraceSource(loggerSink.GetType(), logEntry.StackTrace, out var source))
-                {
-                    logEntry.Source = source;
-                }
-
                 logEntry.LoggerSinkName = loggerSink.Name;
-                logEntry.LoggerSinkType = loggerSink.GetType().Name;
+                logEntry.LoggerSinkType = loggerSink.GetType();
                 loggerSink.Log(logEntry);
             }
 
@@ -198,6 +197,7 @@ namespace Tentakel.Extensions.Logging.Providers
         }
 
         #endregion
+
 
         #region IDisposable
 

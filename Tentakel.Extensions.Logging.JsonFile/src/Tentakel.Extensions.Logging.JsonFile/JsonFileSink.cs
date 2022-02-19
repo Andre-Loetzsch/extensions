@@ -69,11 +69,12 @@ namespace Tentakel.Extensions.Logging.JsonFile
 
 
 
-            var buffer = Encoding.UTF8.GetBytes($"{logEntry.LogEntryId:000000} {logEntry.DateTime:yyyy.MM.dd hh:mm:ss} {logEntry.Message}\r\n");
+            var buffer = Encoding.UTF8.GetBytes($"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] {logEntry.Source} - {logEntry.Message}\r\n");
+            //var buffer = Encoding.UTF8.GetBytes($"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] {logEntry.Message}\r\n");
             //var buffer = Encoding.UTF8.GetBytes($"{json},\r\n");
 
             //var buffer = Encoding.UTF8.GetBytes(string.Concat(logEntry.ToString(), Environment.NewLine));
-
+ 
 
             //this._fileStream.Write(buffer, 0, buffer.Length);
             //this._fileStream.Flush();
