@@ -102,7 +102,7 @@ namespace Tentakel.Extensions.Logging.Background
                     this._wait.Reset();
                     this._wait.WaitOne();
 
-                    //Thread.Sleep(10);
+                    //Thread.Sleep(50);
 
                     lock (this._logEntryStackManager)
                     {
