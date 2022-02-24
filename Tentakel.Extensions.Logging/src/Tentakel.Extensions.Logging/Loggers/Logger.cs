@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
+using Tentakel.Extensions.Logging.SourceHelper;
 
 namespace Tentakel.Extensions.Logging.Loggers
 {
@@ -9,6 +11,7 @@ namespace Tentakel.Extensions.Logging.Loggers
     {
         private readonly LoggerSinkProvider _loggerProvider;
         private readonly string _category;
+        private SourceCache _sourceCache = new();
 
         internal Logger(LoggerSinkProvider loggerProvider, string category)
         {
@@ -23,6 +26,7 @@ namespace Tentakel.Extensions.Logging.Loggers
                 logEntry = new LogEntry
                 {
                     LogLevel = logLevel,
+                    LogCategory = this._category,
                     EventId = eventId.Id,
                     Message = state.ToString(),
                     State = state,
@@ -33,9 +37,39 @@ namespace Tentakel.Extensions.Logging.Loggers
                 {
                     logEntry.Attributes = new Dictionary<string, object>(attributes);
                 }
+
+                // TODO edit contitions
+                if (string.IsNullOrEmpty(logEntry._source))
+                {
+                    var originalFormat = logEntry.Attributes.TryGetValue("{OriginalFormat}", out var value) ? value : null;
+                    var callerFilePath = logEntry.Attributes.TryGetValue("{CallerFilePath}", out value) ? value : null;
+                    var callerMemberName = logEntry.Attributes.TryGetValue("{CallerMemberName}", out value) ? value : null;
+                    var callerLineNumber = logEntry.Attributes.TryGetValue("{CallerLineNumber}", out value) ? value : null;
+                    var sourceKey = $"{originalFormat}:{callerFilePath}:{callerMemberName}:{callerLineNumber}:{callerLineNumber}";
+
+                    //var sourceKey = (string)originalFormat;
+
+
+                    if (this._sourceCache.TryGetSource(sourceKey, out var source))
+                    {
+                        logEntry._source = source;
+                    }
+                    else
+                    {
+                        if (SourceResolver.TryFindFromStackTrace(logEntry.LoggerSinkType, new StackTrace(), out source))
+                        {
+                            logEntry.Source = source;
+                            this._sourceCache.AddSource(sourceKey, source);
+                        }
+                    }
+
+                    //else
+                    //{
+                    //    logEntry.StackTrace ??= new StackTrace();
+                    //}
+                }
             }
 
-            logEntry.SourceCategory = this._category;
             this._loggerProvider.Log(logEntry);
         }
 

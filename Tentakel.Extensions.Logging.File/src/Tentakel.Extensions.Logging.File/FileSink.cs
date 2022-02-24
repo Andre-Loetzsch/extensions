@@ -3,7 +3,7 @@ using Tentakel.Extensions.Logging.LoggerSinks;
 
 namespace Tentakel.Extensions.Logging.JsonFile
 {
-    public class JsonFileSink : LoggerSinkBase
+    public class FileSink : LoggerSinkBase
     {
 
         private FileStream? _fileStream;
@@ -69,7 +69,7 @@ namespace Tentakel.Extensions.Logging.JsonFile
 
 
 
-            var buffer = Encoding.UTF8.GetBytes($"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] {logEntry.Source} - {logEntry.Message}\r\n");
+            var buffer = Encoding.UTF8.GetBytes($"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}\r\n");
             //var buffer = Encoding.UTF8.GetBytes($"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] {logEntry.Message}\r\n");
             //var buffer = Encoding.UTF8.GetBytes($"{json},\r\n");
 

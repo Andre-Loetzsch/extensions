@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Configuration;
-using Tentakel.Extensions.Logging.Background;
+using Tentakel.Extensions.Logging.BackgroundWork;
 using Tentakel.Extensions.Logging.Loggers;
 
 namespace Tentakel.Extensions.Logging.Providers
@@ -18,7 +17,6 @@ namespace Tentakel.Extensions.Logging.Providers
         private readonly BackgroundWorker _backgroundWorker;
         private readonly Dictionary<string, ILoggerSink> _loggerSinks = new(StringComparer.Ordinal);
         private readonly AutoResetEvent _wait = new(false);
-
 
         public LoggerSinkProvider()
         {
@@ -108,13 +106,6 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public void Log(LogEntry logEntry)
         {
-
-            if (string.IsNullOrEmpty(logEntry._source) && !logEntry.Attributes.ContainsKey("callerFilePath"))
-            {
-                // TODO logEntry.StackTrace ??= new StackTrace();
-                logEntry.StackTrace ??= new StackTrace();
-            }
-
             this.ScopeProvider?.ForEachScope((value, loggingProps) =>
             {
                 var scope = new LogScopeInfo();
@@ -142,10 +133,7 @@ namespace Tentakel.Extensions.Logging.Providers
             }, logEntry.State);
 
             this._backgroundWorker.AddLogEntry(logEntry);
-
-            //this.InternalLog(logEntry);
         }
-
 
         public int WaitOn(int millisecondsTimeout)
         {
@@ -175,7 +163,7 @@ namespace Tentakel.Extensions.Logging.Providers
         {
 
             var loggerSinks = this._loggerSinks.Values
-                  .Where(x => x.Categories.Contains(logEntry.SourceCategory) &&
+                  .Where(x => x.Categories.Contains(logEntry.LogCategory) &&
                               x.IsEnabled(logEntry.LogLevel)).ToList();
 
             foreach (var loggerSink in loggerSinks)
