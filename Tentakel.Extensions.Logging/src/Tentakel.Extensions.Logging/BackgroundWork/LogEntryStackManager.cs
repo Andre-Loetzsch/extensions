@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Tentakel.Extensions.Logging.Background
+namespace Tentakel.Extensions.Logging.BackgroundWork
 {
     internal class LogEntryStackManager : IDisposable
     {
         private LogEntryStack[] _stacks = new LogEntryStack[2];
-        private LogEntryStackPointer _pointer  = new ();
+        private LogEntryStackPointer _pointer = new();
 
         public LogEntryStackManager()
         {

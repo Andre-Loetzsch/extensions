@@ -17,8 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Tentakel.Extensions.Configuration\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj" />
-    <ProjectReference Include="..\..\..\Tentakel.Extensions.Logging.JsonFile\src\Tentakel.Extensions.Logging.JsonFile\Tentakel.Extensions.Logging.JsonFile.csproj" />
     <ProjectReference Include="..\..\..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.csproj" />
+    <ProjectReference Include="..\..\src\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.csproj" />
   </ItemGroup>
 
 </Project>

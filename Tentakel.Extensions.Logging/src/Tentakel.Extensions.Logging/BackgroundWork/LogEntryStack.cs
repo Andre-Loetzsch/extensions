@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Tentakel.Extensions.Logging.Background
+namespace Tentakel.Extensions.Logging.BackgroundWork
 {
     internal class LogEntryStack
     {

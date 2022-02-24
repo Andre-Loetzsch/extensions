@@ -1,10 +1,30 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Runtime.CompilerServices;
 using Tentakel.Extensions.Logging.Abstractions.Performance;
 
 namespace Tentakel.Extensions.Logging.Abstractions
 {
     public static class LoggerExtensions
     {
+        private static readonly object loggerMapperSync = new();
+
+        public static ILogger AddCallerInfos(this ILogger logger,
+            [CallerFilePath] string callerFilePath = "",
+            [CallerMemberName] string callerMemberName = "",
+            [CallerLineNumber] int callerLineNumber = 0)
+        {
+            lock (loggerMapperSync)
+            {
+                var loggerMapper = new LoggerMapper { Logger = logger };
+                loggerMapper.AdditionalData.Clear();
+                loggerMapper.AdditionalData["{CallerFilePath}"] = callerFilePath;
+                loggerMapper.AdditionalData["{CallerMemberName}"] = callerMemberName;
+                loggerMapper.AdditionalData["{CallerLineNumber}"] = callerLineNumber;
+                return loggerMapper;
+            }
+        }
+
+
         public static PerformanceScope BeginPerformanceScope<TState>(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, TState state)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));

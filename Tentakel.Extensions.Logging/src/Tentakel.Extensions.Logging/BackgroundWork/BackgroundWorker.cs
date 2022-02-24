@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
 
-namespace Tentakel.Extensions.Logging.Background
+namespace Tentakel.Extensions.Logging.BackgroundWork
 {
     internal class BackgroundWorker : IDisposable
     {
