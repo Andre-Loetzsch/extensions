@@ -44,7 +44,7 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
 
             var foregroundColor = Console.ForegroundColor;
             Console.ForegroundColor = this.ForegroundColor;
-            Console.WriteLine($"{logEntry.DateTime.ToString(logEntry.DateTimeFormat)}|{logEntry.EventId}|{logEntry.LogLevel}|{logEntry.LoggerSinkName}|{logEntry.Source}|{logEntry.Message}|Attributes:{logEntry.Attributes.ToLogString()}|Scope:{sb}");
+            Console.WriteLine($"{logEntry.DateTime:yyyy-MM-dd HH:mm:ss fff}|{logEntry.EventId}|{logEntry.LogLevel}|{logEntry.LoggerSinkName}|{logEntry.Source}|{logEntry.Message}|Attributes:{logEntry.Attributes.ToLogString()}|Scope:{sb}");
             Console.ForegroundColor = foregroundColor;
             Console.WriteLine();
         }

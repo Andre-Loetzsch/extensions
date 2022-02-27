@@ -13,11 +13,19 @@ namespace Tentakel.Extensions.Logging.JsonFile.Tests
 
             var loggerSinkProvider = new LoggerSinkProvider();
 
-            loggerSinkProvider.AddOrUpdateLoggerSink(new FileSink { Categories = new[] { "test" }, LogLevel = LogLevel.Debug, Name = "Unit Test Sink" });
+            loggerSinkProvider.AddOrUpdateLoggerSink(new FileSink
+            {
+                Categories = new[] { "test" },
+                LogLevel = LogLevel.Debug,
+                Name = "Unit Test Sink",
+                OverrideExistingFile = true,
+                MaxFileSize = 500_000_000,
+                FileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.Trace.log"
+            });
 
             ILogger logger = loggerSinkProvider.CreateLogger("test");
 
-
+            logger.LogDebug("Hello, file logger! Init");
             var now = DateTime.Now;
 
             for (var i = 0; i < 1000000; ++i)

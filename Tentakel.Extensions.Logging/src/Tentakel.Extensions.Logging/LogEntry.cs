@@ -29,7 +29,6 @@ namespace Tentakel.Extensions.Logging
 
             this.Attributes = new Dictionary<string, object>();
             this.LogCategory = string.Empty;
-            this.DateTimeFormat = "yyyy-MM-dd HH:mm:ss fff";
 
             Interlocked.Increment(ref logEntryId);
             this.LogEntryId = logEntryId;
@@ -78,7 +77,6 @@ namespace Tentakel.Extensions.Logging
         }
         public IDictionary<string, object> Attributes { get; set; }
         public string Message { get; set; }
-        public string DateTimeFormat { get; set; }
         public List<LogScopeInfo> Scopes { get; set; }
 
         #endregion
@@ -94,8 +92,7 @@ namespace Tentakel.Extensions.Logging
                    $"|UserName:{this.UserName}" +
                    $"|LoggerSinkType:{this.LoggerSinkType}" +
                    $"|TraceListenerName:{this.LoggerSinkName}" +
-                   $"|DateTimeFormat:{this.DateTimeFormat}" +
-                   $"|DateTime:{this.DateTime.ToString(this.DateTimeFormat)}" +
+                   $"|DateTime:{this.DateTime:yyyy-MM-dd HH:mm:ss fff}" +
                    $"|LogEntryId:{this.LogEntryId}" +
                    $"|ThreadName:{this.ThreadName}" +
                    $"|ThreadId:{this.ThreadId}" +
