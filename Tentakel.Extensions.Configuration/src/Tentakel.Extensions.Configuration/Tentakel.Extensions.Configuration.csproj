@@ -21,7 +21,7 @@
 
 
   <PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
+    <git-repository Condition="Exists('$(SolutionDir)')"> $([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
     <targeDir>$(git-repository)\.targets</targeDir>
     <Product>Tentakel.Extensions.Configuration</Product>
   </PropertyGroup>
@@ -35,10 +35,5 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
   </ItemGroup>
- 
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <!--Exec Command="$(ProjectDir)_build.cmd" /-->
-  </Target>
 
 </Project>
