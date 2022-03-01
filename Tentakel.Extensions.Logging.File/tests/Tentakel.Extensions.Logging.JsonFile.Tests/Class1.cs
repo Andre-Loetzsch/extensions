@@ -16,6 +16,7 @@ namespace Tentakel.Extensions.Logging.JsonFile.Tests
             loggerSinkProvider.AddOrUpdateLoggerSink(new FileSink
             {
                 Categories = new[] { "test" },
+                
                 LogLevel = LogLevel.Debug,
                 Name = "Unit Test Sink",
                 OverrideExistingFile = true,
