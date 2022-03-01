@@ -20,5 +20,4 @@
     <ProjectReference Include="..\..\..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.csproj" />
     <ProjectReference Include="..\..\src\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.csproj" />
   </ItemGroup>
-
 </Project>
