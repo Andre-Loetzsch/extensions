@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using Tentakel.Extensions.Logging.LoggerSinks;
 
@@ -27,81 +28,100 @@ namespace Tentakel.Extensions.Logging.JsonFile
         public int MaxFileSize { get; set; }
         public bool OverrideExistingFile { get; set; }
 
-        public override async void Log(LogEntry logEntry)
+        #region Log
+
+        public override void Log(LogEntry logEntry)
         {
             if (this._fileNameExpiryDateTime <= logEntry.DateTime || this._fileStream == null)
             {
-                if (this._fileStream != null) this._fileStream.Close();
-
-                this.SetFileName(logEntry);
-
-                var directory = Path.GetDirectoryName(this.FileName);
-
-                if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                if ( this.OverrideExistingFile)
-                {
-                    var fileExtension = Path.GetExtension(this.FileName) ?? string.Empty;
-                    var index = 1;
-                    var fileName = this.FileName!.Replace(fileExtension, $".Part{index}{fileExtension}");
-
-                    while (File.Exists(fileName))
-                    {
-                        File.Delete(fileName);
-                        index++;
-                        fileName = this.FileName!.Replace(fileExtension, $".Part{index}{fileExtension}");
-                    }
-                }
-
-                this._fileStream = File.Open(this.FileName!, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
-
-                if (!this.OverrideExistingFile)
-                {
-                    this._fileStream.Position = this._fileStream.Length;
-                }
+                this.CreateFile();
             }
-            
-            var logString = this.TextFormatter != null ?
-                this.TextFormatter.Format(logEntry) :
-                $"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}\r\n";
 
-            var buffer = Encoding.UTF8.GetBytes(logString);
+            var buffer = Encoding.UTF8.GetBytes(this.TextFormatter?.Format(logEntry) ?? DefaultFormat(logEntry));
 
-            if (this.MaxFileSize > 0 && this._fileStream.Length + buffer.Length > this.MaxFileSize)
+            if (this.MaxFileSize > 0 && this._fileStream!.Length + buffer.Length > this.MaxFileSize)
             {
-                var fileExtension = Path.GetExtension(this.FileName) ?? string.Empty;
-                var index = 1;
-                var newFileName = this.FileName!.Replace(fileExtension, $".Part{index}{fileExtension}");
-
-                while (File.Exists(newFileName))
-                {
-                    index++;
-                    newFileName = this.FileName!.Replace(fileExtension, $".Part{index}{fileExtension}");
-                }
-
-                this._fileStream.Close();
-                File.Move(this.FileName, newFileName, true);
-                this._fileStream = File.Open(this.FileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
+                this.CreatePartialFile();
             }
 
-            this._fileStream.Write(buffer, 0, buffer.Length);
-            this._fileStream.Flush();
+            this._fileStream!.Write(buffer, 0, buffer.Length);
+            this._fileStream!.Flush();
         }
 
-        private void SetFileName(LogEntry logEntry)
+        #endregion
+
+        #region private methods
+
+        private static string DefaultFormat(LogEntry logEntry)
         {
-            var fileName = this.FileNameTemplate;
+            return $"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}\r\n";
+        }
+
+        private void CreateFile()
+        {
+            (var fileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFomTemplate(this.FileNameTemplate);
+
+            if (this._fileStream != null && this.FileName == fileName) return;
+
+            if (this.OverrideExistingFile && !string.IsNullOrEmpty(this.FileName))
+            {
+                foreach (var partialFile in FindExistsPartialFileNames(this.FileName))
+                {
+                    File.Delete(partialFile);
+                }
+            }
+
+            this.FileName = fileName;
+            this._fileStream?.Close();
+
+            var directory = Path.GetDirectoryName(this.FileName);
+
+            if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            if (this.OverrideExistingFile)
+            {
+                foreach (var partialFile in FindExistsPartialFileNames(this.FileName))
+                {
+                    File.Delete(partialFile);
+                }
+            }
+
+            this._fileStream = File.Open(this.FileName!, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+
+            if (!this.OverrideExistingFile)
+            {
+                this._fileStream.Position = this._fileStream.Length;
+            }
+        }
+
+        private void CreatePartialFile()
+        {
+            this._fileStream?.Close();
+
+            if (string.IsNullOrEmpty(this.FileName))
+            {
+                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFomTemplate(this.FileNameTemplate);
+            }
+
+            File.Move(this.FileName, FindNextPartialFileName(this.FileName), true);
+            this._fileStream = File.Open(this.FileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
+        }
+
+        private static (string, DateTime) CreateFileNameAndExpiryDateTimeFomTemplate(string fileNameTemplate)
+        {
+            var fileName = fileNameTemplate;
             fileName = fileName.Replace('\\', Path.DirectorySeparatorChar);
             fileName = fileName.Replace('/', Path.DirectorySeparatorChar);
 
-            TimeSpan ts = TimeSpan.Zero;
+            var ts = TimeSpan.Zero;
+            var fileDateTime = DateTime.Now;
 
             foreach (var dateTimeFormat in ValuesFormatter.ExtractDateTimeFormats(fileName))
             {
-                var dateTimeAsString = logEntry.DateTime.ToString(dateTimeFormat);
+                var dateTimeAsString = fileDateTime.ToString(dateTimeFormat);
                 var dateTimeAsStringMinValue = new DateTime(1, 1, 1, 1, 1, 1).ToString(dateTimeFormat);
 
                 if (DateTime.TryParseExact(dateTimeAsStringMinValue, dateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
@@ -115,23 +135,24 @@ namespace Tentakel.Extensions.Logging.JsonFile
                 fileName = fileName.Replace(string.Concat("{dateTime:", dateTimeFormat, "}"), dateTimeAsString);
             }
 
+            var fileNameExpiryDateTime = fileDateTime.Date.AddDays(1);
+
             if (ts.Seconds > 0)
             {
-                this._fileNameExpiryDateTime = logEntry.DateTime.AddSeconds(1);
+                fileNameExpiryDateTime = fileDateTime.AddSeconds(1);
             }
             else if (ts.Minutes > 0)
             {
-                this._fileNameExpiryDateTime = logEntry.DateTime.AddMinutes(1);
+                fileNameExpiryDateTime = fileDateTime.AddMinutes(1);
             }
             else if (ts.Hours > 0)
             {
-                this._fileNameExpiryDateTime = logEntry.DateTime.AddMinutes(1);
+                fileNameExpiryDateTime = fileDateTime.AddMinutes(1);
             }
             else if (ts.Days > 0)
             {
-                this._fileNameExpiryDateTime = logEntry.DateTime.Date.AddDays(1);
+                fileNameExpiryDateTime = fileDateTime.Date.AddDays(1);
             }
-
 
             foreach (var key in ValuesFormatter.ExtractKeys(fileName))
             {
@@ -141,16 +162,16 @@ namespace Tentakel.Extensions.Logging.JsonFile
                         fileName = fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory);
                         break;
                     case "processName":
-                        fileName = fileName.Replace("{processName}", logEntry.ProcessName);
+                        fileName = fileName.Replace("{processName}", Process.GetCurrentProcess().ProcessName);
                         break;
                     case "processId":
-                        fileName = fileName.Replace("{processId}", logEntry.ProcessId.ToString());
+                        fileName = fileName.Replace("{processId}", Process.GetCurrentProcess().Id.ToString());
                         break;
                     case "appDomainId":
-                        fileName = fileName.Replace("{appDomainId}", logEntry.AppDomainId.ToString());
+                        fileName = fileName.Replace("{appDomainId}", AppDomain.CurrentDomain.Id.ToString());
                         break;
                     case "applicationName":
-                        fileName = fileName.Replace("{applicationName}", logEntry.ApplicationName);
+                        fileName = fileName.Replace("{applicationName}", AppDomain.CurrentDomain.FriendlyName);
                         break;
 
                     default:
@@ -158,12 +179,41 @@ namespace Tentakel.Extensions.Logging.JsonFile
                 }
             }
 
-            this.FileName = fileName;
+            return (fileName, fileNameExpiryDateTime);
         }
 
+        private static IEnumerable<string> FindExistsPartialFileNames(string fileName)
+        {
+            var fileExtension = Path.GetExtension(fileName) ?? string.Empty;
+            var index = 1;
+            var result = fileName.Replace(fileExtension, $".partial{index}{fileExtension}");
 
+            while (File.Exists(result))
+            {
+                yield return result;
+                index++;
+                result = fileName!.Replace(fileExtension, $".partial{index}{fileExtension}");
+            }
+        }
 
+        private static string FindNextPartialFileName(string fileName)
+        {
+            var fileExtension = Path.GetExtension(fileName) ?? string.Empty;
+            var index = 1;
+            var result = fileName.Replace(fileExtension, $".partial{index}{fileExtension}");
 
+            while (File.Exists(result))
+            {
+                index++;
+                result = fileName!.Replace(fileExtension, $".partial{index}{fileExtension}");
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region IDisposable
 
         protected override void Dispose(bool disposing)
         {
@@ -172,5 +222,7 @@ namespace Tentakel.Extensions.Logging.JsonFile
 
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }
