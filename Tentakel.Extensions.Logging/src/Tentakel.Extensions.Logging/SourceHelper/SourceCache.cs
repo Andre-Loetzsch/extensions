@@ -10,11 +10,11 @@ namespace Tentakel.Extensions.Logging.SourceHelper
         [DebuggerDisplay("Count:{Count} Source:{Source}")]
         private class SourceCacheItem
         {
-            public string Source { get; set; }
+            public string Source { get; init; }
             public int Count { get; set; }
         }
 
-        private Dictionary<string, SourceCacheItem> _cache = new();
+        private readonly Dictionary<string, SourceCacheItem> _cache = new();
 
         public void AddSource(string originalFormat, string source)
         {

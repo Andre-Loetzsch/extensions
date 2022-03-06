@@ -81,7 +81,7 @@ namespace Tentakel.Extensions.Logging.SourceHelper
                 attributes.TryGetValue("{CallerLineNumber}", out value) && value is int callerLineNumber)
             {
                 var assemblyName = assemblyFullName.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries)[0];
-                var indexOf = callerFilePath.IndexOf(assemblyName);
+                var indexOf = callerFilePath.IndexOf(assemblyName, StringComparison.Ordinal);
 
                 if (indexOf == -1)
                 {

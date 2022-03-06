@@ -7,12 +7,12 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
 {
     internal class BackgroundWorker : IDisposable
     {
-        private LoggerSinkProvider _provider;
+        private readonly LoggerSinkProvider _provider;
         private readonly ILogger _logger;
-        private Thread BackgroundThread;
+        private Thread _backgroundThread;
         private readonly ManualResetEvent _wait;
         private bool _logEntryBackgroundStackIsEmpty = true;
-        private LogEntryStackManager _logEntryStackManager = new();
+        private readonly LogEntryStackManager _logEntryStackManager = new();
         public BackgroundWorker(LoggerSinkProvider provider)
         {
             this._provider = provider;
@@ -42,7 +42,6 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             {
                 this._logEntryStackManager.AddLogEntry(logEntry);
                 if (!this._logEntryBackgroundStackIsEmpty) return;
-                this._wait.Reset();
                 this._wait.Set();
             }
         }
@@ -52,14 +51,14 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             if (this.IsDisposed) throw new ObjectDisposedException("BackgroundWorker", SR.BackgroundWorkerHasBeenDisposed);
             if (this.IsRunning) return;
 
-            this.BackgroundThread = new Thread(this.Run)
+            this._backgroundThread = new Thread(this.Run)
             {
                 Name = "TracingBW",
                 IsBackground = true,
                 Priority = ThreadPriority.Lowest
             };
 
-            this.BackgroundThread.Start();
+            this._backgroundThread.Start();
         }
         public void Stop()
         {
@@ -100,8 +99,6 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                     this._wait.Reset();
                     this._wait.WaitOne();
 
-                    //Thread.Sleep(50);
-
                     lock (this._logEntryStackManager)
                     {
                         this._logEntryBackgroundStackIsEmpty = false;
@@ -114,13 +111,12 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
         {
             var next = this._logEntryStackManager.GetLogEntry();
 
-            if (next == null)
+            if (next != null) return next;
+
+            lock (this._logEntryStackManager)
             {
-                lock (this._logEntryStackManager)
-                {
-                    this._logEntryStackManager.ChangPointer();
-                    next = this._logEntryStackManager.GetLogEntry();
-                }
+                this._logEntryStackManager.ChangPointer();
+                next = this._logEntryStackManager.GetLogEntry();
             }
 
             return next;
