@@ -6,7 +6,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
     internal class LogEntryStackManager : IDisposable
     {
         private LogEntryStack[] _stacks = new LogEntryStack[2];
-        private LogEntryStackPointer _pointer = new();
+        private readonly LogEntryStackPointer _pointer = new();
 
         public LogEntryStackManager()
         {
@@ -14,15 +14,9 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             this._stacks[1] = new();
         }
 
-        public LogEntryStack AddStack
-        {
-            get { return this._stacks[this._pointer.AddPointer]; }
-        }
+        public LogEntryStack AddStack => this._stacks[this._pointer.AddPointer];
 
-        public LogEntryStack GetStack
-        {
-            get { return this._stacks[this._pointer.GetPointer]; }
-        }
+        public LogEntryStack GetStack => this._stacks[this._pointer.GetPointer];
 
         public void AddLogEntry(LogEntry logEntry)
         {
@@ -35,11 +29,10 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
 
         }
 
-
         public void ChangPointer()
         {
             this._pointer.Change();
-            Debug.WriteLine($"GetStack: { GetStack.Length}");
+            Debug.WriteLine($"GetStack: {this.GetStack.Length}");
         }
 
         #region IDisposable 

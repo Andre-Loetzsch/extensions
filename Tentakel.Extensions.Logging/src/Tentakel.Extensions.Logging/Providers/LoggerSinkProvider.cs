@@ -135,16 +135,18 @@ namespace Tentakel.Extensions.Logging.Providers
             this._backgroundWorker.AddLogEntry(logEntry);
         }
 
-        public int WaitOn(int millisecondsTimeout)
+        public int WaitOne(int millisecondsTimeout)
         {
-            return this.WaitOn(TimeSpan.FromMilliseconds(millisecondsTimeout));
+            return this.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
         }
 
-        public int WaitOn(TimeSpan timeout)
+        public int WaitOne(TimeSpan timeout)
         {
             lock (this._backgroundWorker)
             {
                 if (this._backgroundWorker.UndoneLogs == 0) return 0;
+
+                this._wait.Reset();
                 return this._wait.WaitOne(timeout) ? 0 : this._backgroundWorker.UndoneLogs;
             }
         }
@@ -175,12 +177,10 @@ namespace Tentakel.Extensions.Logging.Providers
 
             logEntry.LoggerSinkName = null;
             logEntry.LoggerSinkType = null;
-
         }
 
         internal void BackgroundStackIsEmpty()
         {
-            this._wait.Reset();
             this._wait.Set();
         }
 

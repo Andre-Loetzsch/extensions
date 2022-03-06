@@ -11,7 +11,7 @@ namespace Tentakel.Extensions.Logging.Loggers
     {
         private readonly LoggerSinkProvider _loggerProvider;
         private readonly string _category;
-        private SourceCache _sourceCache = new();
+        private readonly SourceCache _sourceCache = new();
 
         internal Logger(LoggerSinkProvider loggerProvider, string category)
         {
@@ -38,21 +38,27 @@ namespace Tentakel.Extensions.Logging.Loggers
                     logEntry.Attributes = new Dictionary<string, object>(attributes);
                 }
 
-                // TODO edit contitions
-                if (string.IsNullOrEmpty(logEntry._source))
+                // TODO edit conditions
+                if (logEntry.IsSourceNullOrEmpty)
                 {
-                    var originalFormat = logEntry.Attributes.TryGetValue("{OriginalFormat}", out var value) ? value : null;
-                    var callerFilePath = logEntry.Attributes.TryGetValue("{CallerFilePath}", out value) ? value : null;
-                    var callerMemberName = logEntry.Attributes.TryGetValue("{CallerMemberName}", out value) ? value : null;
-                    var callerLineNumber = logEntry.Attributes.TryGetValue("{CallerLineNumber}", out value) ? value : null;
-                    var sourceKey = $"{originalFormat}:{callerFilePath}:{callerMemberName}:{callerLineNumber}:{callerLineNumber}";
-
-                    //var sourceKey = (string)originalFormat;
-
+                    var originalFormat = logEntry.Attributes.TryGetValue("{OriginalFormat}", out var value)
+                        ? value
+                        : null;
+                    var callerFilePath = logEntry.Attributes.TryGetValue("{CallerFilePath}", out value)
+                        ? value
+                        : null;
+                    var callerMemberName = logEntry.Attributes.TryGetValue("{CallerMemberName}", out value)
+                        ? value
+                        : null;
+                    var callerLineNumber = logEntry.Attributes.TryGetValue("{CallerLineNumber}", out value)
+                        ? value
+                        : null;
+                    var sourceKey =
+                        $"{originalFormat}:{callerFilePath}:{callerMemberName}:{callerLineNumber}:{callerLineNumber}";
 
                     if (this._sourceCache.TryGetSource(sourceKey, out var source))
                     {
-                        logEntry._source = source;
+                        logEntry.Source = source;
                     }
                     else
                     {
@@ -62,11 +68,6 @@ namespace Tentakel.Extensions.Logging.Loggers
                             this._sourceCache.AddSource(sourceKey, source);
                         }
                     }
-
-                    //else
-                    //{
-                    //    logEntry.StackTrace ??= new StackTrace();
-                    //}
                 }
             }
 

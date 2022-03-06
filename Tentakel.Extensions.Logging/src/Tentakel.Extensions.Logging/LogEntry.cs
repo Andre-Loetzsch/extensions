@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.SourceHelper;
 
 namespace Tentakel.Extensions.Logging
 {
-    [DebuggerDisplay("{LogEntryId} Msg: {Message} LogCategory: SourceCategory: {SourceCategory} Source: {Source}")]
+    [DebuggerDisplay("{LogEntryId} Msg: {Message} LogCategory: SourceCategory: {LogCategory} Source: {Source}")]
     public class LogEntry
     {
         private static long logEntryId;
@@ -57,7 +58,7 @@ namespace Tentakel.Extensions.Logging
         public string LogCategory { get; set; }
         public int EventId { get; set; }
 
-        internal string _source;
+        private string _source;
         public string Source
         {
             get
@@ -70,14 +71,14 @@ namespace Tentakel.Extensions.Logging
 
                 return this._source;
             }
-            set
-            {
-                this._source = value;
-            }
+            set => this._source = value;
         }
+
         public IDictionary<string, object> Attributes { get; set; }
         public string Message { get; set; }
         public List<LogScopeInfo> Scopes { get; set; }
+
+        internal bool IsSourceNullOrEmpty => string.IsNullOrEmpty(this._source);
 
         #endregion
 

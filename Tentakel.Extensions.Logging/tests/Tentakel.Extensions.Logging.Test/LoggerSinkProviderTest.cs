@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -81,7 +82,7 @@ namespace Tentakel.Extensions.Logging.Test
                     .Configure<ConfiguredTypes>("prod", configuration.GetSection("prodCfg"))
                     .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
                     .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
-            
+
 
             }).ConfigureLogging((hostingContext, logging) =>
             {
@@ -116,7 +117,7 @@ namespace Tentakel.Extensions.Logging.Test
 
             Log(loggerA, loggerB, loggerC, loggerD);
 
-            Assert.IsTrue(loggerSinkProvider.WaitOne(300));
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(300));
 
             AssertDefaultCfg(sinks);
 
@@ -129,7 +130,7 @@ namespace Tentakel.Extensions.Logging.Test
 
             Log(loggerA, loggerB, loggerC, loggerD);
 
-            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
             AssertProdCfg(sinks);
 
@@ -142,7 +143,7 @@ namespace Tentakel.Extensions.Logging.Test
 
             Log(loggerA, loggerB, loggerC, loggerD);
 
-            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
             AssertDevCfg(sinks);
         }
@@ -200,7 +201,7 @@ namespace Tentakel.Extensions.Logging.Test
 
             Log(loggerA, loggerB, loggerC, loggerD);
 
-            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
             AssertDefaultCfg(sinks);
 
@@ -213,7 +214,7 @@ namespace Tentakel.Extensions.Logging.Test
 
             Log(loggerA, loggerB, loggerC, loggerD);
 
-            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
             AssertProdCfg(sinks);
 
@@ -226,10 +227,9 @@ namespace Tentakel.Extensions.Logging.Test
 
             Log(loggerA, loggerB, loggerC, loggerD);
 
-            Assert.IsTrue(loggerSinkProvider.WaitOne(3000));
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
             AssertDevCfg(sinks);
-
         }
 
         private static void Log(ILogger loggerA, ILogger loggerB, ILogger loggerC, ILogger loggerD)
