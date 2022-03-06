@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -645,6 +646,8 @@ namespace Tentakel.Extensions.Configuration.Test
             {
                 if (name == "C1A" && class1A != class1) class1A = class1;
                 if (name == "C1B" && class1B != class1) class1B = class1;
+
+                Debug.WriteLine($"(waitHandle.Set() {name} {class1.Property1}");
                 waitHandle.Set();
             });
 
@@ -654,18 +657,56 @@ namespace Tentakel.Extensions.Configuration.Test
             Assert.AreEqual("Value1A", class1A.Property1);
             Assert.AreEqual("Value1B", class1B.Property1);
 
+            waitHandle.Reset();
+
+            Debug.WriteLine("WriteAllText A2");
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A2.json"), "{\"C1A\": {\"Property1\": \"Value2A\"}}");
-            Assert.IsTrue(waitHandle.WaitOne(300));
-            Assert.IsTrue(waitHandle.WaitOne(300));
+
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+            //waitHandle.Reset();
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+            //waitHandle.Reset();
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+
+
+            while (waitHandle.WaitOne(300))
+            {
+                Debug.WriteLine("(waitHandle.WaitOne 1");
+            }
+
+
 
             Assert.AreEqual("Value2A", class1A.Property1);
             Assert.AreEqual("Value1B", class1B.Property1);
 
             waitHandle.Reset();
 
+            Debug.WriteLine("WriteAllText B2");
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "B2.json"), "{\"C1B\": {\"Property1\": \"Value2B\"}}");
-            Assert.IsTrue(waitHandle.WaitOne(300));
-            Assert.IsTrue(waitHandle.WaitOne(300));
+
+
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+            //waitHandle.Reset();
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+            //waitHandle.Reset();
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+            //waitHandle.Reset();
+            //Assert.IsTrue(waitHandle.WaitOne(300));
+
+
+            while (waitHandle.WaitOne(300))
+            {
+                Debug.WriteLine("(waitHandle.WaitOne 2");
+
+            }
+
+            //Thread.Sleep(100);
 
             Assert.AreEqual("Value2A", class1A.Property1);
             Assert.AreEqual("Value2B", class1B.Property1);
