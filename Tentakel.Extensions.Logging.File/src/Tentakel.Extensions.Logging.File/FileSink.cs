@@ -2,8 +2,9 @@
 using System.Globalization;
 using System.Text;
 using Tentakel.Extensions.Logging.LoggerSinks;
+using IOFile = System.IO.File;
 
-namespace Tentakel.Extensions.Logging.JsonFile
+namespace Tentakel.Extensions.Logging.File
 {
     public class FileSink : LoggerSinkBase
     {
@@ -67,7 +68,7 @@ namespace Tentakel.Extensions.Logging.JsonFile
             {
                 foreach (var partialFile in FindExistsPartialFileNames(this.FileName))
                 {
-                    File.Delete(partialFile);
+                    IOFile.Delete(partialFile);
                 }
             }
 
@@ -85,11 +86,11 @@ namespace Tentakel.Extensions.Logging.JsonFile
             {
                 foreach (var partialFile in FindExistsPartialFileNames(this.FileName))
                 {
-                    File.Delete(partialFile);
+                    IOFile.Delete(partialFile);
                 }
             }
 
-            this._fileStream = File.Open(this.FileName!, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            this._fileStream = IOFile.Open(this.FileName!, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
 
             if (!this.OverrideExistingFile)
             {
@@ -106,8 +107,8 @@ namespace Tentakel.Extensions.Logging.JsonFile
                 (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFomTemplate(this.FileNameTemplate);
             }
 
-            File.Move(this.FileName, FindNextPartialFileName(this.FileName), true);
-            this._fileStream = File.Open(this.FileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
+            IOFile.Move(this.FileName, FindNextPartialFileName(this.FileName), true);
+            this._fileStream = IOFile.Open(this.FileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
         }
 
         private static (string, DateTime) CreateFileNameAndExpiryDateTimeFomTemplate(string fileNameTemplate)
@@ -156,27 +157,15 @@ namespace Tentakel.Extensions.Logging.JsonFile
 
             foreach (var key in ValuesFormatter.ExtractKeys(fileName))
             {
-                switch (key)
+                fileName = key switch
                 {
-                    case "baseDirectory":
-                        fileName = fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory);
-                        break;
-                    case "processName":
-                        fileName = fileName.Replace("{processName}", Process.GetCurrentProcess().ProcessName);
-                        break;
-                    case "processId":
-                        fileName = fileName.Replace("{processId}", Process.GetCurrentProcess().Id.ToString());
-                        break;
-                    case "appDomainId":
-                        fileName = fileName.Replace("{appDomainId}", AppDomain.CurrentDomain.Id.ToString());
-                        break;
-                    case "applicationName":
-                        fileName = fileName.Replace("{applicationName}", AppDomain.CurrentDomain.FriendlyName);
-                        break;
-
-                    default:
-                        break;
-                }
+                    "baseDirectory" => fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory),
+                    "processName" => fileName.Replace("{processName}", Process.GetCurrentProcess().ProcessName),
+                    "processId" => fileName.Replace("{processId}", Process.GetCurrentProcess().Id.ToString()),
+                    "appDomainId" => fileName.Replace("{appDomainId}", AppDomain.CurrentDomain.Id.ToString()),
+                    "applicationName" => fileName.Replace("{applicationName}", AppDomain.CurrentDomain.FriendlyName),
+                    _ => fileName
+                };
             }
 
             return (fileName, fileNameExpiryDateTime);
@@ -184,28 +173,28 @@ namespace Tentakel.Extensions.Logging.JsonFile
 
         private static IEnumerable<string> FindExistsPartialFileNames(string fileName)
         {
-            var fileExtension = Path.GetExtension(fileName) ?? string.Empty;
+            var fileExtension = Path.GetExtension(fileName);
             var index = 1;
             var result = fileName.Replace(fileExtension, $".partial{index}{fileExtension}");
 
-            while (File.Exists(result))
+            while (IOFile.Exists(result))
             {
                 yield return result;
                 index++;
-                result = fileName!.Replace(fileExtension, $".partial{index}{fileExtension}");
+                result = fileName.Replace(fileExtension, $".partial{index}{fileExtension}");
             }
         }
 
         private static string FindNextPartialFileName(string fileName)
         {
-            var fileExtension = Path.GetExtension(fileName) ?? string.Empty;
+            var fileExtension = Path.GetExtension(fileName);
             var index = 1;
             var result = fileName.Replace(fileExtension, $".partial{index}{fileExtension}");
 
-            while (File.Exists(result))
+            while (IOFile.Exists(result))
             {
                 index++;
-                result = fileName!.Replace(fileExtension, $".partial{index}{fileExtension}");
+                result = fileName.Replace(fileExtension, $".partial{index}{fileExtension}");
             }
 
             return result;

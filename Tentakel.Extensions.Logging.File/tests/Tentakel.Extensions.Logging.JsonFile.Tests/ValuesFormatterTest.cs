@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Tentakel.Extensions.Logging.JsonFile.Tests
+namespace Tentakel.Extensions.Logging.File.Tests
 {
     public class ValuesFormatterTest
     {
