@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
 
-namespace Tentakel.Extensions.Logging.File.Benchmarks 
+namespace Tentakel.Extensions.Logging.File.Benchmarks
 {
     internal class Program
     {
@@ -10,10 +10,23 @@ namespace Tentakel.Extensions.Logging.File.Benchmarks
 
         private static void Main()
         {
+
+#if RELEASE
             BenchmarkRunner.Run<FileLoggingBenchmark>();
+#endif
+
+            Console.WriteLine("Press [ENTER] to start long running test.");
+            Console.ReadLine();
 
             LongRunningTest("{baseDirectory}/Logging/FileLoggingBenchmark1.log", false);
             LongRunningTest("{baseDirectory}/Logging/FileLoggingBenchmark2.log", true);
+
+            Console.WriteLine("Press [ENTER] to get rem free.");
+            Console.ReadLine();
+            GC.Collect();
+
+            Console.WriteLine("Press [ENTER] to exit.");
+            Console.ReadLine();
         }
 
         public static void LongRunningTest(string fileNameTemplate, bool parameterized)
@@ -66,6 +79,8 @@ namespace Tentakel.Extensions.Logging.File.Benchmarks
 
                 logger.LogDebug($"ElapsedSeconds={diff2.TotalMilliseconds}, Total={total.TotalMilliseconds}, WaitOneResult={waitOneResult}");
                 Console.WriteLine($"* ElapsedSeconds={diff2.TotalMilliseconds}, Total={total.TotalMilliseconds}, WaitOneResult={waitOneResult}");
+
+                loggerSinkProvider.Dispose();
             }
         }
     }

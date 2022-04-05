@@ -83,5 +83,6 @@ namespace Tentakel.Extensions.Logging.Loggers
         {
             return this._loggerProvider.ScopeProvider.Push(state);
         }
+        
     }
 }

@@ -62,10 +62,11 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
         }
         public void Stop()
         {
-            if (this.IsDisposed) return;
+            if (!this.IsRunning) return;
             this.IsRunning = false;
             this._wait.Set();
         }
+
         private void Run()
         {
             if (this.IsRunning) return;
@@ -138,8 +139,9 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
         private void Dispose(bool disposing)
         {
             if (this.IsDisposed) return;
-            this.Stop();
             this.IsDisposed = true;
+
+            this.Stop();
 
             this._logEntryStackManager.Dispose();
 

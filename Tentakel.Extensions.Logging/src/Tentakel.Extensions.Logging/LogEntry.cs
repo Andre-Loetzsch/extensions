@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.SourceHelper;
@@ -50,7 +49,6 @@ namespace Tentakel.Extensions.Logging
         public string ThreadName { get; set; }
         public Type LoggerSinkType { get; set; }
         public string LoggerSinkName { get; set; }
-        public StackTrace StackTrace { get; set; }
         public Exception Exception { get; set; }
         public object State { get; set; }
         public object Correlation { get; set; }
@@ -64,12 +62,7 @@ namespace Tentakel.Extensions.Logging
             get
             {
                 if (!string.IsNullOrEmpty(this._source)) return this._source;
-                if (SourceResolver.TryFindFromAttributes(this.Attributes, out this._source)) return this._source;
-
-                this._source = SourceResolver.TryFindFromStackTrace(this.LoggerSinkType, this.StackTrace, out this._source) ?
-                    this._source : "{Source}";
-
-                return this._source;
+                return SourceResolver.TryFindFromAttributes(this.Attributes, out this._source) ? this._source : "{Source}";
             }
             set => this._source = value;
         }
