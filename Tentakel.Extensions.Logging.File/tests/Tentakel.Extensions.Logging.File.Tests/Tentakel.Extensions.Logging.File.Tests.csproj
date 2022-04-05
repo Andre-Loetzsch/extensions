@@ -1,9 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Company>Tentakel</Company>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Copyright>Copyright © Tentakel 2022</Copyright>
+    <Version>1.0.0</Version>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   
   <ItemGroup>
