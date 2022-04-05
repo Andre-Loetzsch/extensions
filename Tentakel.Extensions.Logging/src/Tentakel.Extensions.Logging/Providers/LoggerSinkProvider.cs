@@ -186,7 +186,6 @@ namespace Tentakel.Extensions.Logging.Providers
 
         #endregion
 
-
         #region IDisposable
 
         public bool IsDisposed { get; private set; }
