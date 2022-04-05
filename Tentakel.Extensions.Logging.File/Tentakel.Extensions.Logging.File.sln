@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32112.339
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39939497-052E-44EF-B219-CA0C0CA6046C}"
 EndProject
@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0ACFAA7A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File", "src\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.csproj", "{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File.Tests", "tests\Tentakel.Extensions.Logging.JsonFile.Tests\Tentakel.Extensions.Logging.File.Tests.csproj", "{0E9292CF-F175-459B-B386-4C33A87301AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File.Tests", "tests\Tentakel.Extensions.Logging.File.Tests\Tentakel.Extensions.Logging.File.Tests.csproj", "{CC6814E6-7082-4A29-A063-F39A94BA0B9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File.Benchmarks", "tests\Tentakel.Extensions.Logging.File.Benchmarks\Tentakel.Extensions.Logging.File.Benchmarks.csproj", "{C785D43B-F417-433A-9430-C1466FE98E03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +35,14 @@ Global
 		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E9292CF-F175-459B-B386-4C33A87301AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E9292CF-F175-459B-B386-4C33A87301AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E9292CF-F175-459B-B386-4C33A87301AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E9292CF-F175-459B-B386-4C33A87301AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C785D43B-F417-433A-9430-C1466FE98E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C785D43B-F417-433A-9430-C1466FE98E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C785D43B-F417-433A-9430-C1466FE98E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C785D43B-F417-433A-9430-C1466FE98E03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,7 +51,8 @@ Global
 		{CEDBDDF3-A391-40D3-861F-F9821BB3C875} = {39939497-052E-44EF-B219-CA0C0CA6046C}
 		{A35C78AF-B421-4141-970A-6B3B11ECEF31} = {39939497-052E-44EF-B219-CA0C0CA6046C}
 		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50} = {39939497-052E-44EF-B219-CA0C0CA6046C}
-		{0E9292CF-F175-459B-B386-4C33A87301AE} = {0ACFAA7A-6069-41A7-955B-D7B848EFC552}
+		{CC6814E6-7082-4A29-A063-F39A94BA0B9A} = {0ACFAA7A-6069-41A7-955B-D7B848EFC552}
+		{C785D43B-F417-433A-9430-C1466FE98E03} = {0ACFAA7A-6069-41A7-955B-D7B848EFC552}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D58A958-785D-45CB-9181-071FCA5629EB}

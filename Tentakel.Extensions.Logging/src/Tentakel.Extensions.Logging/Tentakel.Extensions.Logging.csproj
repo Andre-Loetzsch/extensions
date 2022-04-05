@@ -8,10 +8,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Company>Tentakel</Company>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Copyright>Copyright © Tentakel 2022</Copyright>
+    <Version>1.0.0</Version>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>5.0.0.0</Version>
-    <Company>Joyson Safety Systems Sachsen GmbH</Company>
-    <Copyright>Copyright © Tentakel 2021</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>

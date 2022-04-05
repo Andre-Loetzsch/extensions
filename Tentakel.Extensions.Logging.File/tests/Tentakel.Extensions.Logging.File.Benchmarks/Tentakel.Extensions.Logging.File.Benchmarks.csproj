@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Company>Tentakel</Company>
@@ -6,6 +6,7 @@
     <FileVersion>1.0.0.0</FileVersion>
     <Copyright>Copyright © Tentakel 2022</Copyright>
     <Version>1.0.0</Version>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -14,7 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.csproj" />
+    <ProjectReference Include="..\..\src\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.csproj" />
   </ItemGroup>
 
 </Project>
