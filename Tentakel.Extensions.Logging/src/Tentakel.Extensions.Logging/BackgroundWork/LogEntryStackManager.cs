@@ -26,7 +26,6 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
         public LogEntry GetLogEntry()
         {
             return this.GetStack.GetLogEntry();
-
         }
 
         public void ChangPointer()
@@ -37,7 +36,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
 
         #region IDisposable 
 
-        private bool _disposed = false;
+        private bool _disposed;
         ~LogEntryStackManager()
         {
             this.Dispose(false);

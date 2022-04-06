@@ -33,6 +33,8 @@ namespace Tentakel.Extensions.Logging.File
 
         public override void Log(LogEntry logEntry)
         {
+            if (this.IsDisposed) return;
+
             if (this._fileNameExpiryDateTime <= logEntry.DateTime || this._fileStream == null)
             {
                 this.CreateFile();
@@ -55,7 +57,7 @@ namespace Tentakel.Extensions.Logging.File
 
         private static string DefaultFormat(LogEntry logEntry)
         {
-            return $"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy.MM.dd hh:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}\r\n";
+            return $"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy-MM-dd HH:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}\r\n";
         }
 
         private void CreateFile()
@@ -208,6 +210,7 @@ namespace Tentakel.Extensions.Logging.File
         {
             this._fileStream?.Flush();
             this._fileStream?.Dispose();
+            this._fileStream = null;
 
             base.Dispose(disposing);
         }
