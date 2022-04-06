@@ -13,13 +13,16 @@ namespace Tentakel.Extensions.Logging.File.Benchmarks
 
 #if RELEASE
             BenchmarkRunner.Run<FileLoggingBenchmark>();
-#endif
-
             Console.WriteLine("Press [ENTER] to start long running test.");
             Console.ReadLine();
+#endif
 
             LongRunningTest("{baseDirectory}/Logging/FileLoggingBenchmark1.log", false);
             LongRunningTest("{baseDirectory}/Logging/FileLoggingBenchmark2.log", true);
+
+            Console.WriteLine("Press [ENTER] to get rem free.");
+            Console.ReadLine();
+            GC.Collect();
 
             Console.WriteLine("Press [ENTER] to get rem free.");
             Console.ReadLine();

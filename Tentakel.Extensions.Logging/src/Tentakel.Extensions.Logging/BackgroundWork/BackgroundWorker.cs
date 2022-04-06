@@ -77,6 +77,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             while (this.IsRunning)
             {
                 var next = this.GetNextLogEntry();
+                if (this.IsDisposed) break;
 
                 if (next != null)
                 {
@@ -97,10 +98,9 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                         this._provider.BackgroundStackIsEmpty();
                     }
 
+                    
                     this._wait.Reset();
                     this._wait.WaitOne();
-
-                    Thread.Sleep(50);
 
                     lock (this._logEntryStackManager)
                     {
@@ -121,6 +121,8 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                 this._logEntryStackManager.ChangPointer();
                 next = this._logEntryStackManager.GetLogEntry();
             }
+
+            Thread.Sleep(10);
 
             return next;
         }

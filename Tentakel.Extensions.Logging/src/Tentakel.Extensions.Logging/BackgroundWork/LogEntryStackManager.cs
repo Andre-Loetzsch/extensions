@@ -55,8 +55,6 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             this._stacks[0].Dispose();
             this._stacks[1].Dispose();
 
-            this._stacks = null;
-
             if (disposing) GC.SuppressFinalize(this);
         }
 
