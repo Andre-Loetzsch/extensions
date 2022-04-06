@@ -208,7 +208,11 @@ namespace Tentakel.Extensions.Logging.File
 
         protected override void Dispose(bool disposing)
         {
-            this._fileStream?.Flush();
+            if (this._fileStream?.CanWrite == true)
+            {
+                this._fileStream?.Flush();
+            }
+
             this._fileStream?.Dispose();
             this._fileStream = null;
 
