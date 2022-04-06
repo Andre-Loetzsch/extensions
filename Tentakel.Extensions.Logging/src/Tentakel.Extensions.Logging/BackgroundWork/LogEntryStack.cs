@@ -34,7 +34,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
 
         #region IDisposable 
 
-        private bool _disposed = false;
+        private bool _disposed;
         ~LogEntryStack()
         {
             this.Dispose(false);

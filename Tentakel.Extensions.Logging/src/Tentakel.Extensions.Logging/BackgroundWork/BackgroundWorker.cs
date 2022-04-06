@@ -100,6 +100,8 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                     this._wait.Reset();
                     this._wait.WaitOne();
 
+                    Thread.Sleep(50);
+
                     lock (this._logEntryStackManager)
                     {
                         this._logEntryBackgroundStackIsEmpty = false;
