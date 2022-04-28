@@ -14,6 +14,8 @@ namespace Tentakel.Extensions.Logging.File
 
         public ITextFormatter? TextFormatter { get; set; }
 
+        public string? TextFormatterType { get; set; }
+
         private string _fileNameTemplate = defaultFileNameTemplate;
         public string FileNameTemplate
         {
@@ -37,6 +39,7 @@ namespace Tentakel.Extensions.Logging.File
 
             if (this._fileNameExpiryDateTime <= logEntry.DateTime || this._fileStream == null)
             {
+                this.CreateTextFormatter();
                 this.CreateFile();
             }
 
@@ -200,6 +203,16 @@ namespace Tentakel.Extensions.Logging.File
             }
 
             return result;
+        }
+
+        private void CreateTextFormatter()
+        {
+            if (string.IsNullOrEmpty(this.TextFormatterType)) return;
+
+            var type = Type.GetType(this.TextFormatterType);
+            if (type == null) return;
+
+            this.TextFormatter = Activator.CreateInstance(type) as ITextFormatter;
         }
 
         #endregion
