@@ -92,7 +92,7 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new Logger(this, categoryName);
+            return new Logger(this, categoryName) { ResolveSource = this.ResolveSource};
         }
 
         #endregion
@@ -150,6 +150,8 @@ namespace Tentakel.Extensions.Logging.Providers
                 return this._wait.WaitOne(timeout) ? 0 : this._backgroundWorker.UndoneLogs;
             }
         }
+
+        public bool ResolveSource { get; set; } = true;
 
 
         #endregion
