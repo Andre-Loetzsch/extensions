@@ -2,26 +2,32 @@
 
 namespace Tentakel.Extensions.Logging.Abstractions
 {
-    public class LoggerMapper : ILogger
+    internal class LoggerMapper : ILogger
     {
-        public ILogger Logger { get; set; }
+        private readonly ILogger _logger;
+
         private static readonly Func<FormattedLogValues, Exception?, string> messageFormatter = MessageFormatter;
+
+        public LoggerMapper(ILogger logger)
+        {
+            this._logger = logger;
+        }
 
         private static string MessageFormatter(FormattedLogValues state, Exception? error)
         {
-            return state.ToString() ?? "";
+            return state.ToString();
         }
 
         public Dictionary<string, object?> AdditionalData { get; set; } = new();
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            return this.Logger.BeginScope(state);
+            return this._logger.BeginScope(state);
         }
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return this.Logger.IsEnabled(logLevel);
+            return this._logger.IsEnabled(logLevel);
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
@@ -33,12 +39,9 @@ namespace Tentakel.Extensions.Logging.Abstractions
                 values.AddRange(readOnlyList);
             }
 
-            if (this.AdditionalData != null) values.AddRange(this.AdditionalData);
-
-
-            var formattedLogValues = new FormattedLogValues(state?.ToString() ?? "", values);
-
-            this.Logger.Log(logLevel, eventId, formattedLogValues, exception, messageFormatter);
+            values.AddRange(this.AdditionalData);
+            var formattedLogValues = new FormattedLogValues(state?.ToString() ?? string.Empty, values);
+            this._logger.Log(logLevel, eventId, formattedLogValues, exception, messageFormatter);
         }
     }
 }

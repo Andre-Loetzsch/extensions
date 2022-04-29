@@ -4,7 +4,7 @@ namespace Tentakel.Extensions.Logging.Abstractions
 {
     public class Logger : ILogger
     {
-        private ILogger _innerInstance;
+        private readonly ILogger _innerInstance;
 
         public Logger(string category)
         {
@@ -30,11 +30,5 @@ namespace Tentakel.Extensions.Logging.Abstractions
         {
             return LoggerFactory.CreateLogger(category);
         }
-
-        public static ILogger Instance<T>()
-        {
-            return LoggerFactory.CreateLogger<T>();
-        }
-
     }
 }

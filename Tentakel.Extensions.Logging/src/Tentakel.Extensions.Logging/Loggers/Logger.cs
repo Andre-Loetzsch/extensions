@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
 using Tentakel.Extensions.Logging.SourceHelper;
@@ -19,7 +18,7 @@ namespace Tentakel.Extensions.Logging.Loggers
             this._category = category;
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception, string> formatter)
         {
             if (state is not LogEntry logEntry)
             {
@@ -28,7 +27,7 @@ namespace Tentakel.Extensions.Logging.Loggers
                     LogLevel = logLevel,
                     LogCategory = this._category,
                     EventId = eventId.Id,
-                    Message = state.ToString(),
+                    Message = state?.ToString(),
                     State = state,
                     Exception = exception
                 };
@@ -56,18 +55,16 @@ namespace Tentakel.Extensions.Logging.Loggers
                     var sourceKey =
                         $"{originalFormat}:{callerFilePath}:{callerMemberName}:{callerLineNumber}:{callerLineNumber}";
 
-                        if (this._sourceCache.TryGetSource(sourceKey, out var source))
+                    if (this._sourceCache.TryGetSource(sourceKey, out var source))
+                    {
+                        logEntry.Source = source ?? string.Empty;
+                    }
+                    else
+                    {
+                        if (SourceResolver.TryFindFromStackTrace(logEntry.LoggerSinkType, new(), out source))
                         {
-                            logEntry.Source = source;
-                        }
-                        else
-                        {
-                            if (SourceResolver.TryFindFromStackTrace(logEntry.LoggerSinkType, new StackTrace(),
-                                    out source))
-                            {
-                                logEntry.Source = source;
-                                this._sourceCache.AddSource(sourceKey, source);
-                            }
+                            logEntry.Source = source ?? string.Empty;
+                            this._sourceCache.AddSource(sourceKey, logEntry.Source);
                         }
                     }
                 }
