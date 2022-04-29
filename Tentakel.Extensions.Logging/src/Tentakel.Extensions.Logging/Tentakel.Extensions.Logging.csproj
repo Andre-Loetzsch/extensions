@@ -17,6 +17,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
