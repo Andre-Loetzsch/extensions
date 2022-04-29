@@ -20,12 +20,7 @@ namespace Tentakel.Extensions.Logging.File.Benchmarks
             LongRunningTest("{baseDirectory}/Logging/FileLoggingBenchmark1.log", false);
             LongRunningTest("{baseDirectory}/Logging/FileLoggingBenchmark2.log", true);
 
-            Console.WriteLine("Press [ENTER] to get rem free.");
-            Console.ReadLine();
-            GC.Collect();
-
-            Console.WriteLine("Press [ENTER] to get rem free.");
-            Console.ReadLine();
+            Thread.Sleep(5000);
             GC.Collect();
 
             Console.WriteLine("Press [ENTER] to exit.");

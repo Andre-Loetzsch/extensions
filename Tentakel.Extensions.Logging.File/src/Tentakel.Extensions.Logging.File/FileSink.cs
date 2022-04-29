@@ -1,18 +1,16 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using Tentakel.Extensions.Logging.LoggerSinks;
+using Tentakel.Extensions.Logging.TextFormatters.Abstractions.LoggerSinks;
 using IOFile = System.IO.File;
 
 namespace Tentakel.Extensions.Logging.File
 {
-    public class FileSink : LoggerSinkBase
+    public class FileSink : TextLoggerSinkBase
     {
         private const string defaultFileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.{processId}.log";
         private FileStream? _fileStream;
         private DateTime _fileNameExpiryDateTime = DateTime.MinValue;
-
-        public ITextFormatter? TextFormatter { get; set; }
 
         private string _fileNameTemplate = defaultFileNameTemplate;
         public string FileNameTemplate
@@ -37,10 +35,11 @@ namespace Tentakel.Extensions.Logging.File
 
             if (this._fileNameExpiryDateTime <= logEntry.DateTime || this._fileStream == null)
             {
+                this.CreateTextFormatter();
                 this.CreateFile();
             }
 
-            var buffer = Encoding.UTF8.GetBytes(this.TextFormatter?.Format(logEntry) ?? DefaultFormat(logEntry));
+            var buffer = Encoding.UTF8.GetBytes(this.TextFormatter.Format(logEntry));
 
             if (this.MaxFileSize > 0 && this._fileStream!.Length + buffer.Length > this.MaxFileSize)
             {
@@ -54,11 +53,6 @@ namespace Tentakel.Extensions.Logging.File
         #endregion
 
         #region private methods
-
-        private static string DefaultFormat(LogEntry logEntry)
-        {
-            return $"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy-MM-dd HH:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}\r\n";
-        }
 
         private void CreateFile()
         {
@@ -163,7 +157,7 @@ namespace Tentakel.Extensions.Logging.File
                 {
                     "baseDirectory" => fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory),
                     "processName" => fileName.Replace("{processName}", Process.GetCurrentProcess().ProcessName),
-                    "processId" => fileName.Replace("{processId}", Process.GetCurrentProcess().Id.ToString()),
+                    "processId" => fileName.Replace("{processId}", Environment.ProcessId.ToString()),
                     "appDomainId" => fileName.Replace("{appDomainId}", AppDomain.CurrentDomain.Id.ToString()),
                     "applicationName" => fileName.Replace("{applicationName}", AppDomain.CurrentDomain.FriendlyName),
                     _ => fileName

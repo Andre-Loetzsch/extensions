@@ -17,7 +17,7 @@ namespace Tentakel.Extensions.Logging.Abstractions
             return instance.CreateLogger<T>();
         }
 
-        static ILogger CreateLogger(Type type)
+        public static ILogger CreateLogger(Type type)
         {
             return instance.CreateLogger(type);
         }
@@ -27,9 +27,4 @@ namespace Tentakel.Extensions.Logging.Abstractions
             LoggerFactory.instance = provider.GetService(typeof(ILoggerFactory)) as ILoggerFactory ?? new NullLoggerFactory();
         }
     }
-
-
-
-    
-
 }

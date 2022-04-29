@@ -66,12 +66,12 @@ namespace Tentakel.Extensions.Configuration
         public IReadOnlyCollection<string> GetKeys<T>()
         {
             return new ReadOnlyCollection<string>(
-                this.Where(x => x.Value.Instance is T || typeof(T).IsAssignableFrom(this.GetType(x.Value)))
+                this.Where(x => x.Value.Instance is T || typeof(T).IsAssignableFrom(GetType(x.Value)))
                     .Select(x => x.Key).ToList());
         }
 
 
-        private Type GetType(ConfiguredType configuredType)
+        private static Type GetType(ConfiguredType configuredType)
         {
             try
             {

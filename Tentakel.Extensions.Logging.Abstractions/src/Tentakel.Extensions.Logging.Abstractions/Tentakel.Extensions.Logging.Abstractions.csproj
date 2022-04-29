@@ -4,8 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>5.0.0.0</Version>
-		<Company>Joyson Safety Systems Sachsen GmbH</Company>
+		<Version>1.0.0.0</Version>
+		<Company>Tentakel</Company>
 		<Copyright>Copyright © Tentakel 2021</Copyright>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>

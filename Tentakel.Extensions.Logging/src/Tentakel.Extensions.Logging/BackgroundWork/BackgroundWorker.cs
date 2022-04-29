@@ -9,7 +9,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
     {
         private readonly LoggerSinkProvider _provider;
         private readonly ILogger _logger;
-        private Thread _backgroundThread;
+        private Thread? _backgroundThread;
         private readonly ManualResetEvent _wait;
         private bool _logEntryBackgroundStackIsEmpty = true;
         private readonly LogEntryStackManager _logEntryStackManager = new();
@@ -33,7 +33,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             }
         }
 
-        public void AddLogEntry(LogEntry logEntry)
+        public void AddLogEntry(LogEntry? logEntry)
         {
             if (this.IsDisposed) return;
             if (logEntry == null) return;
@@ -110,7 +110,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             }
         }
 
-        private LogEntry GetNextLogEntry()
+        private LogEntry? GetNextLogEntry()
         {
             var next = this._logEntryStackManager.GetLogEntry();
 
@@ -132,15 +132,10 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
 
         ~BackgroundWorker()
         {
-            this.Dispose(false);
+            this.Dispose();
         }
 
         public void Dispose()
-        {
-            this.Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
         {
             if (this.IsDisposed) return;
             this.IsDisposed = true;
@@ -154,7 +149,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                 this._wait.Dispose();
             }
 
-            if (disposing) GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

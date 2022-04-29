@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Tentakel.Extensions.Logging
+﻿namespace Tentakel.Extensions.Logging.TextFormatters.Abstractions
 {
     public interface ITextFormatter
     {

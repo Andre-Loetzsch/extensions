@@ -15,7 +15,7 @@ namespace Tentakel.Extensions.Logging.Abstractions
         {
             lock (loggerMapperSync)
             {
-                var loggerMapper = new LoggerMapper { Logger = logger };
+                var loggerMapper = new LoggerMapper(logger);
                 loggerMapper.AdditionalData.Clear();
                 loggerMapper.AdditionalData["{CallerFilePath}"] = callerFilePath;
                 loggerMapper.AdditionalData["{CallerMemberName}"] = callerMemberName;
@@ -23,7 +23,6 @@ namespace Tentakel.Extensions.Logging.Abstractions
                 return loggerMapper;
             }
         }
-
 
         public static PerformanceScope BeginPerformanceScope<TState>(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, TState state)
         {

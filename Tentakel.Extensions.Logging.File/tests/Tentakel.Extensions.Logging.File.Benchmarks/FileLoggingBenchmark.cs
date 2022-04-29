@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Text;
+using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
 
@@ -76,6 +77,77 @@ namespace Tentakel.Extensions.Logging.File.Benchmarks
             var totalMilliseconds = (DateTime.Now - now).TotalMilliseconds;
 
             logger.LogDebug($"TotalMilliseconds: {totalMilliseconds}");
+        }
+    }
+
+    [MemoryDiagnoser]
+    public class StringBenchmark
+    {
+        [Benchmark(Baseline = true)]
+        public void StringsBuilder()
+        {
+            var s = new StringBuilder();
+
+            for (var i = 0; i < 1000; i++)
+            {
+                s.Append(i.ToString());
+            }
+
+            s = null;
+        }
+
+        [Benchmark]
+        public void AddStrings()
+        {
+            var s = "";
+
+            for (var i = 0; i < 1000; i++)
+            {
+                s += i.ToString();
+            }
+
+            s = null;
+        }
+
+        [Benchmark]
+        public void ConcatStrings()
+        {
+            var s = "";
+
+            for (var i = 0; i < 1000; i++)
+            {
+                s = string.Concat(s, i.ToString());
+            }
+
+            s = null;
+        }
+
+        
+
+        [Benchmark]
+        public void StringFormat()
+        {
+            var s = "";
+
+            for (var i = 0; i < 1000; i++)
+            {
+                s = string.Format("{0}{1}", s, i);
+            }
+
+            s = null;
+        }
+
+        [Benchmark]
+        public void StringInterpolation()
+        {
+            var s = "";
+
+            for (var i = 0; i < 1000; i++)
+            {
+                s = $"{s}{i}";
+            }
+
+            s = null;
         }
     }
 }

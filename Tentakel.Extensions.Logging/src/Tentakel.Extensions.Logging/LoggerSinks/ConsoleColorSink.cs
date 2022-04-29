@@ -6,7 +6,7 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
 {
     public class ConsoleColorSink : ILoggerSink
     {
-        public ConsoleColorSink()
+        public ConsoleColorSink() : this(nameof(ConsoleColorSink))
         {
         }
 
@@ -16,7 +16,7 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
         }
 
         public string Name { get; set; }
-        public string[] Categories { get; set; }
+        public string[] Categories { get; set; } = { "*" };
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Gray;
         public LogLevel LogLevel { get; set; }
 
@@ -29,17 +29,14 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
         {
             var sb = new StringBuilder();
 
-            if (logEntry.Scopes != null)
+            foreach (var scope in logEntry.Scopes)
             {
-                foreach (var scope in logEntry.Scopes)
+                if (sb.Length > 0)
                 {
-                    if (sb.Length > 0)
-                    {
-                        sb.Append(" => ");
-                    }
-
-                    sb.AppendLine().Append(scope);
+                    sb.Append(" => ");
                 }
+
+                sb.AppendLine().Append(scope);
             }
 
             var foregroundColor = Console.ForegroundColor;

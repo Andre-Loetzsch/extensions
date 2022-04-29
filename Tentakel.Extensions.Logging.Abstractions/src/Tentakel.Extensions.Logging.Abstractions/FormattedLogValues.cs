@@ -8,7 +8,7 @@ namespace Tentakel.Extensions.Logging.Abstractions
 
         public FormattedLogValues(string logMessage, IEnumerable<KeyValuePair<string, object?>> values)
         {
-            this._values = new List<KeyValuePair<string, object?>>(values);
+            this._values = new (values);
             this.LogMessage = logMessage;
         }
 
