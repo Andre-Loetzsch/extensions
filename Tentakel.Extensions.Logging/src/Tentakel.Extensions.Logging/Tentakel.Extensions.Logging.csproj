@@ -11,12 +11,13 @@
     <Company>Tentakel</Company>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Copyright>Copyright © Tentakel 2022</Copyright>
     <Version>1.0.0</Version>
+    <Copyright>Copyright © Tentakel 2022</Copyright>
     <TargetFramework>net6.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Tentakel.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -10,7 +9,13 @@ namespace Tentakel.Extensions.Logging.SourceHelper
         [DebuggerDisplay("Count:{Count} Source:{Source}")]
         private class SourceCacheItem
         {
-            public string Source { get; init; }
+            public SourceCacheItem(string source)
+            {
+                this.Source = source;
+                this.Count = 1;
+            }
+
+            public string Source { get; }
             public int Count { get; set; }
         }
 
@@ -19,11 +24,11 @@ namespace Tentakel.Extensions.Logging.SourceHelper
         public void AddSource(string originalFormat, string source)
         {
             this.CleanUp(1000);
-            this._cache[originalFormat] = new SourceCacheItem { Source = source, Count = 1 };
+            this._cache[originalFormat] = new(source);
             //Debug.WriteLine($"Add cache item: {originalFormat} Count:{this._cache.Count}");
         }
 
-        public bool TryGetSource(string originalFormat, out string source)
+        public bool TryGetSource(string originalFormat, out string? source)
         {
             source = null;
             if (!this._cache.TryGetValue(originalFormat, out var item)) return false;

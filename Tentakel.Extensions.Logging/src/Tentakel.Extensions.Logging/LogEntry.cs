@@ -17,13 +17,13 @@ namespace Tentakel.Extensions.Logging
         private static readonly string domainName = Environment.UserDomainName;
         private static readonly string machineName = Environment.MachineName;
         private static readonly int appDomainId = AppDomain.CurrentDomain.Id;
-        private static readonly int processId = Process.GetCurrentProcess().Id;
+        private static readonly int processId = Environment.ProcessId;
         private static readonly string processName = Process.GetCurrentProcess().ProcessName;
 
         public LogEntry()
         {
             this.DateTime = DateTime.Now;
-            this.ThreadId = Thread.CurrentThread.ManagedThreadId;
+            this.ThreadId = Environment.CurrentManagedThreadId;
             this.ThreadName = string.IsNullOrWhiteSpace(Thread.CurrentThread.Name) ?
                 $"Thread{this.ThreadId}" : Thread.CurrentThread.Name;
 
@@ -46,30 +46,31 @@ namespace Tentakel.Extensions.Logging
         public int ProcessId { get; set; } = processId;
         public string ProcessName { get; set; } = processName;
         public int ThreadId { get; set; }
-        public string ThreadName { get; set; }
-        public Type LoggerSinkType { get; set; }
-        public string LoggerSinkName { get; set; }
-        public Exception Exception { get; set; }
-        public object State { get; set; }
-        public object Correlation { get; set; }
+        public string ThreadName { get; set; } 
+        public Type? LoggerSinkType { get; set; }
+        public string? LoggerSinkName { get; set; }
+        public Exception? Exception { get; set; }
+        public object? State { get; set; }
+        public object? Correlation { get; set; }
         public LogLevel LogLevel { get; set; }
         public string LogCategory { get; set; }
         public int EventId { get; set; }
 
-        private string _source;
+        private string? _source;
         public string Source
         {
             get
             {
                 if (!string.IsNullOrEmpty(this._source)) return this._source;
-                return SourceResolver.TryFindFromAttributes(this.Attributes, out this._source) ? this._source : "{Source}";
+                return SourceResolver.TryFindFromAttributes(this.Attributes, out this._source) ? 
+                    this._source ?? "{Source}" : "{Source}";
             }
             set => this._source = value;
         }
 
         public IDictionary<string, object> Attributes { get; set; }
-        public string Message { get; set; }
-        public List<LogScopeInfo> Scopes { get; set; }
+        public string? Message { get; set; }
+        public List<LogScopeInfo> Scopes { get; set; } = new ();
 
         internal bool IsSourceNullOrEmpty => string.IsNullOrEmpty(this._source);
 

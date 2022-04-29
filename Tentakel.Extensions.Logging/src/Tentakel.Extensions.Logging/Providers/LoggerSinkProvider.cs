@@ -12,8 +12,8 @@ namespace Tentakel.Extensions.Logging.Providers
     [ProviderAlias("Tentakel")]
     public class LoggerSinkProvider : ILoggerProvider, ISupportExternalScope
     {
-        private readonly IConfiguredTypesOptionsMonitor<ILoggerSink> _options;
-        private IExternalScopeProvider _scopeProvider;
+        private readonly IConfiguredTypesOptionsMonitor<ILoggerSink>? _options;
+        private IExternalScopeProvider? _scopeProvider;
         private readonly BackgroundWorker _backgroundWorker;
         private readonly Dictionary<string, ILoggerSink> _loggerSinks = new(StringComparer.Ordinal);
         private readonly AutoResetEvent _wait = new(false);
@@ -106,10 +106,9 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public void Log(LogEntry logEntry)
         {
-            this.ScopeProvider?.ForEachScope((value, loggingProps) =>
+            this.ScopeProvider.ForEachScope((value, loggingProps) =>
             {
                 var scope = new LogScopeInfo();
-                logEntry.Scopes ??= new List<LogScopeInfo>();
                 logEntry.Scopes.Add(scope);
 
                 switch (value)
@@ -120,7 +119,6 @@ namespace Tentakel.Extensions.Logging.Providers
                     case IEnumerable<KeyValuePair<string, object>> props:
                         {
                             scope.Text = loggingProps?.ToString();
-                            scope.Properties ??= new Dictionary<string, object>();
 
                             foreach (var (k, v) in props)
                             {

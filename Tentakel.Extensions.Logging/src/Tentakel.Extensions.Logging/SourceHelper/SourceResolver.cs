@@ -18,7 +18,7 @@ namespace Tentakel.Extensions.Logging.SourceHelper
         {
 
             var t = Type.GetType("System.Threading.ThreadHelper", false);
-            if (t != null) typeIgnoreList.Add(Type.GetType("System.Threading.ThreadHelper", true));
+            if (t != null) typeIgnoreList.Add(t);
 
             typeIgnoreList.Add(typeof(Thread));
             typeIgnoreList.Add(typeof(ExecutionContext));
@@ -29,10 +29,11 @@ namespace Tentakel.Extensions.Logging.SourceHelper
             typeIgnoreList.Add(typeof(LoggerSinkProvider));
             typeIgnoreList.Add(typeof(Logger));
 
-            namespaceIgnoreList.Add(typeof(Trace).Namespace);
+            var traceNamespace = typeof(Trace).Namespace;
+            if (traceNamespace != null) namespaceIgnoreList.Add(traceNamespace);
         }
 
-        public static bool TryFindFromStackTrace(Type logSourceType, StackTrace stackTrace, out string stackTraceSource)
+        public static bool TryFindFromStackTrace(Type? logSourceType, StackTrace? stackTrace, out string? stackTraceSource)
         {
             stackTraceSource = null;
 
@@ -71,7 +72,7 @@ namespace Tentakel.Extensions.Logging.SourceHelper
             return !string.IsNullOrEmpty(stackTraceSource);
         }
 
-        public static bool TryFindFromAttributes(IDictionary<string, object> attributes, out string source)
+        public static bool TryFindFromAttributes(IDictionary<string, object> attributes, out string? source)
         {
             source = null;
 
