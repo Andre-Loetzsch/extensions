@@ -92,7 +92,7 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new Logger(this, categoryName) { ResolveSource = this.ResolveSource};
+            return new Logger(this, categoryName);
         }
 
         #endregion
