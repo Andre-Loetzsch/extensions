@@ -5,19 +5,17 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39939497-052E-44EF-B219-CA0C0CA6046C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging", "..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.csproj", "{CEDBDDF3-A391-40D3-861F-F9821BB3C875}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "..\Tentakel.Extensions.Configuration\src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{A35C78AF-B421-4141-970A-6B3B11ECEF31}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0ACFAA7A-6069-41A7-955B-D7B848EFC552}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File", "src\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.csproj", "{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File.Tests", "tests\Tentakel.Extensions.Logging.File.Tests.csproj", "{DB9DE35A-A7CF-4AF5-A499-698A0A9D2869}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File.Tests", "tests\Tentakel.Extensions.Logging.File.Tests\Tentakel.Extensions.Logging.File.Tests.csproj", "{CC6814E6-7082-4A29-A063-F39A94BA0B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File", "src\Tentakel.Extensions.Logging.File.csproj", "{F97A9453-A357-4C6E-A63E-23FE18C323D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.File.Benchmarks", "tests\Tentakel.Extensions.Logging.File.Benchmarks\Tentakel.Extensions.Logging.File.Benchmarks.csproj", "{C785D43B-F417-433A-9430-C1466FE98E03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "..\Tentakel.Extensions.Configuration\src\Tentakel.Extensions.Configuration.csproj", "{9CC26880-47F3-4D48-B0ED-7FBE80E5FFAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.TextFormatters.Abstractions", "..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj", "{A92042B0-A787-4A94-9450-BCD5FB089AD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging", "..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging.csproj", "{704C350A-C074-40A0-9CED-8C4FFD094E39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.TextFormatters.Abstractions", "..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj", "{88AB5336-2C7B-4752-B154-C3E90F34EE4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,41 +23,36 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CEDBDDF3-A391-40D3-861F-F9821BB3C875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEDBDDF3-A391-40D3-861F-F9821BB3C875}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEDBDDF3-A391-40D3-861F-F9821BB3C875}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEDBDDF3-A391-40D3-861F-F9821BB3C875}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A35C78AF-B421-4141-970A-6B3B11ECEF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A35C78AF-B421-4141-970A-6B3B11ECEF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A35C78AF-B421-4141-970A-6B3B11ECEF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A35C78AF-B421-4141-970A-6B3B11ECEF31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC6814E6-7082-4A29-A063-F39A94BA0B9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C785D43B-F417-433A-9430-C1466FE98E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C785D43B-F417-433A-9430-C1466FE98E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C785D43B-F417-433A-9430-C1466FE98E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C785D43B-F417-433A-9430-C1466FE98E03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A92042B0-A787-4A94-9450-BCD5FB089AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A92042B0-A787-4A94-9450-BCD5FB089AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A92042B0-A787-4A94-9450-BCD5FB089AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A92042B0-A787-4A94-9450-BCD5FB089AD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9DE35A-A7CF-4AF5-A499-698A0A9D2869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9DE35A-A7CF-4AF5-A499-698A0A9D2869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9DE35A-A7CF-4AF5-A499-698A0A9D2869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9DE35A-A7CF-4AF5-A499-698A0A9D2869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F97A9453-A357-4C6E-A63E-23FE18C323D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F97A9453-A357-4C6E-A63E-23FE18C323D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F97A9453-A357-4C6E-A63E-23FE18C323D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F97A9453-A357-4C6E-A63E-23FE18C323D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC26880-47F3-4D48-B0ED-7FBE80E5FFAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC26880-47F3-4D48-B0ED-7FBE80E5FFAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC26880-47F3-4D48-B0ED-7FBE80E5FFAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC26880-47F3-4D48-B0ED-7FBE80E5FFAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704C350A-C074-40A0-9CED-8C4FFD094E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704C350A-C074-40A0-9CED-8C4FFD094E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704C350A-C074-40A0-9CED-8C4FFD094E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704C350A-C074-40A0-9CED-8C4FFD094E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88AB5336-2C7B-4752-B154-C3E90F34EE4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88AB5336-2C7B-4752-B154-C3E90F34EE4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88AB5336-2C7B-4752-B154-C3E90F34EE4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88AB5336-2C7B-4752-B154-C3E90F34EE4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CEDBDDF3-A391-40D3-861F-F9821BB3C875} = {39939497-052E-44EF-B219-CA0C0CA6046C}
-		{A35C78AF-B421-4141-970A-6B3B11ECEF31} = {39939497-052E-44EF-B219-CA0C0CA6046C}
-		{A86DB235-CD0F-4EAC-A780-4C360B7FFC50} = {39939497-052E-44EF-B219-CA0C0CA6046C}
-		{CC6814E6-7082-4A29-A063-F39A94BA0B9A} = {0ACFAA7A-6069-41A7-955B-D7B848EFC552}
-		{C785D43B-F417-433A-9430-C1466FE98E03} = {0ACFAA7A-6069-41A7-955B-D7B848EFC552}
-		{A92042B0-A787-4A94-9450-BCD5FB089AD3} = {39939497-052E-44EF-B219-CA0C0CA6046C}
+		{DB9DE35A-A7CF-4AF5-A499-698A0A9D2869} = {0ACFAA7A-6069-41A7-955B-D7B848EFC552}
+		{F97A9453-A357-4C6E-A63E-23FE18C323D4} = {39939497-052E-44EF-B219-CA0C0CA6046C}
+		{9CC26880-47F3-4D48-B0ED-7FBE80E5FFAA} = {39939497-052E-44EF-B219-CA0C0CA6046C}
+		{704C350A-C074-40A0-9CED-8C4FFD094E39} = {39939497-052E-44EF-B219-CA0C0CA6046C}
+		{88AB5336-2C7B-4752-B154-C3E90F34EE4A} = {39939497-052E-44EF-B219-CA0C0CA6046C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D58A958-785D-45CB-9181-071FCA5629EB}

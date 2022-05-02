@@ -1,25 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E97E6DB8-46E1-4803-8F9B-8E2386D5493C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{425E470B-248F-4004-8083-DD32670D8694}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "src\Tentakel.Extensions.Configuration.csproj", "{19326D85-8B3D-4542-8A1D-9DE4BDD0AF5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration", "src\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.csproj", "{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4E74118B-49B3-40DF-B993-5E055F0ED749}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Json", "src\Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.csproj", "{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.DependencyInjection", "src\Tentakel.Extensions.DependencyInjection\Tentakel.Extensions.DependencyInjection.csproj", "{AD35AC36-DBC9-465C-A066-BA7F524FD22F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Json.Test", "test\Tentakel.Extensions.Configuration.Json.Test\Tentakel.Extensions.Configuration.Json.Test.csproj", "{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Test", "test\Tentakel.Extensions.Configuration.Test\Tentakel.Extensions.Configuration.Test.csproj", "{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Test.Common", "test\Tentakel.Extensions.Configuration.Test.Common\Tentakel.Extensions.Configuration.Test.Common.csproj", "{341464E2-46C6-4905-A016-30F0F82A381E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.DependencyInjection.Test", "test\Tentakel.Extensions.DependencyInjection.Test\Tentakel.Extensions.DependencyInjection.Test.csproj", "{6F61B901-9EA2-4592-AD18-0E686DB4980A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Configuration.Tests", "tests\Tentakel.Extensions.Configuration.Tests.csproj", "{20FB1A68-A27E-4BBB-9E35-C9BD7464F792}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,46 +17,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD35AC36-DBC9-465C-A066-BA7F524FD22F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337}.Release|Any CPU.Build.0 = Release|Any CPU
-		{341464E2-46C6-4905-A016-30F0F82A381E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{341464E2-46C6-4905-A016-30F0F82A381E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{341464E2-46C6-4905-A016-30F0F82A381E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{341464E2-46C6-4905-A016-30F0F82A381E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F61B901-9EA2-4592-AD18-0E686DB4980A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19326D85-8B3D-4542-8A1D-9DE4BDD0AF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19326D85-8B3D-4542-8A1D-9DE4BDD0AF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19326D85-8B3D-4542-8A1D-9DE4BDD0AF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19326D85-8B3D-4542-8A1D-9DE4BDD0AF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20FB1A68-A27E-4BBB-9E35-C9BD7464F792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20FB1A68-A27E-4BBB-9E35-C9BD7464F792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20FB1A68-A27E-4BBB-9E35-C9BD7464F792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20FB1A68-A27E-4BBB-9E35-C9BD7464F792}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EBC57790-0B26-4A41-A31E-CE1C77DF6D1A} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
-		{F8C3FBB3-8939-44AC-BA93-EE41D48E0B08} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
-		{AD35AC36-DBC9-465C-A066-BA7F524FD22F} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
-		{C1113BB7-7FD7-4D3D-B378-F9523824B8DB} = {425E470B-248F-4004-8083-DD32670D8694}
-		{10A9868D-F222-48F7-AFBB-DDEB3D5DE337} = {425E470B-248F-4004-8083-DD32670D8694}
-		{341464E2-46C6-4905-A016-30F0F82A381E} = {425E470B-248F-4004-8083-DD32670D8694}
-		{6F61B901-9EA2-4592-AD18-0E686DB4980A} = {425E470B-248F-4004-8083-DD32670D8694}
+		{19326D85-8B3D-4542-8A1D-9DE4BDD0AF5B} = {E97E6DB8-46E1-4803-8F9B-8E2386D5493C}
+		{20FB1A68-A27E-4BBB-9E35-C9BD7464F792} = {4E74118B-49B3-40DF-B993-5E055F0ED749}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F77CE89-A96E-4D67-BAEE-9DFE19BF0D73}
