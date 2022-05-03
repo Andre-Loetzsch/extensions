@@ -18,15 +18,6 @@ namespace Tentakel.Extensions.Logging.TextFormatters
                 .Append(logEntry.LogCategory).AppendLine("]")
                 .Append("  ").Append(logEntry.Message).AppendLine();
 
-
-            foreach (var attribute in logEntry.Attributes)
-            {
-                this._formatBuilder    .AppendLine();
-            }
-
-           
-
-
             return this._formatBuilder.ToString();
         }
     }
