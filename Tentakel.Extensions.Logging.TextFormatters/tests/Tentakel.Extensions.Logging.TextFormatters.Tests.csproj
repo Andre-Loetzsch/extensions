@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging.csproj" />
     <ProjectReference Include="..\src\Tentakel.Extensions.Logging.TextFormatters.csproj" />
   </ItemGroup>

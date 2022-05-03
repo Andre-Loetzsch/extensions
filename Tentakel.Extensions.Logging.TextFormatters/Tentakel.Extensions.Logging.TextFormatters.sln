@@ -7,13 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F5A01077-269
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A610E32E-C896-448C-8554-C17FAB704562}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.TextFormatters.Abstractions", "..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj", "{38C67B86-ADC6-43DD-BCC3-8AF435669F54}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.TextFormatters.Tests", "tests\Tentakel.Extensions.Logging.TextFormatters.Tests.csproj", "{8A7D972B-7E02-4FB7-AB58-9CB89E5323B3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging", "..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging.csproj", "{591B652B-CD7C-47A2-89EA-5CB68190D812}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.TextFormatters", "src\Tentakel.Extensions.Logging.TextFormatters.csproj", "{86977EA8-68D0-4587-85B0-2F5A2B956B58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging.TextFormatters.Abstractions", "..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj", "{6CFC4FDB-BF8B-413B-9140-6D035403CE89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{38C67B86-ADC6-43DD-BCC3-8AF435669F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38C67B86-ADC6-43DD-BCC3-8AF435669F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38C67B86-ADC6-43DD-BCC3-8AF435669F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38C67B86-ADC6-43DD-BCC3-8AF435669F54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A7D972B-7E02-4FB7-AB58-9CB89E5323B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A7D972B-7E02-4FB7-AB58-9CB89E5323B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A7D972B-7E02-4FB7-AB58-9CB89E5323B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,15 +33,19 @@ Global
 		{86977EA8-68D0-4587-85B0-2F5A2B956B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86977EA8-68D0-4587-85B0-2F5A2B956B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86977EA8-68D0-4587-85B0-2F5A2B956B58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CFC4FDB-BF8B-413B-9140-6D035403CE89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFC4FDB-BF8B-413B-9140-6D035403CE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CFC4FDB-BF8B-413B-9140-6D035403CE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CFC4FDB-BF8B-413B-9140-6D035403CE89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{38C67B86-ADC6-43DD-BCC3-8AF435669F54} = {F5A01077-2690-46A7-A454-E9135507B195}
 		{8A7D972B-7E02-4FB7-AB58-9CB89E5323B3} = {A610E32E-C896-448C-8554-C17FAB704562}
 		{591B652B-CD7C-47A2-89EA-5CB68190D812} = {F5A01077-2690-46A7-A454-E9135507B195}
 		{86977EA8-68D0-4587-85B0-2F5A2B956B58} = {F5A01077-2690-46A7-A454-E9135507B195}
+		{6CFC4FDB-BF8B-413B-9140-6D035403CE89} = {F5A01077-2690-46A7-A454-E9135507B195}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7F83D112-B6BB-4100-BD02-A1A0EA1D1BE6}
