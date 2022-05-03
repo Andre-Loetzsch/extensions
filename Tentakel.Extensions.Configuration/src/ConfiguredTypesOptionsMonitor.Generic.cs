@@ -8,15 +8,15 @@ using Microsoft.Extensions.Options;
 
 namespace Tentakel.Extensions.Configuration
 {
-    public class ConfiguredTypesOptionsMonitor<TOptions> : IDisposable, IConfiguredTypesOptionsMonitor<TOptions> where TOptions : class
+    public class ConfiguredTypesOptionsMonitor<TOptions> : IConfiguredTypesOptionsMonitor<TOptions> where TOptions : class
     {
         private readonly IOptionsMonitor<ConfiguredTypes> _optionsMonitor;
         private readonly IConfigurationRoot _configurationRoot;
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, TOptions>> _cache = new();
 
         private readonly List<IDisposable> _registrations = new();
-        private event Action<TOptions, string, string> Changed;
-        private event Action<string> ConfigurationChanged;
+        private event Action<TOptions?, string, string>? Changed;
+        private event Action<string>? ConfigurationChanged;
 
         public ConfiguredTypesOptionsMonitor(IOptionsMonitor<ConfiguredTypes> optionsMonitor, IConfigurationRoot configurationRoot)
         {
@@ -48,7 +48,7 @@ namespace Tentakel.Extensions.Configuration
             return disposable;
         }
 
-        public IDisposable OnChange(Action<TOptions, string> listener)
+        public IDisposable OnChange(Action<TOptions?, string> listener)
         {
             var disposable = new ChangeTrackerDisposable(this, listener);
             this.Changed += disposable.OnChange;
@@ -57,7 +57,7 @@ namespace Tentakel.Extensions.Configuration
             return disposable;
         }
 
-        public IDisposable OnChange(Action<TOptions, string, string> listener)
+        public IDisposable OnChange(Action<TOptions?, string, string> listener)
         {
             var disposable = new ChangeTrackerDisposable(this, listener);
             this.Changed += disposable.OnChange;
@@ -76,18 +76,25 @@ namespace Tentakel.Extensions.Configuration
             return this.GetConfiguredTypes(name).GetKeys<TOptions>();
         }
 
-        public TOptions Get(string key)
+        public TOptions? Get(string key)
         {
             return this.Get(Options.DefaultName, key);
         }
 
-        public TOptions Get(string name, string key)
+        public TOptions? Get(string name, string key)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (key == null) throw new ArgumentNullException(nameof(key));
-           
-            return this.GetInnerCache(name).GetOrAdd(key, k => 
-                GetOrCreateInstance(this.GetConfiguredTypes(name).Get<TOptions>(k)));
+
+            if (this.GetInnerCache(name).TryGetValue(key, out var options))
+            {
+                return options;
+            }
+
+            options = GetOrCreateInstance(this.GetConfiguredTypes(name).Get<TOptions>(key));
+            if (options != null) this.GetInnerCache(name).TryAdd(key, options);
+
+            return options;
         }
 
         #endregion
@@ -103,6 +110,7 @@ namespace Tentakel.Extensions.Configuration
             }
 
             this._registrations.Clear();
+            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -111,9 +119,9 @@ namespace Tentakel.Extensions.Configuration
 
         private sealed class ChangeTrackerDisposable : IDisposable
         {
-            private readonly Action<string> _configurationChangedListener;
-            private readonly Action<TOptions, string> _optionsKeyListener;
-            private readonly Action<TOptions, string, string> _optionsNameKeyListener;
+            private readonly Action<string>? _configurationChangedListener;
+            private readonly Action<TOptions?, string>? _optionsKeyListener;
+            private readonly Action<TOptions?, string, string>? _optionsNameKeyListener;
 
             private readonly ConfiguredTypesOptionsMonitor<TOptions> _monitor;
 
@@ -123,13 +131,13 @@ namespace Tentakel.Extensions.Configuration
                 this._monitor = monitor;
             }
 
-            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions, string> listener)
+            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions?, string> listener)
             {
                 this._optionsKeyListener = listener;
                 this._monitor = monitor;
             }
 
-            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions, string, string> listener)
+            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions?, string, string> listener)
             {
                 this._optionsNameKeyListener = listener;
                 this._monitor = monitor;
@@ -139,7 +147,7 @@ namespace Tentakel.Extensions.Configuration
             {
                 this._configurationChangedListener?.Invoke(name);
             }
-            public void OnChange(TOptions options, string name, string key)
+            public void OnChange(TOptions? options, string name, string key)
             {
                 this._optionsKeyListener?.Invoke(options, key);
                 this._optionsNameKeyListener?.Invoke(options, name, key);
@@ -170,7 +178,7 @@ namespace Tentakel.Extensions.Configuration
             return this._cache.GetOrAdd(name, _ => new ConcurrentDictionary<string, TOptions>());
         }
 
-        private static TOptions GetOrCreateInstance(TOptions instance)
+        private static TOptions? GetOrCreateInstance(TOptions? instance)
         {
             if (instance != null) return instance;
 

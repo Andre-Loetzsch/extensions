@@ -30,19 +30,22 @@ namespace Tentakel.Extensions.Configuration
             return this.GetConfiguredTypes(name).GetKeys<TOptions>();
         }
 
-        public TOptions Get<TOptions>(string key)
+        public TOptions? Get<TOptions>(string key)
         {
             return this.Get<TOptions>(Options.DefaultName, key);
         }
 
-        public TOptions Get<TOptions>(string name, string key)
+        public TOptions? Get<TOptions>(string name, string key)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (key == null) throw new ArgumentNullException(nameof(key));
 
-            var obj = this.GetInnerCache(name).GetOrAdd(key, k =>
-                this.GetConfiguredTypes(name).Get<object>(k));
+            if (!this.GetInnerCache(name).TryGetValue(key, out var obj))
+            {
+                obj = this.GetConfiguredTypes(name).Get<object>(key);
+            }
 
+            if (obj != null) this.GetInnerCache(name).TryAdd(key, obj);
             if (obj is TOptions options) return options;
             return default;
         }
