@@ -13,10 +13,8 @@ namespace Tentakel.Extensions.Configuration
         public ConfiguredTypesOptions(IOptions<ConfiguredTypes> options, IConfigurationRoot configurationRoot)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
-            if (configurationRoot == null) throw new ArgumentNullException(nameof(configurationRoot));
-
             this._configuredTypes = options.Value ?? new ConfiguredTypes();
-            this._configuredTypes.ConfigurationRoot = configurationRoot;
+            this._configuredTypes.ConfigurationRoot = configurationRoot ?? throw new ArgumentNullException(nameof(configurationRoot));
         }
 
         #region IConfiguredTypesOptionsSnapshot
@@ -26,7 +24,7 @@ namespace Tentakel.Extensions.Configuration
             return this._configuredTypes.GetKeys<TOptions>();
         }
 
-        public TOptions Get(string key)
+        public TOptions? Get(string key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
             return GetOrCreateInstance(this._configuredTypes.Get<TOptions>(key));
@@ -36,7 +34,7 @@ namespace Tentakel.Extensions.Configuration
 
         #region private members
 
-        private static TOptions GetOrCreateInstance(TOptions instance)
+        private static TOptions? GetOrCreateInstance(TOptions? instance)
         {
             if (instance != null) return instance;
 

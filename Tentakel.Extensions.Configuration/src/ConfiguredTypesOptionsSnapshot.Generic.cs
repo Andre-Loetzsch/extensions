@@ -31,18 +31,25 @@ namespace Tentakel.Extensions.Configuration
             return this.GetConfiguredTypes(name).GetKeys<TOptions>();
         }
 
-        public TOptions Get(string key)
+        public TOptions? Get(string key)
         {
             return this.Get(Options.DefaultName, key);
         }
 
-        public TOptions Get(string name, string key)
+        public TOptions? Get(string name, string key)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (key == null) throw new ArgumentNullException(nameof(key));
 
-            return this.GetInnerCache(name).GetOrAdd(key, k =>
-                GetOrCreateInstance(this.GetConfiguredTypes(name).Get<TOptions>(k)));
+            if (this.GetInnerCache(name).TryGetValue(key, out var options))
+            {
+                return options;
+            }
+
+            options = GetOrCreateInstance(this.GetConfiguredTypes(name).Get<TOptions>(key));
+            if (options != null) this.GetInnerCache(name).TryAdd(key, options);
+
+            return options;
         }
 
         #endregion
@@ -62,7 +69,7 @@ namespace Tentakel.Extensions.Configuration
             return this._cache.GetOrAdd(name, _ => new ConcurrentDictionary<string, TOptions>());
         }
 
-        private static TOptions GetOrCreateInstance(TOptions instance)
+        private static TOptions? GetOrCreateInstance(TOptions? instance)
         {
             if (instance != null) return instance;
 

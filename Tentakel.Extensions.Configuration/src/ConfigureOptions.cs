@@ -35,6 +35,8 @@ namespace Tentakel.Extensions.Configuration
 
             foreach (var (key, value) in configuredTypes)
             {
+                if (string.IsNullOrEmpty(value.Type)) continue;
+
                 methodInfo.MakeGenericMethod(Type.GetType(value.Type, true)!)
                     .Invoke(null, new object[] { this._serviceCollection, this._configuration, key, key });
             }

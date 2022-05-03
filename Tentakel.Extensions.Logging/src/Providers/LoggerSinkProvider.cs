@@ -31,12 +31,18 @@ namespace Tentakel.Extensions.Logging.Providers
             this._options.OnChange((sink, name, _) =>
             {
                 if (this.ConfigurationName != name) return;
+                if (sink == null)
+                {
+                    this.RemoveLoggerSink(name);
+                    return;
+                }
+
                 this.AddOrUpdateLoggerSink(sink);
             });
 
             this.AddOrUpdateLoggerSinks(options.GetAll());
 
-            this._backgroundWorker = new BackgroundWorker(this);
+            this._backgroundWorker = new(this);
             this._backgroundWorker.Start();
         }
 
@@ -49,6 +55,8 @@ namespace Tentakel.Extensions.Logging.Providers
                 this._configurationName = value;
 
                 this.ClearLoggerSinks();
+
+                if (this._options == null) return;
                 this.AddOrUpdateLoggerSinks(this._options.GetAll(this._configurationName));
             }
         }

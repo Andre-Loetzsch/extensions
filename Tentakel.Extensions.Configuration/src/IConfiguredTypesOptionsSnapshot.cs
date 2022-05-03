@@ -7,7 +7,7 @@ namespace Tentakel.Extensions.Configuration
         IReadOnlyCollection<string> GetKeys<TOptions>();
         IReadOnlyCollection<string> GetKeys<TOptions>(string name);
 
-        TOptions Get<TOptions>(string key);
-        TOptions Get<TOptions>(string name, string key);
+        TOptions? Get<TOptions>(string key);
+        TOptions? Get<TOptions>(string name, string key);
     }
 }

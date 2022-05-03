@@ -14,15 +14,15 @@ namespace Tentakel.Extensions.Configuration
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, object>> _cache = new();
 
         private readonly List<IDisposable> _registrations = new();
-        private event Action<object, string, string> Changed;
-        private event Action<string> ConfigurationChanged;
+        private event Action<object?, string, string>? Changed;
+        private event Action<string>? ConfigurationChanged;
         
         public ConfiguredTypesOptionsMonitor(IOptionsMonitor<ConfiguredTypes> optionsMonitor, IConfigurationRoot configurationRoot)
         {
             this._optionsMonitor = optionsMonitor ?? throw new ArgumentNullException(nameof(optionsMonitor));
             this._configurationRoot = configurationRoot ?? throw new ArgumentNullException(nameof(configurationRoot));
 
-            this._optionsMonitor.OnChange((types, name) =>
+            this._optionsMonitor.OnChange((_, name) =>
             {
                 this.ConfigurationChanged?.Invoke(name);
                 var innerCache = this.GetInnerCache(name);
@@ -77,19 +77,22 @@ namespace Tentakel.Extensions.Configuration
             return this.GetConfiguredTypes(name).GetKeys<TOptions>();
         }
 
-        public TOptions Get<TOptions>(string key)
+        public TOptions? Get<TOptions>(string key)
         {
             return this.Get<TOptions>(Options.DefaultName, key);
         }
 
-        public TOptions Get<TOptions>(string name, string key)
+        public TOptions? Get<TOptions>(string name, string key)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (key == null) throw new ArgumentNullException(nameof(key));
 
-            var obj = this.GetInnerCache(name).GetOrAdd(key, k =>
-                this.GetConfiguredTypes(name).Get<object>(k));
+            if (!this.GetInnerCache(name).TryGetValue(key, out var obj))
+            {
+                obj = this.GetConfiguredTypes(name).Get<object>(key);
+            }
 
+            if (obj != null) this.GetInnerCache(name).TryAdd(key, obj);
             if (obj is TOptions options) return options;
             return default;
         }
@@ -107,6 +110,7 @@ namespace Tentakel.Extensions.Configuration
             }
 
             this._registrations.Clear();
+            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -115,9 +119,9 @@ namespace Tentakel.Extensions.Configuration
 
         private sealed class ChangeTrackerDisposable<TOptions> : IDisposable
         {
-            private readonly Action<string> _configurationChangedListener;
-            private readonly Action<TOptions, string> _optionsKeyListener;
-            private readonly Action<TOptions, string, string> _optionsNameKeyListener;
+            private readonly Action<string>? _configurationChangedListener;
+            private readonly Action<TOptions, string>? _optionsKeyListener;
+            private readonly Action<TOptions, string, string>? _optionsNameKeyListener;
 
             private readonly ConfiguredTypesOptionsMonitor _monitor;
 
@@ -143,7 +147,7 @@ namespace Tentakel.Extensions.Configuration
             {
                 this._configurationChangedListener?.Invoke(name);
             }
-            public void OnChange(object options, string name, string key)
+            public void OnChange(object? options, string name, string key)
             {
                 if (options is not TOptions op) return;
                 this._optionsKeyListener?.Invoke(op, key);

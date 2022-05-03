@@ -93,7 +93,7 @@ namespace Tentakel.Extensions.Logging.File.Benchmarks
             lock (syncObj)
             {
                 Console.WriteLine();
-                Console.WriteLine($"// Start LongRunningTest: fileNameTemplate={fileNameTemplate}, parameterized={parameterized}");
+                Console.WriteLine($"// Start LongRunning AddCallerInfos Test: fileNameTemplate={fileNameTemplate}, parameterized={parameterized}");
 
                 var loggerSinkProvider = new LoggerSinkProvider();
 
