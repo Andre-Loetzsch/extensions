@@ -6,6 +6,6 @@ public class LogEntryToStringTextFormatter : ITextFormatter
 {
     public string Format(LogEntry logEntry)
     {
-        return logEntry.ToString();
+        return string.Concat(logEntry.ToString().Replace(Environment.NewLine, "{NewLine}"), Environment.NewLine);
     }
 }
