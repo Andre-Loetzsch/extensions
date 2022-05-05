@@ -63,7 +63,7 @@ namespace Tentakel.Extensions.Logging
             {
                 if (!string.IsNullOrEmpty(this._source)) return this._source;
                 return SourceResolver.TryFindFromAttributes(this.Attributes, out this._source) ? 
-                    this._source ?? "{Source}" : "{Source}";
+                    this._source ?? string.Empty : string.Empty;
             }
             set => this._source = value;
         }
