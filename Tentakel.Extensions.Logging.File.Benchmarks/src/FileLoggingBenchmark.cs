@@ -1,5 +1,4 @@
-﻿using System.Text;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Abstractions;
 using Tentakel.Extensions.Logging.Providers;
