@@ -171,9 +171,8 @@ namespace Tentakel.Extensions.Logging.Providers
 
         internal void InternalLog(LogEntry logEntry)
         {
-
             var loggerSinks = this._loggerSinks.Values
-                  .Where(x => x.Categories.Contains(logEntry.LogCategory) &&
+                  .Where(x => (x.Categories.Contains(logEntry.LogCategory) || x.Categories.Contains("*")) &&
                               x.IsEnabled(logEntry.LogLevel)).ToList();
 
             foreach (var loggerSink in loggerSinks)
