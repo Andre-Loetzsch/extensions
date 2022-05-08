@@ -18,7 +18,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             this._provider = provider;
             this._logger = provider.CreateLogger("Tentakel.Logger");
             this._wait = new ManualResetEvent(false);
-        }
+        } 
 
         public bool IsRunning { get; private set; }
 
@@ -97,7 +97,6 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                         this._logEntryBackgroundStackIsEmpty = true;
                         this._provider.BackgroundStackIsEmpty();
                     }
-
                     
                     this._wait.Reset();
                     this._wait.WaitOne();
@@ -123,7 +122,6 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             }
 
             Thread.Sleep(10);
-
             return next;
         }
 
@@ -144,7 +142,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
 
             this._logEntryStackManager.Dispose();
 
-            if (this._wait?.SafeWaitHandle != null && !this._wait.SafeWaitHandle.IsClosed)
+            if (!this._wait.SafeWaitHandle.IsClosed)
             {
                 this._wait.Dispose();
             }
