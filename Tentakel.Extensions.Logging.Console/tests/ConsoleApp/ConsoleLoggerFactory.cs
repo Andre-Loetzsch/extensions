@@ -12,9 +12,20 @@ public class ConsoleLoggerFactory : ILoggerFactory
     {
         this._loggerSinkProvider.AddOrUpdateLoggerSink(new ColoredConsoleSink
         {
-            Categories = new []{"*"}, 
-            LogLevel = LogLevel.Trace, 
+            Name = "C1",
+            Categories = new[] { "Test" },
+            LogLevel = LogLevel.Trace,
+            ForegroundColor = ConsoleColor.White,
             TextFormatter = new TestTextFormatter()
+        });
+
+        this._loggerSinkProvider.AddOrUpdateLoggerSink(new ColoredConsoleSink
+        {
+            Name = "C2",
+            Categories = new[] { "ConsoleApp.Program" },
+            LogLevel = LogLevel.Trace,
+            ForegroundColor = ConsoleColor.DarkCyan,
+            TextFormatter = new TestTextFormatter2()
         });
     }
 

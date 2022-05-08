@@ -7,17 +7,53 @@ internal class Program
     private static void Main()
     {
 
-        var logger = new ConsoleLoggerFactory().CreateLogger<Program>();
+        var loggerFactory = new ConsoleLoggerFactory();
+        var logger1 = loggerFactory.CreateLogger<Program>();
+        var logger2 = loggerFactory.CreateLogger("Test");
 
-        logger.LogTrace("This is a Trace message!");
-        logger.LogDebug("This is a Debug message!");
-        logger.LogInformation("This is a Information message!");
-        logger.LogWarning("This is a Warning message!");
-        logger.LogError("This is a Error message!");
-        logger.LogCritical("This is a Critical message!");
 
-        logger.LogTrace($"This is a Trace message{Environment.NewLine}with multi{Environment.NewLine}lines.");
+        logger1.LogTrace("This is a Trace message!");
+        //logger2.LogTrace("This is a Trace message!");
+
+
+        logger1.LogDebug("This is a Debug message!");
+        //logger2.LogDebug("This is a Debug message!");
+
+
+        logger1.LogInformation("This is a Information message!");
+        //logger2.LogInformation("This is a Information message!");
+
+
+        logger1.LogWarning("This is a Warning message!");
+        //logger2.LogWarning("This is a Warning message!");
+
+
+        logger1.LogError("This is a Error message!");
+        //logger2.LogError("This is a Error message!");
+
+
+        logger1.LogCritical("This is a Critical message!");
+        //logger2.LogCritical("This is a Critical message!");
+
+
+        logger1.LogTrace($"This is a Trace message{Environment.NewLine}with multi{Environment.NewLine}lines.");
+        //logger2.LogTrace($"This is a Trace message{Environment.NewLine}with multi{Environment.NewLine}lines.");
+
+
+        //Console.ReadLine();
+
+
+
+        logger2.LogTrace("This is a Trace message!");
+        logger2.LogDebug("This is a Debug message!");
+        logger2.LogInformation("This is a Information message!");
+        logger2.LogWarning("This is a Warning message!");
+        logger2.LogError("This is a Error message!");
+        logger2.LogCritical("This is a Critical message!");
+        logger2.LogTrace($"This is a Trace message{Environment.NewLine}with multi{Environment.NewLine}lines.");
+
 
         Console.ReadLine();
     }
-}
+
+} 

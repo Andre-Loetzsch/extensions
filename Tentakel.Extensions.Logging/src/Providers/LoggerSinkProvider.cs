@@ -31,6 +31,7 @@ namespace Tentakel.Extensions.Logging.Providers
             this._options.OnChange((sink, name, _) =>
             {
                 if (this.ConfigurationName != name) return;
+                
                 if (sink == null)
                 {
                     this.RemoveLoggerSink(name);
