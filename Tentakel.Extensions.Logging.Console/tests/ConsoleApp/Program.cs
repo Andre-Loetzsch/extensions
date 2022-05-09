@@ -6,7 +6,6 @@ internal class Program
 {
     private static void Main()
     {
-
         var loggerFactory = new ConsoleLoggerFactory();
         var logger1 = loggerFactory.CreateLogger<Program>();
         var logger2 = loggerFactory.CreateLogger("Test");
@@ -52,6 +51,10 @@ internal class Program
         logger2.LogCritical("This is a Critical message!");
         logger2.LogTrace($"This is a Trace message{Environment.NewLine}with multi{Environment.NewLine}lines.");
 
+        for (var i = 0; i < 30; i++)
+        {
+            loggerFactory.CreateLogger($"Test{i}").LogInformation("Test category colors..");
+        }
 
         Console.ReadLine();
     }

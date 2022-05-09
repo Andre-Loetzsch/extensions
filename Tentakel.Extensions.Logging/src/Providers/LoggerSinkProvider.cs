@@ -20,7 +20,7 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public LoggerSinkProvider()
         {
-            this._backgroundWorker = new BackgroundWorker(this);
+            this._backgroundWorker = new(this);
             this._backgroundWorker.Start();
         }
 
@@ -173,8 +173,15 @@ namespace Tentakel.Extensions.Logging.Providers
         internal void InternalLog(LogEntry logEntry)
         {
             var loggerSinks = this._loggerSinks.Values
-                  .Where(x => (x.Categories.Contains(logEntry.LogCategory) || x.Categories.Contains("*")) &&
-                              x.IsEnabled(logEntry.LogLevel)).ToList();
+                .Where(x => (x.IsEnabled(logEntry.LogLevel) &&
+                            (
+                                 x.Categories.Any(c => c.EndsWith("*") && logEntry.LogCategory.StartsWith(c.TrimEnd('*'))) ||
+                                 x.Categories.Any(c => c.StartsWith("*") && logEntry.LogCategory.EndsWith(c.TrimStart('*'))) ||
+                                 x.Categories.Any(c => c.StartsWith("*") && c.EndsWith("*") && logEntry.LogCategory.Contains(c.Trim('*'))) ||
+                                 x.Categories.Contains(logEntry.LogCategory) ||
+                                 x.Categories.Contains("*")
+                             )
+                            )).ToList();
 
             foreach (var loggerSink in loggerSinks)
             {
