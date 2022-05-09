@@ -16,7 +16,7 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
         }
 
         public string Name { get; set; }
-        public string[] Categories { get; set; } = {"*"};
+        public string[] Categories { get; set; } = Array.Empty<string>();
         public LogLevel LogLevel { get; set; }
 
         public bool IsEnabled(LogLevel logLevel)

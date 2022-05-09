@@ -5,7 +5,9 @@ namespace Tentakel.Extensions.Logging.Console
 {
     public class ColoredConsoleSink : TextLoggerSinkBase
     {
-        private static readonly object syncObj = new object();
+        private static readonly object syncObj = new();
+        private bool _textFormatterCreated;
+        private static readonly Dictionary<string, ConsoleColor> categoryForegroundColors = new();
 
         public ColoredConsoleSink() : this(nameof(LoggerSinks.ConsoleColorSink))
         {
@@ -16,34 +18,31 @@ namespace Tentakel.Extensions.Logging.Console
             this.Name = name;
         }
 
-
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.White;
-
 
         public override void Log(LogEntry logEntry)
         {
             try
             {
-               
                 lock (syncObj)
                 {
-                    //if (this.TextFormatter == null)
-                    //{
+                    if (this._textFormatterCreated)
+                    {
+                        this._textFormatterCreated = true;
+                        this.CreateTextFormatter();
+                    }
+                    
+                    this.ColorizeKeywords(logEntry, this.TextFormatter.Format(logEntry));
+                    //System.Console.WriteLine(this.TextFormatter.Format(logEntry));
 
-                    //}
-
-                    var log = this.TextFormatter.Format(logEntry);
-
-                    //System.Console.WriteLine(log);
-                    //System.Console.WriteLine();
-                    this.ColorizeKeywords(logEntry, log);
-                    //Thread.Sleep(50);
                 }
 
             }
             catch (Exception e)
             {
+                System.Console.ForegroundColor = ConsoleColor.Red;
                 System.Console.WriteLine(e.Message);
+                System.Console.ResetColor();
             }
         }
 
@@ -79,14 +78,25 @@ namespace Tentakel.Extensions.Logging.Console
                 {
                     if (messageLineDict.TryGetValue(test, out var msg))
                     {
-                        System.Console.ForegroundColor = ConsoleColor.Cyan;
+                        System.Console.ForegroundColor = logEntry.LogLevel switch
+                        {
+                            LogLevel.Trace => ConsoleColor.DarkGray,
+                            LogLevel.Debug => ConsoleColor.Gray,
+                            LogLevel.Information => ConsoleColor.Blue,
+                            LogLevel.Warning => ConsoleColor.Yellow,
+                            LogLevel.Error => ConsoleColor.Red,
+                            LogLevel.Critical => ConsoleColor.DarkRed,
+                            _ => this.ForegroundColor
+                        };
+
+                        //System.Console.ForegroundColor = this.ForegroundColor;
                         System.Console.Write(msg);
                         continue;
                     }
 
                     if (test == "LogCategory")
                     {
-                        System.Console.ForegroundColor = ConsoleColor.Magenta;
+                        System.Console.ForegroundColor = GetCategoryForegroundColors(logEntry.LogCategory);
                         System.Console.Write(logEntry.LogCategory);
                         continue;
                     }
@@ -108,6 +118,17 @@ namespace Tentakel.Extensions.Logging.Console
                 System.Console.ResetColor();
                 System.Console.WriteLine();
             }
+        }
+
+        private static ConsoleColor GetCategoryForegroundColors(string logCategory)
+        {
+            if (categoryForegroundColors.TryGetValue(logCategory, out var color)) return color;
+
+            var colorIndex = categoryForegroundColors.Count % 15;
+            color = (ConsoleColor)colorIndex + 1;
+
+            categoryForegroundColors[logCategory] = color;
+            return color;
         }
     }
 }
