@@ -8,6 +8,8 @@ namespace Tentakel.Extensions.Logging.File
 {
     public class FileSink : TextLoggerSinkBase
     {
+        public event EventHandler<FileChangedEventArgs> FileChanged;
+
         private const string defaultFileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.{processId}.log";
         private FileStream? _fileStream;
         private DateTime _fileNameExpiryDateTime = DateTime.MinValue;
@@ -68,7 +70,10 @@ namespace Tentakel.Extensions.Logging.File
                 }
             }
 
+            var fileChangedEventArgs = new FileChangedEventArgs(this.FileName, fileName);
+
             this.FileName = fileName;
+            this.FileChanged?.Invoke(this, fileChangedEventArgs);
             this._fileStream?.Close();
 
             var directory = Path.GetDirectoryName(this.FileName);

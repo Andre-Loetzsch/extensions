@@ -16,7 +16,7 @@ public class ConsoleLoggerFactory : ILoggerFactory
             Categories = new[] { "Test" },
             LogLevel = LogLevel.Trace,
             ForegroundColor = ConsoleColor.White,
-            TextFormatter = new TestTextFormatter()
+            TextFormatter = new TestTextFormatter1()
         });
 
         this._loggerSinkProvider.AddOrUpdateLoggerSink(new ColoredConsoleSink
