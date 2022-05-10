@@ -121,7 +121,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
                 next = this._logEntryStackManager.GetLogEntry();
             }
 
-            Thread.Sleep(10);
+            Thread.Sleep(150);
             return next;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.Providers;
 using Tentakel.Extensions.Logging.SourceHelper;
@@ -36,24 +37,29 @@ namespace Tentakel.Extensions.Logging.Loggers
                 {
                     logEntry.Attributes = new Dictionary<string, object>(attributes);
                 }
-
-                // TODO edit conditions
+              
                 if (logEntry.IsSourceNullOrEmpty)
                 {
-                    var originalFormat = logEntry.Attributes.TryGetValue("{OriginalFormat}", out var value)
-                        ? value
-                        : null;
-                    var callerFilePath = logEntry.Attributes.TryGetValue("{CallerFilePath}", out value)
-                        ? value
-                        : null;
-                    var callerMemberName = logEntry.Attributes.TryGetValue("{CallerMemberName}", out value)
-                        ? value
-                        : null;
-                    var callerLineNumber = logEntry.Attributes.TryGetValue("{CallerLineNumber}", out value)
-                        ? value
-                        : null;
-                    var sourceKey =
-                        $"{originalFormat}:{callerFilePath}:{callerMemberName}:{callerLineNumber}:{callerLineNumber}";
+                    var sb = new StringBuilder();
+                    string? sourceKey;
+
+                    if (logEntry.Attributes.TryGetValue("{CallerFilePath}", out var callerFilePath) &&     
+                        logEntry.Attributes.TryGetValue("{CallerMemberName}", out var callerMemberName) &&
+                        logEntry.Attributes.TryGetValue("{CallerLineNumber}", out var callerLineNumber))
+                    {
+                        sb.Append(callerFilePath).Append(':')
+                            .Append(callerMemberName).Append(':')
+                            .Append(callerLineNumber);
+
+                        sourceKey = sb.ToString();
+                    }
+                    else
+                    {
+                        sourceKey = logEntry.Attributes.TryGetValue("{OriginalFormat}", out var value) ?
+                                value.ToString() : logEntry.Message;
+                    }
+
+                    if (string.IsNullOrEmpty(sourceKey)) sourceKey = Guid.NewGuid().ToString();
 
                     if (this._sourceCache.TryGetSource(sourceKey, out var source))
                     {

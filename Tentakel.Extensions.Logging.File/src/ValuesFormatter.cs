@@ -2,7 +2,6 @@
 {
     public class ValuesFormatter
     {
-
         public ValuesFormatter(string formatTemplate)
         {
             this.FormatTemplate = formatTemplate;
