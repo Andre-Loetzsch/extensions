@@ -17,7 +17,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
         {
             this._provider = provider;
             this._logger = provider.CreateLogger("Tentakel.Logger");
-            this._wait = new ManualResetEvent(false);
+            this._wait = new(false);
         } 
 
         public bool IsRunning { get; private set; }
@@ -51,7 +51,7 @@ namespace Tentakel.Extensions.Logging.BackgroundWork
             if (this.IsDisposed) throw new ObjectDisposedException("BackgroundWorker", SR.BackgroundWorkerHasBeenDisposed);
             if (this.IsRunning) return;
 
-            this._backgroundThread = new Thread(this.Run)
+            this._backgroundThread = new(this.Run)
             {
                 Name = "TracingBW",
                 IsBackground = true,

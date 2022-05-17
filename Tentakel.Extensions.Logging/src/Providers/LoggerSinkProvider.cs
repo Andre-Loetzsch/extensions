@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
@@ -187,7 +188,16 @@ namespace Tentakel.Extensions.Logging.Providers
             {
                 logEntry.LoggerSinkName = loggerSink.Name;
                 logEntry.LoggerSinkType = loggerSink.GetType();
-                loggerSink.Log(logEntry);
+
+                try
+                {
+                    loggerSink.Log(logEntry);
+                }
+                catch (Exception ex)
+                {
+                    var excMsg = $"SinkType: {logEntry.LoggerSinkType}, SinkName: {logEntry.LoggerSinkName} Message: {ex.Message}";
+                    File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Trace.log"), excMsg);
+                }
             }
 
             logEntry.LoggerSinkName = null;
