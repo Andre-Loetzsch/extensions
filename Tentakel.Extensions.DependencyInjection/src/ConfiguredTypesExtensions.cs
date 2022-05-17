@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,7 +11,7 @@ namespace Tentakel.Extensions.DependencyInjection
     {
         #region IServiceCollection
 
-        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, string section = "types", string name = null)
+        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, string section = "types", string? name = null)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
 
@@ -23,7 +22,7 @@ namespace Tentakel.Extensions.DependencyInjection
             return collection.AddConfiguredTypes(configurationRoot, section, name);
         }
 
-        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, IConfigurationRoot configurationRoot, string section = "types", string name = null)
+        public static IServiceCollection AddConfiguredTypes(this IServiceCollection collection, IConfigurationRoot configurationRoot, string section = "types", string? name = null)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
             if (configurationRoot == null) throw new ArgumentNullException(nameof(configurationRoot));
@@ -61,16 +60,14 @@ namespace Tentakel.Extensions.DependencyInjection
 
         #region IServiceProvider
 
-        public static T GetRequiredService<T>(this IServiceProvider provider, string key)
+        public static T? GetRequiredService<T>(this IServiceProvider provider, string key)
         {
             return provider.GetRequiredService<IConfiguredTypesOptionsMonitor>().Get<T>(key);
         }
 
-
         public static IEnumerable<T> GetRequiredServices<T>(this IServiceProvider provider)
         {
-            return provider.GetRequiredService<IConfiguredTypesOptionsMonitor<T>>().GetKeys()
-                .Select(key => provider.GetRequiredService<IConfiguredTypesOptionsMonitor<T>>().Get(key));
+            return provider.GetRequiredService<IConfiguredTypesOptionsMonitor<T>>().GetAll();
         }
 
         #endregion

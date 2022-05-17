@@ -24,7 +24,7 @@ namespace Tentakel.Extensions.Configuration.Json
             return AddWritableJsonFile(builder, provider: null, path: path, optional: optional, reloadOnChange: reloadOnChange);
         }
 
-        public static IConfigurationBuilder AddWritableJsonFile(this IConfigurationBuilder builder, IFileProvider provider, string path, bool optional, bool reloadOnChange)
+        public static IConfigurationBuilder AddWritableJsonFile(this IConfigurationBuilder builder, IFileProvider? provider, string path, bool optional, bool reloadOnChange)
         {
             if (builder == null)
             {
@@ -58,7 +58,7 @@ namespace Tentakel.Extensions.Configuration.Json
             }
 
             var buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
+            _ = stream.Read(buffer, 0, buffer.Length);
             stream.Position = 0;
 
             var ms = new MemoryStream(buffer) { Position = 0 };

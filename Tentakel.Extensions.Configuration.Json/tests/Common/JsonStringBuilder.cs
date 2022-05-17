@@ -14,8 +14,10 @@ namespace Tentakel.Extensions.Configuration.Json.Tests.Common
 
             foreach (var (key, value) in configuration)
             {
-                // ReSharper disable once PossibleNullReferenceException
-                var typeInfos = value.GetType().AssemblyQualifiedName.Split(", ");
+                var assemblyQualifiedName = value.GetType().AssemblyQualifiedName;
+                if (assemblyQualifiedName == null) continue;
+                
+                var typeInfos = assemblyQualifiedName.Split(", ");
                 typeDescriptions.Add(key, new() { Type = $"{typeInfos[0]}, {typeInfos[1]}" });
             }
 

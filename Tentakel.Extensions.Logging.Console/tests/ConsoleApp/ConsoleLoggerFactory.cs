@@ -42,6 +42,7 @@ public class ConsoleLoggerFactory : ILoggerFactory
     public void Dispose()
     {
         this._loggerSinkProvider.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     public ILogger CreateLogger(string categoryName)

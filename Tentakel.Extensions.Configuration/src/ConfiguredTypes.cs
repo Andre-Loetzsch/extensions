@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
@@ -34,7 +35,7 @@ namespace Tentakel.Extensions.Configuration
             }
         }
 
-        public bool TryGet<T>(string key, out T? instance)
+        public bool TryGet<T>(string key, [MaybeNullWhen(false)] out T instance)
         {
             instance = this.Get<T>(key);
             return instance != null;

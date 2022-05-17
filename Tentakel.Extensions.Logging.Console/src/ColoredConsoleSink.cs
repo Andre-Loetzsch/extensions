@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.TextFormatters.Abstractions.LoggerSinks;
 
 namespace Tentakel.Extensions.Logging.Console
@@ -9,7 +11,7 @@ namespace Tentakel.Extensions.Logging.Console
         private bool _textFormatterCreated;
         private static readonly Dictionary<string, ConsoleColor> categoryForegroundColors = new();
 
-        public ColoredConsoleSink() : this(nameof(LoggerSinks.ConsoleColorSink))
+        public ColoredConsoleSink() : this(nameof(ColoredConsoleSink))
         {
         }
 
@@ -34,7 +36,6 @@ namespace Tentakel.Extensions.Logging.Console
                     
                     this.ColorizeKeywords(logEntry, this.TextFormatter.Format(logEntry));
                     //System.Console.WriteLine(this.TextFormatter.Format(logEntry));
-
                 }
 
             }
@@ -45,7 +46,6 @@ namespace Tentakel.Extensions.Logging.Console
                 System.Console.ResetColor();
             }
         }
-
 
         private void ColorizeKeywords(LogEntry logEntry, string formatMessage)
         {

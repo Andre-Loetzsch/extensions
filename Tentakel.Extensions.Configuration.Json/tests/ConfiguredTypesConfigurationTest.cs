@@ -80,6 +80,9 @@ namespace Tentakel.Extensions.Configuration.Json.Tests
 
             var nc1 = configuration2.GetSection("NC1").Get<NestedClass>();
             Assert.IsNotNull(nc1);
+            Assert.IsNotNull(nc1.C1);
+            Assert.IsNotNull(nc1.C2);
+
             Assert.AreEqual("P1", nc1.C1.Property1);
             Assert.AreEqual("P2", nc1.C2.Property2);
 
@@ -102,10 +105,16 @@ namespace Tentakel.Extensions.Configuration.Json.Tests
 
             nc1 = configuration.GetSection("NC1").Get<NestedClass>();
             Assert.IsNotNull(nc1);
+            Assert.IsNotNull(nc1.C1);
+            Assert.IsNotNull(nc1.C2);
+
             Assert.AreEqual("P1", nc1.C1.Property1);
             Assert.AreEqual("P2", nc1.C2.Property2);
 
             Assert.IsNotNull(nc1.Sub);
+            Assert.IsNotNull(nc1.Sub.C1);
+            Assert.IsNotNull(nc1.Sub.C2);
+
             Assert.AreEqual("SUB1:P1", nc1.Sub.C1.Property1);
             Assert.AreEqual("SUB1:P2", nc1.Sub.C2.Property2);
 
@@ -128,10 +137,16 @@ namespace Tentakel.Extensions.Configuration.Json.Tests
 
             nc1 = configuration.GetSection("NC1").Get<NestedClass>();
             Assert.IsNotNull(nc1);
+            Assert.IsNotNull(nc1.C1);
+            Assert.IsNotNull(nc1.C2);
+
             Assert.AreEqual("P1", nc1.C1.Property1);
             Assert.AreEqual("P2", nc1.C2.Property2);
 
             Assert.IsNotNull(nc1.Sub);
+            Assert.IsNotNull(nc1.Sub.C1);
+            Assert.IsNotNull(nc1.Sub.C2);
+
             Assert.AreEqual("SUB1:P1", nc1.Sub.C1.Property1);
             Assert.AreEqual("SUB1:P2", nc1.Sub.C2.Property2);
         }
@@ -179,7 +194,7 @@ namespace Tentakel.Extensions.Configuration.Json.Tests
 
             dict = new(configuredTypes
                 .Where(x => x.Value.Instance is { } and not Exception)
-                .Select(x => new KeyValuePair<string, object>(x.Key, x.Value.Instance)));
+                .Select(x => new KeyValuePair<string, object>(x.Key, x.Value.Instance!)));
 
             jsonStr = JsonStringBuilder.Build(dict, "types");
             buffer = Encoding.UTF8.GetBytes(jsonStr);

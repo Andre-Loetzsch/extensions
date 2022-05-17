@@ -15,9 +15,11 @@ namespace Tentakel.Extensions.DependencyInjection.Tests.Common
 
             foreach (var (key, value) in configuration)
             {
-                // ReSharper disable once PossibleNullReferenceException
-                var typeInfos = value.GetType().AssemblyQualifiedName.Split(", ");
-                typeDescriptions.Add(key, new ConfiguredType { Type = $"{typeInfos[0]}, {typeInfos[1]}" });
+                var assemblyQualifiedName = value.GetType().AssemblyQualifiedName;
+                if (assemblyQualifiedName == null) continue;
+
+                var typeInfos = assemblyQualifiedName.Split(", ");
+                typeDescriptions.Add(key, new() { Type = $"{typeInfos[0]}, {typeInfos[1]}" });
             }
 
             sb.AppendLine("{")
