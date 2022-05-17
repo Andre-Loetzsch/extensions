@@ -4,13 +4,10 @@ namespace Tentakel.Extensions.Logging.TextFormatters.Abstractions;
 
 public class DefaultTextFormatter : ITextFormatter
 {
-
-    private readonly StringBuilder _stringBuilder = new StringBuilder();
-
+    private readonly StringBuilder _stringBuilder = new();
 
     public string Format(LogEntry logEntry)
     {
-
         this._stringBuilder.Length = 0;
         this._stringBuilder.Append('[')
             .Append(logEntry.LogEntryId.ToString("0000000")).Append(' ')
@@ -21,8 +18,5 @@ public class DefaultTextFormatter : ITextFormatter
             .Append(logEntry.Message).Append(Environment.NewLine);
 
         return this._stringBuilder.ToString();
-
-
-        //return $"[{logEntry.LogEntryId:0000000}] [{logEntry.DateTime:yyyy-MM-dd HH:mm:ss}] [{logEntry.LogLevel}] [{logEntry.LogCategory}] {logEntry.Source} - {logEntry.Message}{Environment.NewLine}";
     }
 }

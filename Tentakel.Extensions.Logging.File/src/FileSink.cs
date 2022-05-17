@@ -8,8 +8,6 @@ namespace Tentakel.Extensions.Logging.File
 {
     public class FileSink : TextLoggerSinkBase
     {
-        public event EventHandler<FileChangedEventArgs> FileChanged;
-
         private const string defaultFileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.{processId}.log";
         private FileStream? _fileStream;
         private DateTime _fileNameExpiryDateTime = DateTime.MinValue;
@@ -41,7 +39,7 @@ namespace Tentakel.Extensions.Logging.File
                 this.CreateFile();
             }
 
-            var buffer = Encoding.UTF8.GetBytes(this.TextFormatter.Format(logEntry));
+            var buffer = this.GetBytes(logEntry);
 
             if (this.MaxFileSize > 0 && this._fileStream!.Length + buffer.Length > this.MaxFileSize)
             {
@@ -64,17 +62,18 @@ namespace Tentakel.Extensions.Logging.File
 
             if (this.OverrideExistingFile && !string.IsNullOrEmpty(this.FileName))
             {
-                foreach (var partialFile in FindExistsPartialFileNames(this.FileName))
+                foreach (var partialFile in this.FindExistsPartialFileNames(this.FileName))
                 {
                     IOFile.Delete(partialFile);
                 }
             }
 
-            var fileChangedEventArgs = new FileChangedEventArgs(this.FileName, fileName);
+            var oldFileName = this.FileName;
 
             this.FileName = fileName;
-            this.FileChanged?.Invoke(this, fileChangedEventArgs);
             this._fileStream?.Close();
+
+            this.FileNameChanged(oldFileName, fileName);
 
             var directory = Path.GetDirectoryName(this.FileName);
 
@@ -85,7 +84,7 @@ namespace Tentakel.Extensions.Logging.File
 
             if (this.OverrideExistingFile)
             {
-                foreach (var partialFile in FindExistsPartialFileNames(this.FileName))
+                foreach (var partialFile in this.FindExistsPartialFileNames(this.FileName))
                 {
                     IOFile.Delete(partialFile);
                 }
@@ -108,8 +107,12 @@ namespace Tentakel.Extensions.Logging.File
                 (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFomTemplate(this.FileNameTemplate);
             }
 
-            IOFile.Move(this.FileName, FindNextPartialFileName(this.FileName), true);
+            var partialFileName = this.FindNextPartialFileName(this.FileName);
+
+            IOFile.Move(this.FileName, partialFileName, true);
             this._fileStream = IOFile.Open(this.FileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
+
+            this.PartialFileCreated(partialFileName);
         }
 
         private static (string, DateTime) CreateFileNameAndExpiryDateTimeFomTemplate(string fileNameTemplate)
@@ -172,7 +175,11 @@ namespace Tentakel.Extensions.Logging.File
             return (fileName, fileNameExpiryDateTime);
         }
 
-        private static IEnumerable<string> FindExistsPartialFileNames(string fileName)
+        #endregion
+
+        #region protected virtual
+
+        protected virtual IEnumerable<string> FindExistsPartialFileNames(string fileName)
         {
             var fileExtension = Path.GetExtension(fileName);
             var index = 1;
@@ -186,7 +193,7 @@ namespace Tentakel.Extensions.Logging.File
             }
         }
 
-        private static string FindNextPartialFileName(string fileName)
+        protected virtual string FindNextPartialFileName(string fileName)
         {
             var fileExtension = Path.GetExtension(fileName);
             var index = 1;
@@ -199,6 +206,19 @@ namespace Tentakel.Extensions.Logging.File
             }
 
             return result;
+        }
+        protected virtual void FileNameChanged(string? oldFileName, string newFileName)
+        {
+
+        }
+        protected virtual void PartialFileCreated(string fileName)
+        {
+
+        }
+
+        protected virtual byte[] GetBytes(LogEntry logEntry)
+        {
+            return Encoding.UTF8.GetBytes(this.TextFormatter.Format(logEntry));
         }
 
         #endregion
