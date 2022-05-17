@@ -2,7 +2,6 @@
 {
     public interface IInterface2
     {
-        string Property2 { get; set; }
-
+        string? Property2 { get; set; }
     }
 }

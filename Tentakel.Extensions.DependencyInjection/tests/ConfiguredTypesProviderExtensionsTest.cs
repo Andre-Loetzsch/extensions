@@ -304,22 +304,22 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             Assert.IsNotNull(c3OptionsMonitor.Get("C3B"));
             // not configured
             Assert.IsNotNull(c3OptionsMonitor.Get("C3C"));
-            c3OptionsMonitor.Get("C3C").Property3 = "ValueC3C";
+            c3OptionsMonitor.Get("C3C")!.Property3 = "ValueC3C";
 
-            Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A").Property1);
-            Assert.IsNull(c1OptionsMonitor.Get("C1B").Property1);
+            Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A")!.Property1);
+            Assert.IsNull(c1OptionsMonitor.Get("C1B")!.Property1);
 
-            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A").Property2);
-            Assert.IsNull(c2OptionsMonitor.Get("C2B").Property2);
+            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A")!.Property2);
+            Assert.IsNull(c2OptionsMonitor.Get("C2B")!.Property2);
 
-            Assert.IsNull(c3OptionsMonitor.Get("C3A").Property3);
-            Assert.IsNull(c3OptionsMonitor.Get("C3B").Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C3A")!.Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C3B")!.Property3);
 
             Assert.IsNotNull(c1OptionsMonitor.Get("sub", "SC1A"));
-            Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get("sub", "SC1A").Property1);
+            Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get("sub", "SC1A")!.Property1);
 
             Assert.IsNotNull(c2OptionsMonitor.Get("sub", "SC2A"));
-            Assert.AreEqual("ValueS2A", c2OptionsMonitor.Get("sub", "SC2A").Property2);
+            Assert.AreEqual("ValueS2A", c2OptionsMonitor.Get("sub", "SC2A")!.Property2);
 
             var onChangeResult = new List<string>();
             var onChangeResult1 = new Dictionary<string, Class1>();
@@ -340,21 +340,21 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
 
             var disp1 = c1OptionsMonitor.OnChange((class1, name, key) =>
             {
-                onChangeResult1.Add($"{name}:{key}", class1);
+                onChangeResult1.Add($"{name}:{key}", class1!);
                 if (onChangeResult1.Count < 3) return;
                 waitHandle1.Set();
             });
 
             var disp2 = c2OptionsMonitor.OnChange((class2, name, key) =>
             {
-                onChangeResult2.Add($"{name}:{key}", class2);
+                onChangeResult2.Add($"{name}:{key}", class2!);
                 if (onChangeResult2.Count < 3) return;
                 waitHandle2.Set();
             });
 
             var disp3 = c3OptionsMonitor.OnChange((class3, name, key) =>
             {
-                onChangeResult3.Add($"{name}:{key}", class3);
+                onChangeResult3.Add($"{name}:{key}", class3!);
                 if (onChangeResult3.Count < 2) return;
                 waitHandle3.Set();
             });
@@ -385,24 +385,24 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             Assert.AreEqual(2, c1OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C1A", c1OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("C1B", c1OptionsMonitor.GetKeys().ToList()[1]);
-            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get("C1A").Property1);
-            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get("C1B").Property1);
+            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get("C1A")!.Property1);
+            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get("C1B")!.Property1);
 
             Assert.AreEqual(2, c2OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C2A", c2OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("C2B", c2OptionsMonitor.GetKeys().ToList()[1]);
-            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get("C2A").Property2);
-            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get("C2B").Property2);
+            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get("C2A")!.Property2);
+            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get("C2B")!.Property2);
 
             Assert.AreEqual(2, c3OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C3A", c3OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("C3B", c3OptionsMonitor.GetKeys().ToList()[1]);
-            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get("C3A").Property3);
-            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get("C3B").Property3);
-            Assert.IsNull(c3OptionsMonitor.Get("C3C").Property3);
+            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get("C3A")!.Property3);
+            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get("C3B")!.Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C3C")!.Property3);
 
             var c3OptionsMonitor2 = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class3>>();
-            Assert.IsNull(c3OptionsMonitor2.Get("C3C").Property3);
+            Assert.IsNull(c3OptionsMonitor2.Get("C3C")!.Property3);
 
             disp.Dispose();
             disp1.Dispose();
@@ -455,20 +455,20 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             // not configured
             Assert.IsNull(c3OptionsMonitor.Get("C3C"));
 
-            Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A").Property1);
+            Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A")!.Property1);
             Assert.IsNull(c1OptionsMonitor.Get("C1B"));
 
-            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A").Property2);
+            Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A")!.Property2);
             Assert.IsNull(c2OptionsMonitor.Get("C2B"));
 
             Assert.IsNull(c3OptionsMonitor.Get("C3A"));
             Assert.IsNull(c3OptionsMonitor.Get("C3B"));
 
             Assert.IsNotNull(c1OptionsMonitor.Get("sub", "SC1A"));
-            Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get("sub", "SC1A").Property1);
+            Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get("sub", "SC1A")!.Property1);
 
             Assert.IsNotNull(c2OptionsMonitor.Get("sub", "SC2A"));
-            Assert.AreEqual("ValueS2A", c2OptionsMonitor.Get("sub", "SC2A").Property2);
+            Assert.AreEqual("ValueS2A", c2OptionsMonitor.Get("sub", "SC2A")!.Property2);
 
             var onChangeResult = new List<string>();
             var onChangeResult1 = new Dictionary<string, IInterface1>();
@@ -478,7 +478,6 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             var waitHandle = new AutoResetEvent(false);
             var waitHandle1 = new AutoResetEvent(false);
             var waitHandle2 = new AutoResetEvent(false);
-            var waitHandle3 = new AutoResetEvent(false);
 
             var disp = c1OptionsMonitor.OnChange(name =>
             {
@@ -489,69 +488,61 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
 
             var disp1 = c1OptionsMonitor.OnChange((class1, name, key) =>
             {
-                onChangeResult1.Add($"{name}:{key}", class1);
-                if (onChangeResult1.Count < 3) return;
+                onChangeResult1.Add($"{name}:{key}", class1!);
+                if (onChangeResult1.Count < 2) return;
                 waitHandle1.Set();
             });
 
             var disp2 = c2OptionsMonitor.OnChange((class2, name, key) =>
             {
-                onChangeResult2.Add($"{name}:{key}", class2);
-                if (onChangeResult2.Count < 3) return;
+                onChangeResult2.Add($"{name}:{key}", class2!);
+                if (onChangeResult2.Count < 2) return;
                 waitHandle2.Set();
             });
 
             var disp3 = c3OptionsMonitor.OnChange((class3, name, key) =>
             {
-                onChangeResult3.Add($"{name}:{key}", class3);
-                if (onChangeResult3.Count < 3) return;
-                waitHandle3.Set();
+                onChangeResult3.Add($"{name}:{key}", class3!);
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 300));
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 300));
 
             Assert.AreEqual(2, onChangeResult.Count);
-            Assert.AreEqual(3, onChangeResult1.Count);
-            Assert.AreEqual(3, onChangeResult2.Count);
-            Assert.AreEqual(3, onChangeResult3.Count);
+            Assert.AreEqual(2, onChangeResult1.Count);
+            Assert.AreEqual(2, onChangeResult2.Count);
+            Assert.AreEqual(0, onChangeResult3.Count);
 
             Assert.IsTrue(onChangeResult.Contains(Options.DefaultName));
             Assert.IsTrue(onChangeResult.Contains("sub"));
 
             Assert.IsTrue(onChangeResult1.TryGetValue(":C1A", out var c1A) && c1A.Property1 == "Value1AX");
-            Assert.IsTrue(onChangeResult1.TryGetValue(":C1B", out var c1B) && c1B.Property1 == "Value1BX");
             Assert.IsTrue(onChangeResult1.TryGetValue("sub:SC1A", out var sC1A) && sC1A.Property1 == "ValueS1A");
 
             Assert.IsTrue(onChangeResult2.TryGetValue(":C2A", out var c2A) && c2A.Property2 == "Value2AX");
-            Assert.IsTrue(onChangeResult2.TryGetValue(":C2B", out var c2B) && c2B.Property2 == "Value2BX");
             Assert.IsTrue(onChangeResult2.TryGetValue("sub:SC2A", out var sSc2A) && sSc2A.Property2 == "ValueS2A");
-
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3A", out var c3A) && c3A.Property3 == "Value3AX");
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3B", out var c3B) && c3B.Property3 == "Value3BX");
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3C", out var c3C) && c3C == null);
 
             Assert.AreEqual(2, c1OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C1A", c1OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("C1B", c1OptionsMonitor.GetKeys().ToList()[1]);
-            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get("C1A").Property1);
-            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get("C1B").Property1);
+            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get("C1A")!.Property1);
+            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get("C1B")!.Property1);
 
             Assert.AreEqual(2, c2OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C2A", c2OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("C2B", c2OptionsMonitor.GetKeys().ToList()[1]);
-            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get("C2A").Property2);
-            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get("C2B").Property2);
+            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get("C2A")!.Property2);
+            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get("C2B")!.Property2);
 
             Assert.AreEqual(2, c3OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C3A", c3OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("C3B", c3OptionsMonitor.GetKeys().ToList()[1]);
-            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get("C3A").Property3);
-            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get("C3B").Property3);
+            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get("C3A")!.Property3);
+            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get("C3B")!.Property3);
             Assert.IsNull(c3OptionsMonitor.Get("C3C"));
 
             var c3OptionsMonitor2 = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class3>>();
-            Assert.IsNull(c3OptionsMonitor2.Get("C3C").Property3);
+            Assert.IsNull(c3OptionsMonitor2.Get("C3C")!.Property3);
 
             disp.Dispose();
             disp1.Dispose();
@@ -601,14 +592,14 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             // not configured
             Assert.IsNull(optionsMonitor.Get<Class3>("C3C"));
 
-            Assert.AreEqual("Value1A", optionsMonitor.Get<Class1>("C1A").Property1);
-            Assert.AreEqual("Value2A", optionsMonitor.Get<Class2>("C2A").Property2);
+            Assert.AreEqual("Value1A", optionsMonitor.Get<Class1>("C1A")!.Property1);
+            Assert.AreEqual("Value2A", optionsMonitor.Get<Class2>("C2A")!.Property2);
 
             Assert.IsNotNull(optionsMonitor.Get<Class1>("sub", "SC1A"));
-            Assert.AreEqual("ValueS1A", optionsMonitor.Get<Class1>("sub", "SC1A").Property1);
+            Assert.AreEqual("ValueS1A", optionsMonitor.Get<Class1>("sub", "SC1A")!.Property1);
 
             Assert.IsNotNull(optionsMonitor.Get<Class2>("sub", "SC2A"));
-            Assert.AreEqual("ValueS2A", optionsMonitor.Get<Class2>("sub", "SC2A").Property2);
+            Assert.AreEqual("ValueS2A", optionsMonitor.Get<Class2>("sub", "SC2A")!.Property2);
 
             var onChangeResult = new List<string>();
             var onChangeResult1 = new Dictionary<string, Class1>();
@@ -618,7 +609,6 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             var waitHandle = new AutoResetEvent(false);
             var waitHandle1 = new AutoResetEvent(false);
             var waitHandle2 = new AutoResetEvent(false);
-            var waitHandle3 = new AutoResetEvent(false);
 
             var disp = optionsMonitor.OnChange(name =>
             {
@@ -629,67 +619,59 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
 
             var disp1 = optionsMonitor.OnChange<Class1>((class1, name, key) =>
             {
-                onChangeResult1.Add($"{name}:{key}", class1);
-                if (onChangeResult1.Count < 3) return;
+                onChangeResult1.Add($"{name}:{key}", class1!);
+                if (onChangeResult1.Count < 2) return;
                 waitHandle1.Set();
             });
 
             var disp2 = optionsMonitor.OnChange<Class2>((class2, name, key) =>
             {
-                onChangeResult2.Add($"{name}:{key}", class2);
-                if (onChangeResult2.Count < 3) return;
+                onChangeResult2.Add($"{name}:{key}", class2!);
+                if (onChangeResult2.Count < 2) return;
                 waitHandle2.Set();
             });
 
             var disp3 = optionsMonitor.OnChange<Class3>((class3, name, key) =>
             {
-                onChangeResult3.Add($"{name}:{key}", class3);
-                if (onChangeResult3.Count < 2) return;
-                waitHandle3.Set();
+                onChangeResult3.Add($"{name}:{key}", class3!);
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 300));
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 300));
 
 
             Assert.AreEqual(2, onChangeResult.Count);
-            Assert.AreEqual(3, onChangeResult1.Count);
-            Assert.AreEqual(3, onChangeResult2.Count);
-            Assert.AreEqual(2, onChangeResult3.Count);
+            Assert.AreEqual(2, onChangeResult1.Count);
+            Assert.AreEqual(2, onChangeResult2.Count);
+            Assert.AreEqual(0, onChangeResult3.Count);
 
             Assert.IsTrue(onChangeResult.Contains(Options.DefaultName));
             Assert.IsTrue(onChangeResult.Contains("sub"));
 
             Assert.IsTrue(onChangeResult1.TryGetValue(":C1A", out var c1A) && c1A.Property1 == "Value1AX");
-            Assert.IsTrue(onChangeResult1.TryGetValue(":C1B", out var c1B) && c1B.Property1 == "Value1BX");
             Assert.IsTrue(onChangeResult1.TryGetValue("sub:SC1A", out var sC1A) && sC1A.Property1 == "ValueS1A");
 
             Assert.IsTrue(onChangeResult2.TryGetValue(":C2A", out var c2A) && c2A.Property2 == "Value2AX");
-            Assert.IsTrue(onChangeResult2.TryGetValue(":C2B", out var c2B) && c2B.Property2 == "Value2BX");
             Assert.IsTrue(onChangeResult2.TryGetValue("sub:SC2A", out var sSc2A) && sSc2A.Property2 == "ValueS2A");
-
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3A", out var c3A) && c3A.Property3 == "Value3AX");
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3B", out var c3B) && c3B.Property3 == "Value3BX");
-            Assert.IsFalse(onChangeResult3.TryGetValue(":C3C", out _));
 
             Assert.AreEqual(2, optionsMonitor.GetKeys<Class1>().Count);
             Assert.AreEqual("C1A", optionsMonitor.GetKeys<Class1>().ToList()[0]);
             Assert.AreEqual("C1B", optionsMonitor.GetKeys<Class1>().ToList()[1]);
-            Assert.AreEqual("Value1AX", optionsMonitor.Get<Class1>("C1A").Property1);
-            Assert.AreEqual("Value1BX", optionsMonitor.Get<Class1>("C1B").Property1);
+            Assert.AreEqual("Value1AX", optionsMonitor.Get<Class1>("C1A")!.Property1);
+            Assert.AreEqual("Value1BX", optionsMonitor.Get<Class1>("C1B")!.Property1);
 
             Assert.AreEqual(2, optionsMonitor.GetKeys<Class2>().Count);
             Assert.AreEqual("C2A", optionsMonitor.GetKeys<Class2>().ToList()[0]);
             Assert.AreEqual("C2B", optionsMonitor.GetKeys<Class2>().ToList()[1]);
-            Assert.AreEqual("Value2AX", optionsMonitor.Get<Class2>("C2A").Property2);
-            Assert.AreEqual("Value2BX", optionsMonitor.Get<Class2>("C2B").Property2);
+            Assert.AreEqual("Value2AX", optionsMonitor.Get<Class2>("C2A")!.Property2);
+            Assert.AreEqual("Value2BX", optionsMonitor.Get<Class2>("C2B")!.Property2);
 
             Assert.AreEqual(2, optionsMonitor.GetKeys<Class3>().Count);
             Assert.AreEqual("C3A", optionsMonitor.GetKeys<Class3>().ToList()[0]);
             Assert.AreEqual("C3B", optionsMonitor.GetKeys<Class3>().ToList()[1]);
 
-            Assert.AreEqual("Value3AX", optionsMonitor.Get<Class3>("C3A").Property3);
-            Assert.AreEqual("Value3BX", optionsMonitor.Get<Class3>("C3B").Property3);
+            Assert.AreEqual("Value3AX", optionsMonitor.Get<Class3>("C3A")!.Property3);
+            Assert.AreEqual("Value3BX", optionsMonitor.Get<Class3>("C3B")!.Property3);
             Assert.IsNull(optionsMonitor.Get<Class3>("C3C"));
 
             var c3OptionsMonitor2 = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
@@ -741,20 +723,20 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             // not configured
             Assert.IsNull(c3OptionsMonitor.Get<IInterface3>("C3C"));
 
-            Assert.AreEqual("Value1A", c1OptionsMonitor.Get<IInterface1>("C1A").Property1);
+            Assert.AreEqual("Value1A", c1OptionsMonitor.Get<IInterface1>("C1A")!.Property1);
             Assert.IsNull(c1OptionsMonitor.Get<IInterface1>("C1B"));
 
-            Assert.AreEqual("Value2A", c2OptionsMonitor.Get<IInterface2>("C2A").Property2);
+            Assert.AreEqual("Value2A", c2OptionsMonitor.Get<IInterface2>("C2A")!.Property2);
             Assert.IsNull(c2OptionsMonitor.Get<IInterface2>("C2B"));
 
             Assert.IsNull(c3OptionsMonitor.Get<IInterface3>("C3A"));
             Assert.IsNull(c3OptionsMonitor.Get<IInterface3>("C3B"));
 
             Assert.IsNotNull(c1OptionsMonitor.Get<IInterface1>("sub", "SC1A"));
-            Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get<IInterface1>("sub", "SC1A").Property1);
+            Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get<IInterface1>("sub", "SC1A")!.Property1);
 
             Assert.IsNotNull(c2OptionsMonitor.Get<IInterface2>("sub", "SC2A"));
-            Assert.AreEqual("ValueS2A", c2OptionsMonitor.Get<IInterface2>("sub", "SC2A").Property2);
+            Assert.AreEqual("ValueS2A", c2OptionsMonitor.Get<IInterface2>("sub", "SC2A")!.Property2);
 
             var onChangeResult = new List<string>();
             var onChangeResult1 = new Dictionary<string, IInterface1>();
@@ -764,7 +746,6 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             var waitHandle = new AutoResetEvent(false);
             var waitHandle1 = new AutoResetEvent(false);
             var waitHandle2 = new AutoResetEvent(false);
-            var waitHandle3 = new AutoResetEvent(false);
 
             var disp = c1OptionsMonitor.OnChange(name =>
             {
@@ -775,56 +756,48 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
 
             var disp1 = c1OptionsMonitor.OnChange<Class1>((class1, name, key) =>
             {
-                onChangeResult1.Add($"{name}:{key}", class1);
-                if (onChangeResult1.Count < 3) return;
+                onChangeResult1.Add($"{name}:{key}", class1!);
+                if (onChangeResult1.Count < 2) return;
                 waitHandle1.Set();
             });
 
             var disp2 = c2OptionsMonitor.OnChange<Class2>((class2, name, key) =>
             {
-                onChangeResult2.Add($"{name}:{key}", class2);
-                if (onChangeResult2.Count < 3) return;
+                onChangeResult2.Add($"{name}:{key}", class2!);
+                if (onChangeResult2.Count < 2) return;
                 waitHandle2.Set();
             });
 
             var disp3 = c3OptionsMonitor.OnChange<Class3>((class3, name, key) =>
             {
-                onChangeResult3.Add($"{name}:{key}", class3);
-                if (onChangeResult3.Count < 2) return;
-                waitHandle3.Set();
+                onChangeResult3.Add($"{name}:{key}", class3!);
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 300)); 
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 300)); 
 
             Assert.AreEqual(2, onChangeResult.Count);
-            Assert.AreEqual(3, onChangeResult1.Count);
-            Assert.AreEqual(3, onChangeResult2.Count);
-            Assert.AreEqual(2, onChangeResult3.Count);
+            Assert.AreEqual(2, onChangeResult1.Count);
+            Assert.AreEqual(2, onChangeResult2.Count);
+            Assert.AreEqual(0, onChangeResult3.Count);
 
             Assert.IsTrue(onChangeResult.Contains(Options.DefaultName));
             Assert.IsTrue(onChangeResult.Contains("sub"));
 
             Assert.IsTrue(onChangeResult1.TryGetValue(":C1A", out var c1A) && c1A.Property1 == "Value1AX");
-            Assert.IsTrue(onChangeResult1.TryGetValue(":C1B", out var c1B) && c1B.Property1 == "Value1BX");
             Assert.IsTrue(onChangeResult1.TryGetValue("sub:SC1A", out var sC1A) && sC1A.Property1 == "ValueS1A");
 
             Assert.IsTrue(onChangeResult2.TryGetValue(":C2A", out var c2A) && c2A.Property2 == "Value2AX");
-            Assert.IsTrue(onChangeResult2.TryGetValue(":C2B", out var c2B) && c2B.Property2 == "Value2BX");
             Assert.IsTrue(onChangeResult2.TryGetValue("sub:SC2A", out var sSc2A) && sSc2A.Property2 == "ValueS2A");
 
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3A", out var c3A) && c3A.Property3 == "Value3AX");
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3B", out var c3B) && c3B.Property3 == "Value3BX");
-            Assert.IsFalse(onChangeResult3.TryGetValue(":C3C", out _));
+            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get<IInterface1>("C1A")!.Property1);
+            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get<IInterface1>("C1B")!.Property1);
 
-            Assert.AreEqual("Value1AX", c1OptionsMonitor.Get<IInterface1>("C1A").Property1);
-            Assert.AreEqual("Value1BX", c1OptionsMonitor.Get<IInterface1>("C1B").Property1);
+            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get<IInterface2>("C2A")!.Property2);
+            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get<IInterface2>("C2B")!.Property2);
 
-            Assert.AreEqual("Value2AX", c2OptionsMonitor.Get<IInterface2>("C2A").Property2);
-            Assert.AreEqual("Value2BX", c2OptionsMonitor.Get<IInterface2>("C2B").Property2);
-
-            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get<IInterface3>("C3A").Property3);
-            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get<IInterface3>("C3B").Property3);
+            Assert.AreEqual("Value3AX", c3OptionsMonitor.Get<IInterface3>("C3A")!.Property3);
+            Assert.AreEqual("Value3BX", c3OptionsMonitor.Get<IInterface3>("C3B")!.Property3);
             Assert.IsNull(c3OptionsMonitor.Get<IInterface3>("C3C"));
 
             var c3OptionsMonitor2 = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();

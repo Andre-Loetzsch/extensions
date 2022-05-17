@@ -153,20 +153,19 @@ namespace Tentakel.Extensions.Configuration.Tests
             {
                 Assert.AreNotSame(configuredTypes.Get<Class1>(key), c1Monitor.Get(key));
 
-                Assert.AreEqual(
-                    configuredTypes.Get<Class1>(key).Property1,
-                    c1Monitor.Get(key).Property1);
+                var c1 = configuredTypes.Get<Class1>(key);
+                Assert.IsNotNull(c1);
+                Assert.AreEqual(c1.Property1, c1Monitor.Get(key).Property1);
             }
 
             foreach (var key in configuredTypes.GetKeys<Class2>())
             {
                 Assert.AreNotSame(configuredTypes.Get<Class2>(key), c2Monitor.Get(key));
 
-                Assert.AreEqual(
-                    configuredTypes.Get<Class2>(key).Property2,
-                    c2Monitor.Get(key).Property2);
+                var c2 = configuredTypes.Get<Class2>(key);
+                Assert.IsNotNull(c2);
+                Assert.AreEqual(c2.Property2, c2Monitor.Get(key).Property2);
             }
-
         }
     }
 }

@@ -164,15 +164,15 @@ namespace Tentakel.Extensions.Configuration.Test
             Assert.AreEqual("Value2", c1_2_3.Property2);
             Assert.AreEqual("Value3", c1_2_3.Property3);
 
-            Assert.IsTrue(configuredTypes.TryGet("C1_2_3", out i1));
+            Assert.IsTrue(configuredTypes.TryGet<IInterface1>("C1_2_3", out i1));
             Assert.AreEqual(typeof(Class1_2_3), i1.GetType());
             Assert.AreEqual("Value1", i1.Property1);
 
-            Assert.IsTrue(configuredTypes.TryGet("C1_2_3", out i2));
+            Assert.IsTrue(configuredTypes.TryGet<IInterface2>("C1_2_3", out i2));
             Assert.AreEqual(typeof(Class1_2_3), i2.GetType());
             Assert.AreEqual("Value2", i2.Property2);
 
-            Assert.IsTrue(configuredTypes.TryGet("C1_2_3", out i3));
+            Assert.IsTrue(configuredTypes.TryGet<IInterface3>("C1_2_3", out i3));
             Assert.AreEqual(typeof(Class1_2_3), i3.GetType());
             Assert.AreEqual("Value3", i3.Property3);
 
@@ -201,24 +201,24 @@ namespace Tentakel.Extensions.Configuration.Test
         }
      
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestGetInvalidOperationException()
+        public void TestGetDefaultOnject()
         {
-            var _ = new ConfiguredTypes().Get<object>("C1");
+            var c1 = new ConfiguredTypes().Get<object>("C1");
+            Assert.IsNull(c1);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestGetAllInvalidOperationException()
+        public void TestGetAllOnjects()
         {
-            var _ = new ConfiguredTypes().GetAll<object>().ToList();
+            var objList = new ConfiguredTypes().GetAll<object>().ToList();
+            Assert.IsNotNull(objList);
+            Assert.AreEqual(0, objList.Count);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestTryGetInvalidOperationException()
+        public void TestTryGetFalse()
         {
-            new ConfiguredTypes().TryGet<object>("C1", out _);
+            Assert.IsFalse(new ConfiguredTypes().TryGet<object>("C1", out _));
         }
     }
 }

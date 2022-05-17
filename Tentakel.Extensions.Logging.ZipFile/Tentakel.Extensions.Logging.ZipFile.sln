@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tentakel.Extensions.Logging
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9BD7867F-3EC5-442A-B908-7D2EC7A3AACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tentakel.Extensions.Logging.ZipFile.Tests", "Tentakel.Extensions.Logging.ZipFile.Tests\Tentakel.Extensions.Logging.ZipFile.Tests.csproj", "{B2F01A39-8CFC-4C26-8CC7-3B70935CA2E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tentakel.Extensions.Logging.ZipFile.Tests", "tests\Tentakel.Extensions.Logging.ZipFile.Tests.csproj", "{B2F01A39-8CFC-4C26-8CC7-3B70935CA2E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

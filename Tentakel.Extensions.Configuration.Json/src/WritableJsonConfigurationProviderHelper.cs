@@ -56,7 +56,7 @@ namespace Tentakel.Extensions.Configuration.Json
 
             value = sb.ToString();
 
-            dynamic jsonObj = JsonConvert.DeserializeObject(json);
+            dynamic jsonObj = JsonConvert.DeserializeObject(json)!;
             var subJsonObj = jsonObj;
 
             for (var i = 0; i < path.Length; i++)

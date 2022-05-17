@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -83,7 +82,6 @@ public class LoggerSinkProviderTest
                 .Configure<ConfiguredTypes>("dev", configuration.GetSection("devCfg"))
                 .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
 
-
         }).ConfigureLogging((hostingContext, logging) =>
         {
             logging
@@ -137,7 +135,7 @@ public class LoggerSinkProviderTest
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
-        Assert.AreEqual(0, loggerSinkProvider.WaitOne(300));
+        Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
 
         AssertDefaultCfg(sinks);
 
@@ -150,7 +148,7 @@ public class LoggerSinkProviderTest
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
-        Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
+        Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
 
         AssertProdCfg(sinks);
 
@@ -163,7 +161,7 @@ public class LoggerSinkProviderTest
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
-        Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
+        Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
 
         AssertDevCfg(sinks);
     }
@@ -257,7 +255,7 @@ public class LoggerSinkProviderTest
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
-        Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
+        Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
 
         AssertProdCfg(sinks);
 
@@ -270,7 +268,7 @@ public class LoggerSinkProviderTest
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
-        Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
+        Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
 
         AssertDevCfg(sinks);
     }
