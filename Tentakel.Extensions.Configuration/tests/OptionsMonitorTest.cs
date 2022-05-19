@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tentakel.Extensions.Configuration.Tests.Common;
 
 namespace Tentakel.Extensions.Configuration.Tests
 {

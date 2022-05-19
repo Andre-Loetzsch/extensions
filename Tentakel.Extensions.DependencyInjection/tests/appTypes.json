@@ -1,10 +1,10 @@
 {
   "types": {
     "C1A": {
-      "Type": "Tentakel.Extensions.DependencyInjection.Tests.Common.Class1, Tentakel.Extensions.DependencyInjection.Tests"
+      "Type": "Tentakel.Extensions.Configuration.Tests.Class1, Tentakel.Extensions.DependencyInjection.Tests"
     },
     "C2A": {
-      "Type": "Tentakel.Extensions.DependencyInjection.Tests.Common.Class2, Tentakel.Extensions.DependencyInjection.Tests"
+      "Type": "Tentakel.Extensions.Configuration.Tests.Class2, Tentakel.Extensions.DependencyInjection.Tests"
     }
   },
 
