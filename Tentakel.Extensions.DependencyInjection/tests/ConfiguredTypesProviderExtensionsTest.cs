@@ -11,7 +11,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tentakel.Extensions.Configuration;
-using Tentakel.Extensions.DependencyInjection.Tests.Common;
+using Tentakel.Extensions.DependencyInjection;
+using Tentakel.Extensions.Configuration.Tests;
+
 
 namespace Tentakel.Extensions.DependencyInjection.Tests
 {

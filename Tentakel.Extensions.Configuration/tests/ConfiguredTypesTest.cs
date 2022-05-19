@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tentakel.Extensions.Configuration.Tests.Common;
+using Tentakel.Extensions.Configuration.Tests;
 
 // ReSharper disable All
 

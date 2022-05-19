@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tentakel.Extensions.Configuration.Json.Tests.Common;
+using Tentakel.Extensions.Configuration.Tests;
 
 namespace Tentakel.Extensions.Configuration.Json.Tests
 {

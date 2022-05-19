@@ -1,16 +1,16 @@
 {
   "types": {
     "C1A": {
-      "Type": "Tentakel.Extensions.Configuration.Tests.Common.Class1, Tentakel.Extensions.Configuration.Tests"
+      "Type": "Tentakel.Extensions.Configuration.Tests.Class1, Tentakel.Extensions.Configuration.Tests"
     },
     "C2A": {
-      "Type": "Tentakel.Extensions.Configuration.Tests.Common.Class2, Tentakel.Extensions.Configuration.Tests"
+      "Type": "Tentakel.Extensions.Configuration.Tests.Class2, Tentakel.Extensions.Configuration.Tests"
     },
     "C3A": {
-      "Type": "Tentakel.Extensions.Configuration.Tests.Common.Class3, Tentakel.Extensions.Configuration.Tests"
+      "Type": "Tentakel.Extensions.Configuration.Tests.Class3, Tentakel.Extensions.Configuration.Tests"
     },
     "C2B": {
-      "Type": "Tentakel.Extensions.Configuration.Tests.Common.Class2, Tentakel.Extensions.Configuration.Tests"
+      "Type": "Tentakel.Extensions.Configuration.Tests.Class2, Tentakel.Extensions.Configuration.Tests"
     }
   },
 
