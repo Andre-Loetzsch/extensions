@@ -29,19 +29,19 @@
   <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>
 
   <ItemGroup>
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1.cs" Link="Common\Class1.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1_2.cs" Link="Common\Class1_2.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1_2_3.cs" Link="Common\Class1_2_3.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class2.cs" Link="Common\Class2.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class2_3.cs" Link="Common\Class2_3.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class3.cs" Link="Common\Class3.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface1.cs" Link="Common\IInterface1.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface1_2.cs" Link="Common\IInterface1_2.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface2.cs" Link="Common\IInterface2.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface2_3.cs" Link="Common\IInterface2_3.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface3.cs" Link="Common\IInterface3.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\JsonStringBuilder.cs" Link="Common\JsonStringBuilder.cs" />
-    <Compile Include="..\..\Common\tests\Extensions\Configuration\NestedClass.cs" Link="Common\NestedClass.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1.cs" Link="Common\tests\Extensions\Configuration\Class1.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1_2.cs" Link="Common\tests\Extensions\Configuration\Class1_2.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1_2_3.cs" Link="Common\tests\Extensions\Configuration\Class1_2_3.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class2.cs" Link="Common\tests\Extensions\Configuration\Class2.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class2_3.cs" Link="Common\tests\Extensions\Configuration\Class2_3.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\Class3.cs" Link="Common\tests\Extensions\Configuration\Class3.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface1.cs" Link="Common\tests\Extensions\Configuration\IInterface1.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface1_2.cs" Link="Common\tests\Extensions\Configuration\IInterface1_2.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface2.cs" Link="Common\tests\Extensions\Configuration\IInterface2.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface2_3.cs" Link="Common\tests\Extensions\Configuration\IInterface2_3.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\IInterface3.cs" Link="Common\tests\Extensions\Configuration\IInterface3.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\JsonStringBuilder.cs" Link="Common\tests\Extensions\Configuration\JsonStringBuilder.cs" />
+    <Compile Include="..\..\Common\tests\Extensions\Configuration\NestedClass.cs" Link="Common\tests\Extensions\Configuration\NestedClass.cs" />
   </ItemGroup>
   
   <ItemGroup>
