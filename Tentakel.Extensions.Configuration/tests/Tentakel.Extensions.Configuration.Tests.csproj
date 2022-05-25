@@ -17,16 +17,16 @@
     <AssemblyOriginatorKeyFile>..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <targeDir>$(git-repository)\.targets</targeDir>
     <Product>Tentakel.Extensions.Configuration</Product>
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>
+  <!--<PropertyGroup>
+    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
+    <targeDir>$(git-repository)\.targets</targeDir>
+  </PropertyGroup>
+
+  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>-->
 
   <ItemGroup>
     <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1.cs" Link="Common\tests\Extensions\Configuration\Class1.cs" />
