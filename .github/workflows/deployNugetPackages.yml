@@ -34,14 +34,14 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'Build and test Tentakel.Extensions.Configuration.sln'
-       uses: Andre-Loetzsch/actions/bildAndTestSolution@main
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
        with:
          solution: '${{ github.workspace }}\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-     - uses: Andre-Loetzsch/actions/bildAndTestSolution@main
+     - uses: Andre-Loetzsch/actions/buildAndTestSolution@main
        with:
          solution: '${{ github.workspace }}\nugetTest\NuGetConsoleApp\NuGetConsoleApp.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
