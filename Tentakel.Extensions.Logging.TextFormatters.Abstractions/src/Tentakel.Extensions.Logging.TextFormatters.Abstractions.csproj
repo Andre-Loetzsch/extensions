@@ -2,14 +2,21 @@
 
   <PropertyGroup>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0</Version>
+    <!--<VersionSuffix>beta</VersionSuffix>-->
     <Copyright>Copyright © Tentakel 2022</Copyright>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>Logging TextFormatters Abstractions</Description>
+    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Tentakel; Logging; TextFormatters; C#</PackageTags>
+    <PackageReleaseNotes>First Release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
