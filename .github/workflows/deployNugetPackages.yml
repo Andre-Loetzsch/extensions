@@ -29,26 +29,26 @@ jobs:
          dotnet-version: '6.0.x'
 
      - name: 'Add GitHub to Nuget source'
-       uses: 'Andre-Loetzsch/actions/addGitHubToNugetSource@testworkflow'
+       uses: 'Andre-Loetzsch/actions/addGitHubToNugetSource@main'
        with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'Build and test Tentakel.Extensions.Configuration.sln'
-       uses: Andre-Loetzsch/actions/bildAndTestSolution@testworkflow
+       uses: Andre-Loetzsch/actions/bildAndTestSolution@main
        with:
          solution: '${{ github.workspace }}\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-     - uses: Andre-Loetzsch/actions/bildAndTestSolution@testworkflow
+     - uses: Andre-Loetzsch/actions/bildAndTestSolution@main
        with:
          solution: '${{ github.workspace }}\nugetTest\NuGetConsoleApp\NuGetConsoleApp.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-     - uses: Andre-Loetzsch/actions/pushNugetPackages@testworkflow
+     - uses: Andre-Loetzsch/actions/pushNugetPackages@main
        with:
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
