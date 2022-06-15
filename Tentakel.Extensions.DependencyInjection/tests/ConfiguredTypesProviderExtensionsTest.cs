@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tentakel.Extensions.Configuration;
-using Tentakel.Extensions.DependencyInjection;
 using Tentakel.Extensions.Configuration.Tests;
 
 
@@ -363,6 +362,8 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
             Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 3000));
+
+            Thread.Sleep(200);
 
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(3, onChangeResult1.Count);
