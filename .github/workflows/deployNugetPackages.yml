@@ -18,7 +18,10 @@ env:
 jobs:
   deploy:
     name: 'Deploy packages'
-    runs-on: 'windows-latest'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
     steps:
     
      - name: 'Checkout'
