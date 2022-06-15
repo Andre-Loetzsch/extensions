@@ -362,7 +362,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 300));
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 3000));
 
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(3, onChangeResult1.Count);
@@ -508,7 +508,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 300));
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
 
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
@@ -639,7 +639,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 300));
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
 
 
             Assert.AreEqual(2, onChangeResult.Count);
@@ -776,7 +776,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 300)); 
+            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000)); 
 
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
