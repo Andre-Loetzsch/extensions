@@ -1,4 +1,7 @@
-﻿namespace Tentakel.Extensions.Logging.File
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tentakel.Extensions.Logging.File
 {
     public class ValuesFormatter
     {

@@ -1,4 +1,5 @@
-﻿using Tentakel.Extensions.Logging.LoggerSinks;
+﻿using System;
+using Tentakel.Extensions.Logging.LoggerSinks;
 
 namespace Tentakel.Extensions.Logging.TextFormatters.Abstractions.LoggerSinks;
 
