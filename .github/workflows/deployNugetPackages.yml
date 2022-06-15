@@ -59,9 +59,10 @@ jobs:
          version-suffix: ${{ env.VERSION_SUFFIX }}
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
-     
+         
+     - name: 'push nuget packages'
        if: matrix.os == 'windows-latest'
-     - uses: Andre-Loetzsch/actions/pushNugetPackages@main
+       uses: Andre-Loetzsch/actions/pushNugetPackages@main
        with:
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
