@@ -3,17 +3,17 @@ name: 'deployNugetPackages'
 on:
   push:
     branches:
-    - master
-    - 'releases/**'
+    - main
+    - 'release/**'
   pull_request:
     branches:
-    - master
-    - 'releases/**'
+    - main
+    - 'release/**'
 
   workflow_dispatch:
 
 env:
-  VERSION_SUFFIX: 'DEV'
+  VERSION_SUFFIX: ${{ github.ref_name }}
   OUTDIR: ${{ github.workspace }}\output
                     
 jobs:
@@ -22,20 +22,31 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ windows-latest ]
     steps:
-    
+     - name: 'echo VERSION_SUFFIX'
+       shell: bash
+       run: echo ${{ env.VERSION_SUFFIX }}
+
+     - name: 'Set VERSION_SUFFIX: dev'
+       if: ${{ github.ref_name }} == 'main'
+       shell: bash
+       run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
+
      - name: 'Set VERSION_SUFFIX: string.Empty'
-       if: ${{ !startsWith(github.ref_name, 'release/') }}
-       VERSION_SUFFIX: ''
+       if: ${{ startsWith(github.ref_name, 'release/v') }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: alpha'
-       if: ${{ !startsWith(github.ref_name, 'release/alpha') }}
-       VERSION_SUFFIX: 'beta'
+       if: ${{ startsWith(github.ref_name, 'release/alpha') }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=alpha" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: beta'
-       if: ${{ !startsWith(github.ref_name, 'release/beta') }}
-       VERSION_SUFFIX: 'beta'
+       if: ${{ startsWith(github.ref_name, 'release/beta') }}
+       shell: bash
+       run:  echo "VERSION_SUFFIX=beta" >> $GITHUB_ENV
 
      - name: 'Checkout'
        uses: actions/checkout@v3
@@ -73,6 +84,66 @@ jobs:
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
          
+     - name: 'Build and test Tentakel.Extensions.Logging.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'Build and test Tentakel.Extensions.Logging.Abstractions.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.Abstractions\Tentakel.Extensions.Logging.Abstractions.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         
+
+     - name: 'Build and test Tentakel.Extensions.Logging.Console.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.Console\Tentakel.Extensions.Logging.Console.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+     - name: 'Build and test Tentakel.Extensions.Logging.File.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'Build and test Tentakel.Extensions.Logging.TextFormatters.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.TextFormatters\Tentakel.Extensions.Logging.TextFormatters.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'Build and test Tentakel.Extensions.Logging.TextFormatters.Abstractions.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.TextFormatters.Abstractions\Tentakel.Extensions.Logging.TextFormatters.Abstractions.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+     - name: 'Build and test Tentakel.Extensions.Logging.ZipFile.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.ZipFile\Tentakel.Extensions.Logging.ZipFile.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
      - name: 'push nuget packages'
        if: matrix.os == 'windows-latest'
        uses: Andre-Loetzsch/actions/pushNugetPackages@main
