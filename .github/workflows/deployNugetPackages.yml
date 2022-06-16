@@ -3,17 +3,17 @@ name: 'deployNugetPackages'
 on:
   push:
     branches:
-    - master
-    - 'releases/**'
+    - main
+    - 'release/**'
   pull_request:
     branches:
-    - master
-    - 'releases/**'
+    - main
+    - 'release/**'
 
   workflow_dispatch:
 
 env:
-  VERSION_SUFFIX: 'DEV'
+  VERSION_SUFFIX: ${{ github.ref_name }}
   OUTDIR: ${{ github.workspace }}\output
                     
 jobs:
@@ -22,20 +22,31 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ windows-latest ]
     steps:
-    
+     - name: 'echo VERSION_SUFFIX'
+       shell: bash
+       run: echo ${{ env.VERSION_SUFFIX }}
+
+     - name: 'Set VERSION_SUFFIX: dev'
+       if: ${{ github.ref_name }} == 'main'
+       shell: bash
+       run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
+
      - name: 'Set VERSION_SUFFIX: string.Empty'
-       if: ${{ !startsWith(github.ref_name, 'release/') }}
-       VERSION_SUFFIX: ''
+       if: ${{ startsWith(github.ref_name, 'release/v') }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: alpha'
-       if: ${{ !startsWith(github.ref_name, 'release/alpha') }}
-       VERSION_SUFFIX: 'beta'
+       if: ${{ startsWith(github.ref_name, 'release/alpha') }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=alpha" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: beta'
-       if: ${{ !startsWith(github.ref_name, 'release/beta') }}
-       VERSION_SUFFIX: 'beta'
+       if: ${{ startsWith(github.ref_name, 'release/beta') }}
+       shell: bash
+       run:  echo "VERSION_SUFFIX=beta" >> $GITHUB_ENV
 
      - name: 'Checkout'
        uses: actions/checkout@v3
