@@ -17,6 +17,12 @@ namespace Tentakel.Extensions.Logging.Tests;
 [TestClass]
 public class LoggerSinkProviderTest
 {
+    [TestInitialize]
+    public void InitTest()
+    {
+    
+
+    }
 
     [TestMethod]
     public void TestLoggerSinkBaseDefaultName()
@@ -150,8 +156,6 @@ public class LoggerSinkProviderTest
         Log(loggerA, loggerB, loggerC, loggerD);
 
         Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
-
-        Thread.Sleep(500);
 
         AssertProdCfg(sinks);
 

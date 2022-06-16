@@ -60,29 +60,29 @@ jobs:
        with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-     - name: 'Build and test Tentakel.Extensions.Configuration.sln'
-       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
-       with:
-         solution: '${{ github.workspace }}\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.sln'
-         version-suffix: ${{ env.VERSION_SUFFIX }}
-         outdir: ${{ env.OUTDIR }}
-         github_token: ${{ secrets.GITHUB_TOKEN }}
+    #  - name: 'Build and test Tentakel.Extensions.Configuration.sln'
+    #    uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+    #    with:
+    #      solution: '${{ github.workspace }}\Tentakel.Extensions.Configuration\Tentakel.Extensions.Configuration.sln'
+    #      version-suffix: ${{ env.VERSION_SUFFIX }}
+    #      outdir: ${{ env.OUTDIR }}
+    #      github_token: ${{ secrets.GITHUB_TOKEN }}
 
-     - name: 'Build and test Tentakel.Extensions.Configuration.Json.sln'
-       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
-       with:
-         solution: '${{ github.workspace }}\Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.sln'
-         version-suffix: ${{ env.VERSION_SUFFIX }}
-         outdir: ${{ env.OUTDIR }}
-         github_token: ${{ secrets.GITHUB_TOKEN }}
+    #  - name: 'Build and test Tentakel.Extensions.Configuration.Json.sln'
+    #    uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+    #    with:
+    #      solution: '${{ github.workspace }}\Tentakel.Extensions.Configuration.Json\Tentakel.Extensions.Configuration.Json.sln'
+    #      version-suffix: ${{ env.VERSION_SUFFIX }}
+    #      outdir: ${{ env.OUTDIR }}
+    #      github_token: ${{ secrets.GITHUB_TOKEN }}
 
-     - name: 'Build and test Tentakel.Extensions.DependencyInjection.sln'
-       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
-       with:
-         solution: '${{ github.workspace }}\Tentakel.Extensions.DependencyInjection\Tentakel.Extensions.DependencyInjection.sln'
-         version-suffix: ${{ env.VERSION_SUFFIX }}
-         outdir: ${{ env.OUTDIR }}
-         github_token: ${{ secrets.GITHUB_TOKEN }}
+    #  - name: 'Build and test Tentakel.Extensions.DependencyInjection.sln'
+    #    uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+    #    with:
+    #      solution: '${{ github.workspace }}\Tentakel.Extensions.DependencyInjection\Tentakel.Extensions.DependencyInjection.sln'
+    #      version-suffix: ${{ env.VERSION_SUFFIX }}
+    #      outdir: ${{ env.OUTDIR }}
+    #      github_token: ${{ secrets.GITHUB_TOKEN }}
          
      - name: 'Build and test Tentakel.Extensions.Logging.sln'
        uses: Andre-Loetzsch/actions/buildAndTestSolution@main

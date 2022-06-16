@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Tentakel.Extensions.Logging.TextFormatters.Abstractions;
 
 namespace Tentakel.Extensions.Logging.TextFormatters;

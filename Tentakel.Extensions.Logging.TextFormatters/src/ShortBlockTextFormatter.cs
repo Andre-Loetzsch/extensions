@@ -1,4 +1,6 @@
-﻿namespace Tentakel.Extensions.Logging.TextFormatters;
+﻿using System.Collections.Generic;
+
+namespace Tentakel.Extensions.Logging.TextFormatters;
 
 public class ShortBlockTextFormatter : BlockTextFormatterBase
 {
