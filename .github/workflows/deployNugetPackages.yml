@@ -3,12 +3,12 @@ name: 'deployNugetPackages'
 on:
   push:
     branches:
-    - master
-    - 'releases/**'
+    - main
+    - 'release/**'
   pull_request:
     branches:
     - main
-    - release/beta_1.0.0
+    - 'release/**'
 
   workflow_dispatch:
 
