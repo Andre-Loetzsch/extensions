@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_SUFFIX: 'dev'
+  VERSION_SUFFIX: ${{ github.ref_name }}
   OUTDIR: ${{ github.workspace }}\output
                     
 jobs:
@@ -24,18 +24,29 @@ jobs:
       matrix:
         os: [ windows-latest ]
     steps:
-    
+     - name: 'echo VERSION_SUFFIX'
+       shell: bash
+       run: echo  ${{ VERSION_SUFFIX }}
+
+     - name: 'Set VERSION_SUFFIX: dev'
+       if: ${{ github.ref_name == 'main') }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
+
      - name: 'Set VERSION_SUFFIX: string.Empty'
        if: ${{ startsWith(github.ref_name, 'release/v') }}
-       run: echo "" >> ${{ env.VERSION_SUFFIX }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: alpha'
        if: ${{ startsWith(github.ref_name, 'release/alpha') }}
-       run: echo "alpha" >> ${{ env.VERSION_SUFFIX }}
+       shell: bash
+       run: echo "VERSION_SUFFIX=alpha" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: beta'
        if: ${{ startsWith(github.ref_name, 'release/beta') }}
-       run: echo "beta" >>${{ env.VERSION_SUFFIX }}
+       shell: bash
+       run:  echo "VERSION_SUFFIX=beta" >> $GITHUB_ENV
 
      - name: 'Checkout'
        uses: actions/checkout@v3
