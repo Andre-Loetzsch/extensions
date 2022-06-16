@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -149,6 +150,8 @@ public class LoggerSinkProviderTest
         Log(loggerA, loggerB, loggerC, loggerD);
 
         Assert.AreEqual(0, loggerSinkProvider.WaitOne(1500));
+
+        Thread.Sleep(500);
 
         AssertProdCfg(sinks);
 
