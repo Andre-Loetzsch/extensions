@@ -26,15 +26,15 @@ jobs:
     steps:
     
      - name: 'Set VERSION_SUFFIX: string.Empty'
-       if: ${{ !startsWith(github.ref_name, 'release/v') }}
+       if: ${{ startsWith(github.ref_name, 'release/v') }}
        run: echo "" >> ${{ env.VERSION_SUFFIX }}
 
      - name: 'Set VERSION_SUFFIX: alpha'
-       if: ${{ !startsWith(github.ref_name, 'release/alpha') }}
+       if: ${{ startsWith(github.ref_name, 'release/alpha') }}
        run: echo "alpha" >> ${{ env.VERSION_SUFFIX }}
 
      - name: 'Set VERSION_SUFFIX: beta'
-       if: ${{ !startsWith(github.ref_name, 'release/beta') }}
+       if: ${{ startsWith(github.ref_name, 'release/beta') }}
        run: echo "beta" >>${{ env.VERSION_SUFFIX }}
 
      - name: 'Checkout'
