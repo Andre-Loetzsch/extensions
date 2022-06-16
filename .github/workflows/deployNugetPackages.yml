@@ -84,6 +84,66 @@ jobs:
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
          
+     - name: 'Build and test Tentakel.Extensions.Logging.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging\Tentakel.Extensions.Logging.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'Build and test Tentakel.Extensions.Logging.Abstractions.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.Abstractions\Tentakel.Extensions.Logging.Abstractions.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         
+
+     - name: 'Build and test Tentakel.Extensions.Logging.Console.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.Console\Tentakel.Extensions.Logging.Console.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+     - name: 'Build and test Tentakel.Extensions.Logging.File.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.File\Tentakel.Extensions.Logging.File.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'Build and test Tentakel.Extensions.Logging.TextFormatters.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.TextFormatters\Tentakel.Extensions.Logging.TextFormatters.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'Build and test Tentakel.Extensions.Logging.TextFormatters.Abstractions.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.TextFormatters.Abstractions\Tentakel.Extensions.Logging.TextFormatters.Abstractions.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+     - name: 'Build and test Tentakel.Extensions.Logging.ZipFile.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@main
+       with:
+         solution: '${{ github.workspace }}\Tentakel.Extensions.Logging.ZipFile\Tentakel.Extensions.Logging.ZipFile.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         outdir: ${{ env.OUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
      - name: 'push nuget packages'
        if: matrix.os == 'windows-latest'
        uses: Andre-Loetzsch/actions/pushNugetPackages@main
