@@ -26,7 +26,7 @@ jobs:
     steps:
      - name: 'echo VERSION_SUFFIX'
        shell: bash
-       run: echo  ${{ VERSION_SUFFIX }}
+       run: echo ${{ env.VERSION_SUFFIX }}
 
      - name: 'Set VERSION_SUFFIX: dev'
        if: ${{ github.ref_name == 'main') }}
