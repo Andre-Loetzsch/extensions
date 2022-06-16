@@ -26,16 +26,16 @@ jobs:
     steps:
     
      - name: 'Set VERSION_SUFFIX: string.Empty'
-       if: ${{ !startsWith(github.ref_name, 'release/') }}
-       VERSION_SUFFIX: ''
+       if: ${{ !startsWith(github.ref_name, 'release/v') }}
+       run: echo "" >> $VERSION_SUFFIX
 
      - name: 'Set VERSION_SUFFIX: alpha'
        if: ${{ !startsWith(github.ref_name, 'release/alpha') }}
-       VERSION_SUFFIX: 'beta'
+       run: echo "alpha" >> $VERSION_SUFFIX
 
      - name: 'Set VERSION_SUFFIX: beta'
        if: ${{ !startsWith(github.ref_name, 'release/beta') }}
-       VERSION_SUFFIX: 'beta'
+       run: echo "beta" >> $VERSION_SUFFIX
 
      - name: 'Checkout'
        uses: actions/checkout@v3
