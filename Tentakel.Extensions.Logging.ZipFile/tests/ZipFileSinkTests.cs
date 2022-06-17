@@ -42,18 +42,18 @@ public class ZipFileSinkTests
             MaxFileSize = 1000
         })
         {
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 110; i++)
             {
                 zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = $"Test message {i}" });
             }
 
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial1.log")));
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial2.log")));
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial3.log")));
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial4.log")));
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial5.log")));
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial6.log")));
-            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial7.log")));
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial1.log")), "Assert.True->traceC.partial1.log");
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial2.log")), "Assert.True->traceC.partial2.log");
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial3.log")), "Assert.True->traceC.partial3.log");
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial4.log")), "Assert.True->traceC.partial4.log");
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial5.log")), "Assert.True->traceC.partial5.log");
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial6.log")), "Assert.True->traceC.partial6.log");
+            Assert.True(IOFile.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceC.partial7.log")), "Assert.True->traceC.partial7.log");
 
             zipFileSink.FileNameTemplate = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceD.log");
             zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message" });
