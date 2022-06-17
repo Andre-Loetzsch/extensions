@@ -152,6 +152,7 @@ public class LoggerSinkProviderTest
         }
 
         loggerSinkProvider.ConfigurationName = "prod";
+        Thread.Sleep(100);
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
@@ -165,6 +166,7 @@ public class LoggerSinkProviderTest
         }
 
         loggerSinkProvider.ConfigurationName = "dev";
+        Thread.Sleep(100);
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
@@ -259,6 +261,7 @@ public class LoggerSinkProviderTest
         }
 
         loggerSinkProvider.ConfigurationName = "prod";
+        Thread.Sleep(100);
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
@@ -272,6 +275,7 @@ public class LoggerSinkProviderTest
         }
 
         loggerSinkProvider.ConfigurationName = "dev";
+        Thread.Sleep(100);
 
         Log(loggerA, loggerB, loggerC, loggerD);
 
@@ -302,41 +306,41 @@ public class LoggerSinkProviderTest
 
     private static void AssertDefaultCfg(Dictionary<string, FakeLoggerSink> sinks)
     {
-        Assert.AreEqual(9, sinks["sink 1"].Entries.Count);
-        Assert.AreEqual(6, sinks["sink 2"].Entries.Count);
-        Assert.AreEqual(3, sinks["sink 3"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 4"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 5"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 6"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 7"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 8"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 9"].Entries.Count);
+        Assert.AreEqual(9, sinks["sink 1"].Entries.Count, "AssertDefaultCfg->sink 1");
+        Assert.AreEqual(6, sinks["sink 2"].Entries.Count, "AssertDefaultCfg->sink 2");
+        Assert.AreEqual(3, sinks["sink 3"].Entries.Count, "AssertDefaultCfg->sink 3");
+        Assert.AreEqual(0, sinks["sink 4"].Entries.Count, "AssertDefaultCfg->sink 4");
+        Assert.AreEqual(0, sinks["sink 5"].Entries.Count, "AssertDefaultCfg->sink 5");
+        Assert.AreEqual(0, sinks["sink 6"].Entries.Count, "AssertDefaultCfg->sink 6");
+        Assert.AreEqual(0, sinks["sink 7"].Entries.Count, "AssertDefaultCfg->sink 7");
+        Assert.AreEqual(0, sinks["sink 8"].Entries.Count, "AssertDefaultCfg->sink 8");
+        Assert.AreEqual(0, sinks["sink 9"].Entries.Count, "AssertDefaultCfg->sink 9");
     }
 
     private static void AssertProdCfg(Dictionary<string, FakeLoggerSink> sinks)
     {
-        Assert.AreEqual(0, sinks["sink 1"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 2"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 3"].Entries.Count);
-        Assert.AreEqual(9, sinks["sink 4"].Entries.Count);
-        Assert.AreEqual(6, sinks["sink 5"].Entries.Count);
-        Assert.AreEqual(3, sinks["sink 6"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 7"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 8"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 9"].Entries.Count);
+        Assert.AreEqual(0, sinks["sink 1"].Entries.Count, "AssertProdCfg->sink 1");
+        Assert.AreEqual(0, sinks["sink 2"].Entries.Count, "AssertProdCfg->sink 2");
+        Assert.AreEqual(0, sinks["sink 3"].Entries.Count, "AssertProdCfg->sink 3");
+        Assert.AreEqual(9, sinks["sink 4"].Entries.Count, "AssertProdCfg->sink 4");
+        Assert.AreEqual(6, sinks["sink 5"].Entries.Count, "AssertProdCfg->sink 5");
+        Assert.AreEqual(3, sinks["sink 6"].Entries.Count, "AssertProdCfg->sink 6");
+        Assert.AreEqual(0, sinks["sink 7"].Entries.Count, "AssertProdCfg->sink 7");
+        Assert.AreEqual(0, sinks["sink 8"].Entries.Count, "AssertProdCfg->sink 8");
+        Assert.AreEqual(0, sinks["sink 9"].Entries.Count, "AssertProdCfg->sink 9");
     }
 
     private static void AssertDevCfg(Dictionary<string, FakeLoggerSink> sinks)
     {
-        Assert.AreEqual(0, sinks["sink 1"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 2"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 3"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 4"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 5"].Entries.Count);
-        Assert.AreEqual(0, sinks["sink 6"].Entries.Count);
-        Assert.AreEqual(9, sinks["sink 7"].Entries.Count);
-        Assert.AreEqual(6, sinks["sink 8"].Entries.Count);
-        Assert.AreEqual(3, sinks["sink 9"].Entries.Count);
+        Assert.AreEqual(0, sinks["sink 1"].Entries.Count, "AssertDevCfg->sink 1");
+        Assert.AreEqual(0, sinks["sink 2"].Entries.Count, "AssertDevCfg->sink 2");
+        Assert.AreEqual(0, sinks["sink 3"].Entries.Count, "AssertDevCfg->sink 3");
+        Assert.AreEqual(0, sinks["sink 4"].Entries.Count, "AssertDevCfg->sink 4");
+        Assert.AreEqual(0, sinks["sink 5"].Entries.Count, "AssertDevCfg->sink 5");
+        Assert.AreEqual(0, sinks["sink 6"].Entries.Count, "AssertDevCfg->sink 6");
+        Assert.AreEqual(9, sinks["sink 7"].Entries.Count, "AssertDevCfg->sink 7");
+        Assert.AreEqual(6, sinks["sink 8"].Entries.Count, "AssertDevCfg->sink 8");
+        Assert.AreEqual(3, sinks["sink 9"].Entries.Count, "AssertDevCfg->sink 9");
     }
 
     [TestMethod]
