@@ -355,3 +355,6 @@ MigrationBackup/
 
 # visual code
 .vscode/
+
+# build and test out
+/out

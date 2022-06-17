@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using Tentakel.Extensions.Logging.Abstractions.Performance;
 
