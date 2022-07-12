@@ -28,14 +28,13 @@ namespace Tentakel.Extensions.Logging.Console
             {
                 lock (syncObj)
                 {
-                    if (this._textFormatterCreated)
+                    if (!this._textFormatterCreated)
                     {
                         this._textFormatterCreated = true;
                         this.CreateTextFormatter();
                     }
                     
                     this.ColorizeKeywords(logEntry, this.TextFormatter.Format(logEntry));
-                    //System.Console.WriteLine(this.TextFormatter.Format(logEntry));
                 }
 
             }

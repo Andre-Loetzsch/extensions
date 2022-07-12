@@ -99,7 +99,7 @@ public class ZipFileSinkTests
             zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = $"Test message" });
 
             var diff = DateTime.Now - now;
-            Assert.True(diff.TotalMilliseconds < 15000);
+            Assert.True(diff.TotalMilliseconds < 20000, $"diff.TotalMilliseconds={diff.TotalMilliseconds}");
         }
 
         traceEFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "traceE.zip");

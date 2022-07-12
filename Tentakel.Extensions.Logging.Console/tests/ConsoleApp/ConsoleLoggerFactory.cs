@@ -16,7 +16,7 @@ public class ConsoleLoggerFactory : ILoggerFactory
             Categories = new[] { "Test" },
             LogLevel = LogLevel.Trace,
             ForegroundColor = ConsoleColor.White,
-            TextFormatter = new TestTextFormatter1()
+            TextFormatterType = "ConsoleApp.TestTextFormatter1, ConsoleApp"
         });
 
         this._loggerSinkProvider.AddOrUpdateLoggerSink(new ColoredConsoleSink
@@ -25,7 +25,7 @@ public class ConsoleLoggerFactory : ILoggerFactory
             Categories = new[] { "ConsoleApp.Program" },
             LogLevel = LogLevel.Trace,
             ForegroundColor = ConsoleColor.White,
-            TextFormatter = new TestTextFormatter2()
+            TextFormatterType = "ConsoleApp.TestTextFormatter2, ConsoleApp"
         });
 
         this._loggerSinkProvider.AddOrUpdateLoggerSink(new ColoredConsoleSink
@@ -34,7 +34,7 @@ public class ConsoleLoggerFactory : ILoggerFactory
             Categories = new[] { "Test2*" },
             LogLevel = LogLevel.Trace,
             ForegroundColor = ConsoleColor.White,
-            TextFormatter = new TestTextFormatter3()
+            TextFormatterType = "ConsoleApp.TestTextFormatter3, ConsoleApp"
         });
     }
 
