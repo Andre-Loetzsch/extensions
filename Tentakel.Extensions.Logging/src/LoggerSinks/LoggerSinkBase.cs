@@ -28,24 +28,25 @@ namespace Tentakel.Extensions.Logging.LoggerSinks
 
         #region IDisposable
 
-        protected bool IsDisposed;
+        public bool IsDisposed { get; private set; }
 
         ~LoggerSinkBase()
         {
-            this?.Dispose(false);
+            this.Dispose(false);
         }
 
         public void Dispose()
         {
             this.Dispose(true);
-        }
 
-        protected virtual void Dispose(bool disposing)
-        {
             if (this.IsDisposed) return;
             this.IsDisposed = true;
 
             GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
         }
 
         #endregion

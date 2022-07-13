@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <!--<VersionSuffix>beta</VersionSuffix>-->
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <VersionSuffix></VersionSuffix>
     <Copyright>Copyright © Tentakel 2022</Copyright>
     <TargetFramework>net6.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
@@ -16,7 +16,9 @@
     <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Tentakel; Logging; File; C#</PackageTags>
-    <PackageReleaseNotes>First Release</PackageReleaseNotes>
+    <PackageReleaseNotes>Release 1.0.1</PackageReleaseNotes>
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
   </PropertyGroup>
 
   <ItemGroup>

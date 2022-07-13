@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Tentakel; Logging; Console; C#</PackageTags>
-    <PackageReleaseNotes>First Release</PackageReleaseNotes>
+    <PackageReleaseNotes>Release 1.0.1</PackageReleaseNotes>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
   </PropertyGroup>

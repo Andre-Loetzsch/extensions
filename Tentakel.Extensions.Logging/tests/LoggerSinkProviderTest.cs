@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,17 +18,185 @@ namespace Tentakel.Extensions.Logging.Tests;
 [TestClass]
 public class LoggerSinkProviderTest
 {
-    [TestInitialize]
-    public void InitTest()
-    {
-    
-
-    }
-
     [TestMethod]
     public void TestLoggerSinkBaseDefaultName()
     {
         Assert.AreEqual(nameof(FakeLoggerSink), new FakeLoggerSink().Name);
+    }
+
+
+    [TestMethod]
+    public void TestIsDisposedIfLoggerSinkWasUpdated()
+    {
+        var loggerSinkProvider = new LoggerSinkProvider();
+
+        loggerSinkProvider.AddOrUpdateLoggerSinks(new []
+        {
+            new FakeLoggerSink { Name = "s1"},
+            new FakeLoggerSink { Name = "s2"},
+            new FakeLoggerSink { Name = "s3"}
+        });
+
+        foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
+        {
+            Assert.IsFalse(loggerSink.IsDisposed);
+        }
+
+        var loggerSinks = loggerSinkProvider.LoggerSinks.ToList();
+
+        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
+        {
+            new FakeLoggerSink { Name = "s1"},
+            new FakeLoggerSink { Name = "s2"},
+            new FakeLoggerSink { Name = "s3"}
+        });
+
+        foreach (var loggerSink in loggerSinks)
+        {
+            Assert.IsTrue(loggerSink.IsDisposed);
+        }
+
+        foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
+        {
+            Assert.IsFalse(loggerSink.IsDisposed);
+        }
+    }
+
+    [TestMethod]
+    public void TestIsDisposedIfLoggerSinkWasRemoved()
+    {
+        var loggerSinkProvider = new LoggerSinkProvider();
+
+        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
+        {
+            new FakeLoggerSink { Name = "s1"},
+            new FakeLoggerSink { Name = "s2"},
+            new FakeLoggerSink { Name = "s3"}
+        });
+
+        foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
+        {
+            Assert.IsFalse(loggerSink.IsDisposed);
+        }
+
+        var loggerSinks = loggerSinkProvider.LoggerSinks.ToList();
+
+        Assert.IsTrue(loggerSinkProvider.RemoveLoggerSink("s1"));
+        Assert.IsTrue(loggerSinkProvider.RemoveLoggerSink("s2"));
+        Assert.IsTrue(loggerSinkProvider.RemoveLoggerSink("s3"));
+
+        foreach (var loggerSink in loggerSinks)
+        {
+            Assert.IsTrue(loggerSink.IsDisposed);
+        }
+    }
+
+    [TestMethod]
+    public void TestIsDisposedIfClearLoggerSinksWasCalled()
+    {
+        var loggerSinkProvider = new LoggerSinkProvider();
+
+        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
+        {
+            new FakeLoggerSink { Name = "s1"},
+            new FakeLoggerSink { Name = "s2"},
+            new FakeLoggerSink { Name = "s3"}
+        });
+
+        foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
+        {
+            Assert.IsFalse(loggerSink.IsDisposed);
+        }
+
+        var loggerSinks = loggerSinkProvider.LoggerSinks.ToList();
+        loggerSinkProvider.ClearLoggerSinks();
+
+
+        foreach (var loggerSink in loggerSinks)
+        {
+            Assert.IsTrue(loggerSink.IsDisposed);
+        }
+    }
+
+    [TestMethod]
+    public void TestIsDisposedIfConfigurationChanged()
+    {
+        var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+        {
+            configurationBuilder
+                .AddJsonFile("logging.json", false, true);
+        }).ConfigureServices(collection =>
+        {
+            var serviceProvider = collection.BuildServiceProvider();
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+            collection
+                .AddSingleton((IConfigurationRoot)configuration)
+                .Configure<ConfiguredTypes>(configuration.GetSection("defaultCfg"))
+                .TryAddSingleton(typeof(IConfiguredTypesOptionsMonitor<>), typeof(ConfiguredTypesOptionsMonitor<>));
+            collection.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerSinkProvider>());
+
+        }).ConfigureLogging((hostingContext, logging) => { logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging")); }).Build();
+
+
+        var loggerSinkProvider = (LoggerSinkProvider)host.Services.GetRequiredService<IEnumerable<ILoggerProvider>>()
+            .First(x => x.GetType() == typeof(LoggerSinkProvider));
+
+        var loggerSinkMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<FakeLoggerSink>>();
+        var sink1 = loggerSinkMonitor.Get("sink 1");
+        var sink2 = loggerSinkMonitor.Get("sink 2");
+        var sink3 = loggerSinkMonitor.Get("sink 3");
+
+        Assert.IsNotNull(sink1);
+        Assert.IsNotNull(sink2);
+        Assert.IsNotNull(sink3);
+
+        var loggerSinks = loggerSinkProvider.LoggerSinks.ToList();
+        var waitHnd = new AutoResetEvent(false);
+
+        loggerSinkMonitor.OnChange((sink, _) =>
+        {
+            if (sink == null || loggerSinks.Contains(sink)) return;
+            loggerSinks.Add(sink);
+
+            if (loggerSinks.Count < 6) return;
+            waitHnd.Set();
+        });
+
+
+        var loggingFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logging.json");
+
+        File.AppendAllText(loggingFile, $"{Environment.NewLine}// reload configuration");
+
+        Assert.IsTrue(waitHnd.WaitOne(2000));
+
+        loggerSinks.Clear();
+
+        foreach (var loggerSink in loggerSinks)
+        {
+            Assert.IsTrue(loggerSink.IsDisposed);
+        }
+
+        foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
+        {
+            Assert.IsFalse(loggerSink.IsDisposed);
+        }
+
+        Assert.IsTrue(sink1.IsDisposed);
+        Assert.IsTrue(sink2.IsDisposed);
+        Assert.IsTrue(sink3.IsDisposed);
+
+        sink1 = loggerSinkMonitor.Get("sink 1");
+        sink2 = loggerSinkMonitor.Get("sink 2");
+        sink3 = loggerSinkMonitor.Get("sink 3");
+
+        Assert.IsNotNull(sink1);
+        Assert.IsNotNull(sink2);
+        Assert.IsNotNull(sink3);
+
+        Assert.IsFalse(sink1.IsDisposed);
+        Assert.IsFalse(sink2.IsDisposed);
+        Assert.IsFalse(sink3.IsDisposed);
     }
 
     [TestMethod]

@@ -67,6 +67,12 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public void AddOrUpdateLoggerSink(ILoggerSink loggerSink)
         {
+            if (this._loggerSinks.TryGetValue(loggerSink.Name, out var item))
+            {
+                if (item == loggerSink) return;
+                item.Dispose();
+            }
+
             this._loggerSinks[loggerSink.Name] = loggerSink;
         }
 
@@ -80,10 +86,23 @@ namespace Tentakel.Extensions.Logging.Providers
 
         public bool RemoveLoggerSink(string name)
         {
+            if (this._loggerSinks.TryGetValue(name, out var item))
+            {
+                item.Dispose();
+            }
+
             return this._loggerSinks.Remove(name);
         }
 
-        public void ClearLoggerSinks() => this._loggerSinks.Clear();
+        public void ClearLoggerSinks()
+        {
+            foreach (var loggerSink in this._loggerSinks.Values)
+            {
+                loggerSink.Dispose();
+            }
+
+            this._loggerSinks.Clear();
+        }
 
         public IEnumerable<ILoggerSink> LoggerSinks => this._loggerSinks.Values;
 
