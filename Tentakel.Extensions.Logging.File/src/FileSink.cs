@@ -29,6 +29,7 @@ namespace Tentakel.Extensions.Logging.File
         public string? FileName { get; private set; }
         public int MaxFileSize { get; set; }
         public bool OverrideExistingFile { get; set; }
+        public bool UseSameLogFile { get; set; } = true;
 
         #region Log
 
@@ -59,12 +60,21 @@ namespace Tentakel.Extensions.Logging.File
 
         private void CreateFile()
         {
-            (var fileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFomTemplate(this.FileNameTemplate);
+            (var fileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
 
             if (this._fileStream != null && this.FileName == fileName) return;
 
+            this._fileStream?.Close();
+
+            if (this._fileStream != null && !string.IsNullOrEmpty(this.FileName) && this._fileStream.Name != this.FileName)
+            {
+                IOFile.Move(this._fileStream.Name, this.FileName, true);
+            }
+
             if (this.OverrideExistingFile && !string.IsNullOrEmpty(this.FileName))
             {
+                IOFile.Delete(this.FileName);
+
                 foreach (var partialFile in this.FindExistsPartialFileNames(this.FileName))
                 {
                     IOFile.Delete(partialFile);
@@ -72,9 +82,7 @@ namespace Tentakel.Extensions.Logging.File
             }
 
             var oldFileName = this.FileName;
-
             this.FileName = fileName;
-            this._fileStream?.Close();
 
             this.FileNameChanged(oldFileName, fileName);
 
@@ -87,38 +95,51 @@ namespace Tentakel.Extensions.Logging.File
 
             if (this.OverrideExistingFile)
             {
+                IOFile.Delete(this.FileName);
+
                 foreach (var partialFile in this.FindExistsPartialFileNames(this.FileName))
                 {
                     IOFile.Delete(partialFile);
                 }
             }
 
-            this._fileStream = IOFile.Open(this.FileName!, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
-
-            if (!this.OverrideExistingFile)
-            {
-                this._fileStream.Position = this._fileStream.Length;
-            }
+            fileName = this.UseSameLogFile ? 
+                CreateFileNameAndExpiryDateTimeFromTemplate(CreateFileNameWithoutDateTime(this.FileNameTemplate)).Item1 : 
+                this.FileName!;
+            
+            this._fileStream = IOFile.Open(fileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            this._fileStream.Position = this._fileStream.Length;
         }
 
         private void CreatePartialFile()
         {
             this._fileStream?.Close();
 
+            if (this._fileStream != null && !string.IsNullOrEmpty(this.FileName) && this._fileStream.Name != this.FileName)
+            {
+                IOFile.Move(this._fileStream.Name, this.FileName, true);
+            }
+
             if (string.IsNullOrEmpty(this.FileName))
             {
-                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFomTemplate(this.FileNameTemplate);
+                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
             }
 
             var partialFileName = this.FindNextPartialFileName(this.FileName);
 
             IOFile.Move(this.FileName, partialFileName, true);
-            this._fileStream = IOFile.Open(this.FileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
+
+
+            var fileName = this.UseSameLogFile ?
+                CreateFileNameAndExpiryDateTimeFromTemplate(CreateFileNameWithoutDateTime(this.FileNameTemplate)).Item1 :
+                this.FileName!;
+
+            this._fileStream = IOFile.Open(fileName!, FileMode.Create, FileAccess.Write, FileShare.Read);
 
             this.PartialFileCreated(partialFileName);
         }
 
-        private static (string, DateTime) CreateFileNameAndExpiryDateTimeFomTemplate(string fileNameTemplate)
+        private static (string, DateTime) CreateFileNameAndExpiryDateTimeFromTemplate(string fileNameTemplate)
         {
             var fileName = fileNameTemplate;
             fileName = fileName.Replace('\\', Path.DirectorySeparatorChar);
@@ -166,7 +187,7 @@ namespace Tentakel.Extensions.Logging.File
             {
                 fileName = key switch
                 {
-                    "baseDirectory" => fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory),
+                    "baseDirectory" => fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')),
                     "processName" => fileName.Replace("{processName}", Process.GetCurrentProcess().ProcessName),
                     "processId" => fileName.Replace("{processId}", Environment.ProcessId.ToString()),
                     "appDomainId" => fileName.Replace("{appDomainId}", AppDomain.CurrentDomain.Id.ToString()),
@@ -176,6 +197,17 @@ namespace Tentakel.Extensions.Logging.File
             }
 
             return (fileName, fileNameExpiryDateTime);
+        }
+
+
+        private static string CreateFileNameWithoutDateTime(string fileNameTemplate)
+        {
+            foreach (var datTimeFormat in ValuesFormatter.ExtractDateTimeFormats(fileNameTemplate))
+            {
+                fileNameTemplate = fileNameTemplate.Replace($"{{dateTime:{datTimeFormat}}}", string.Empty);
+            }
+
+            return fileNameTemplate.Replace("/.", ".").Replace("//", "/");
         }
 
         #endregion
