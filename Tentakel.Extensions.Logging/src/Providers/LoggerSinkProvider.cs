@@ -31,6 +31,12 @@ namespace Tentakel.Extensions.Logging.Providers
 
             this._options.OnChange((sink, name, _) =>
             {
+                //var result = this.WaitOne(TimeSpan.FromSeconds(3));
+                //if (result > 0)
+                //{
+                //    Log($"WaitOne: {result}");
+                //}
+
                 if (this.ConfigurationName != name) return;
                 
                 if (sink == null)
@@ -214,8 +220,7 @@ namespace Tentakel.Extensions.Logging.Providers
                 }
                 catch (Exception ex)
                 {
-                    var excMsg = $"SinkType: {logEntry.LoggerSinkType}, SinkName: {logEntry.LoggerSinkName} Message: {ex.Message}";
-                    File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Trace.log"), excMsg);
+                    Log($"SinkType: {logEntry.LoggerSinkType}, SinkName: {logEntry.LoggerSinkName}, Message: {ex.Message}");
                 }
             }
 
@@ -229,6 +234,16 @@ namespace Tentakel.Extensions.Logging.Providers
         }
 
         #endregion
+
+
+        private static void Log(string message)
+        {
+            File.AppendAllText(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory, "LoggerSinkProvider.log"), 
+                $"{DateTime.Now:yyyy.MM.dd HH:mm:ss} {message}{Environment.NewLine}");
+        }
+
+
 
         #region IDisposable
 
