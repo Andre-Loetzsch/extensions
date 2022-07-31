@@ -12,9 +12,11 @@ namespace Tentakel.Extensions.Logging.File
     public class FileSink : TextLoggerSinkBase
     {
         private FileStream? _fileStream;
-        private DateTime _fileNameExpiryDateTime = DateTime.MinValue;
+        private DateTime _fileNameExpiryDateTime;
+        private DateTime _archiveFileNameExpiryDateTime;
 
-        #region FileNameTemplate
+
+        #region FileName
 
         private const string defaultFileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.{processId}.log";
 
@@ -29,7 +31,7 @@ namespace Tentakel.Extensions.Logging.File
             }
         }
 
-        public string? FileName { get; private set; }
+        public string FileName { get; private set; }
 
         #endregion
 
@@ -40,11 +42,11 @@ namespace Tentakel.Extensions.Logging.File
         private string _archiveFileNameTemplate = defaultArchiveFileNameTemplate;
         public string ArchiveFileNameTemplate
         {
-            get => this._fileNameTemplate;
+            get => this._archiveFileNameTemplate;
             set
             {
                 this._archiveFileNameTemplate = value;
-                this._archiveFileNameTemplate = DateTime.MinValue;
+                this._archiveFileNameExpiryDateTime = DateTime.MinValue;
             }
         }
 
@@ -54,14 +56,22 @@ namespace Tentakel.Extensions.Logging.File
 
         public int MaxFileSize { get; set; }
         public bool OverrideExistingFile { get; set; }
-        
+
+
+        public FileSink()
+        {
+            (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
+            (this.ArchiveFileName, this._archiveFileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.ArchiveFileNameTemplate);
+        }
+
+
         #region Log
 
         public override void Log(LogEntry logEntry)
         {
             if (this.IsDisposed) return;
 
-            if (this._fileNameExpiryDateTime <= logEntry.DateTime || this._fileStream == null)
+            if (this.IsFileStreamOutOfDate(logEntry.DateTime))
             {
                 this.CreateTextFormatter();
                 this.CreateFile();
@@ -82,10 +92,43 @@ namespace Tentakel.Extensions.Logging.File
 
         #region private methods
 
-      
+        private bool IsFileStreamOutOfDate(DateTime dateTime)
+        {
+            if (this._fileStream == null) return true;
+            if (this._fileNameExpiryDateTime <= dateTime) return true;
+            return !this.OverrideExistingFile && this._archiveFileNameExpiryDateTime <= dateTime;
+        }
 
 
         private void CreateFile()
+        {
+            this._fileStream?.Close();
+
+            if (this.OverrideExistingFile)
+            {
+                if (IOFile.Exists(this.FileName)) IOFile.Delete(this.FileName);
+
+                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
+
+                this._fileStream = IOFile.Open(this.FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
+                this._fileStream.Position = this._fileStream.Length;
+
+                return;
+            }
+
+
+            (var fileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
+            (var archiveFileName, this._archiveFileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.ArchiveFileNameTemplate);
+
+
+
+
+
+
+
+        }
+
+        private void CreateFile1()
         {
             var oldFileName = this.FileName;
             var oldArchiveName = this.ArchiveFileName;
@@ -120,7 +163,7 @@ namespace Tentakel.Extensions.Logging.File
 
             if (this.OverrideExistingFile)
             {
-                if (IOFile)
+                
 
 
                 IOFile.Delete(this.FileName);
