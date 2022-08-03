@@ -243,8 +243,6 @@ namespace Tentakel.Extensions.Logging.Providers
                 $"{DateTime.Now:yyyy.MM.dd HH:mm:ss} {message}{Environment.NewLine}");
         }
 
-
-
         #region IDisposable
 
         public bool IsDisposed { get; private set; }

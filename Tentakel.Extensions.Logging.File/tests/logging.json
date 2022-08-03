@@ -14,8 +14,8 @@
 
     "Name": "fileSink",
     "OverrideExistingFile": "false",
-    "MaxFileSize": 50000,
-    "FileNameTemplate": "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.log",
+    "MaxFileSize": 0,
+    "FileNameTemplate": "{baseDirectory}/Logging/TestConfigurationChanged.log",
     "TextFormatterType": "Tentakel.Extensions.Logging.File.Tests.Format1, Tentakel.Extensions.Logging.File.Tests",
     "Categories": [
       "test"
