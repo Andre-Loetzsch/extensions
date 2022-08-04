@@ -26,20 +26,22 @@ public class ZipFileSink : FileSink
         }
     }
 
+    public bool CompressEachPartialFiles { get; set; }
+
     #region protected virtual
 
-    protected override void FileNameChanged(string? oldFileName, string newFileName)
+    protected override void ArchiveFileCreated(string fileName, string archiveFileName)
     {
-        if (oldFileName == null || !IOFile.Exists(oldFileName)) return;
+        if (!IOFile.Exists(archiveFileName)) return;
 
-        var fileExtension = Path.GetExtension(oldFileName);
+        var fileExtension = Path.GetExtension(archiveFileName);
 
         if (string.Equals(fileExtension, ".zip", StringComparison.InvariantCultureIgnoreCase)) return;
 
-        var zipFileName = string.Concat(oldFileName[..^fileExtension.Length], ".zip");
-        var logFiles = this.FindExistsPartialFileNames(oldFileName).ToList();
+        var zipFileName = string.Concat(archiveFileName[..^fileExtension.Length], ".zip");
+        var logFiles = this.FindExistsPartialFileNames(archiveFileName).ToList();
 
-        logFiles.Add(oldFileName);
+        logFiles.Add(archiveFileName);
 
         CompressFiles(this.CompressionLevel, zipFileName, logFiles);
 
@@ -47,6 +49,37 @@ public class ZipFileSink : FileSink
         {
             IOFile.Delete(logFile);
         }
+    }
+
+    protected override void PartialFileCreated(string originalFileName, string partialFileName)
+    {
+        if (!this.CompressEachPartialFiles) return;
+        if (!IOFile.Exists(partialFileName)) return;
+
+        var fileExtension = Path.GetExtension(partialFileName);
+
+        if (string.Equals(fileExtension, ".zip", StringComparison.InvariantCultureIgnoreCase)) return;
+       
+        var zipFileName = string.Concat(partialFileName[..^fileExtension.Length], ".zip");
+
+        if (zipFileName.ToLower().Contains(".partial"))
+        {
+            zipFileName = string.Concat(zipFileName.Substring(0, zipFileName.ToLower().IndexOf(".partial")), ".zip");
+        }
+
+        zipFileName = this.FindNextPartialFileName(zipFileName);
+
+        var tempFileName = string.Concat(zipFileName[..^4], fileExtension);
+
+        if (!IOFile.Exists(tempFileName))
+        {
+            IOFile.Move(partialFileName, tempFileName);
+            partialFileName = tempFileName;
+        }
+
+        CompressFiles(this.CompressionLevel, zipFileName, new[] { partialFileName });
+
+        IOFile.Delete(partialFileName);
     }
 
     #endregion

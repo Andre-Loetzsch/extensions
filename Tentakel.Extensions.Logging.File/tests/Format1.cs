@@ -6,6 +6,6 @@ public class Format1 : ITextFormatter
 {
     public string Format(LogEntry logEntry)
     {
-        return $"{logEntry.DateTime} {logEntry.Message}{Environment.NewLine}";
+        return $"Format1: {logEntry.DateTime} {logEntry.Message}{Environment.NewLine}";
     }
 }

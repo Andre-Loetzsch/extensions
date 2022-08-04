@@ -3,7 +3,7 @@ using System;
 
 namespace Tentakel.Extensions.Logging.LoggerSinks
 {
-    public abstract class LoggerSinkBase : ILoggerSink, IDisposable
+    public abstract class LoggerSinkBase : ILoggerSink
     {
         protected LoggerSinkBase()
         {
