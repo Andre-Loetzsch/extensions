@@ -266,7 +266,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
         {
             var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
             var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
-            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes3.json");
             var testSubSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesSub.json");
 
             File.Copy(testSettingsPath, testSettingsPath2, true);
@@ -418,7 +418,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
         {
             var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
             var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
-            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes4.json");
             var testSubSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesSub.json");
 
             File.Copy(testSettingsPath, testSettingsPath2, true);
@@ -558,7 +558,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
         {
             var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
             var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
-            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes5.json");
             var testSubSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesSub.json");
 
             File.Copy(testSettingsPath, testSettingsPath2, true);
@@ -691,7 +691,7 @@ namespace Tentakel.Extensions.DependencyInjection.Tests
         {
             var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes.json");
             var testSettingsPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes1.json");
-            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes6.json");
             var testSubSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesSub.json");
 
             File.Copy(testSettingsPath, testSettingsPath2, true);
