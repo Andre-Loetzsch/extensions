@@ -2,7 +2,8 @@
   <PropertyGroup>
     <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
     <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
-    <git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\refs\\heads\\$(git-branch)").Trim())</git-commit>
+    <!--<git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\refs\\heads\\$(git-branch)").Trim())</git-commit>-->
+    <git-commit Condition="Exists('$(git-repository)\\.git\\refs\\heads\\$(git-branch)')">$([System.IO.File]::ReadAllText('$(git-repository)\\.git\\refs\\heads\\$(git-branch)').Trim())</git-commit>
 
     <SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit.Substring(0, 7))</SourceRevisionId>
 
@@ -12,7 +13,7 @@
     
     <!--Test-->
     <!--<git-branch>alpha/v2.1</git-branch>-->
-    <!--<git-branch>beta/v2.2</git-branch>-->
+    <!--<git-branch>beta/v2.24</git-branch>-->
     <!--<git-branch>prerelease/v2.3</git-branch>-->
     <!--<git-branch>release/v2.4</git-branch>-->
     <!--Test-->
@@ -28,7 +29,7 @@
     <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
  
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('bata/v'))">
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('beta/v'))">
     <VersionSuffix>bata</VersionSuffix>
     <AssemblyVersion>$(git-branch.Substring(6)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
