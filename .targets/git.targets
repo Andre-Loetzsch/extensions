@@ -19,7 +19,7 @@
     <!--<git-branch>release/v2.4</git-branch>-->
     <!--Test-->
     
-    <VersionSuffix>dev</VersionSuffix>
+    <VersionSuffix>devX</VersionSuffix>
     <VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch.Replace('/', '').Replace('#', ''))</VersionSuffix>
 
   </PropertyGroup>
