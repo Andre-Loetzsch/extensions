@@ -3,12 +3,46 @@
     <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
     <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
     <git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\refs\\heads\\$(git-branch)").Trim())</git-commit>
-    <OutputPath Condition="'$(git-branch)' != ''">$(git-repository)\.bin\$(git-branch)\$(Configuration)</OutputPath>
-    <Product>$(Product) ($(git-branch))</Product>
-    <SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit)</SourceRevisionId>
-    <VersionPrefix>$(Version)</VersionPrefix>
-    <VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch)</VersionSuffix>
-    <Version></Version>
 
+    <SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit.Substring(0, 7))</SourceRevisionId>
+
+    <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
+    <year>$([System.DateTime]::Now.ToString("yy"))</year>
+    <revisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</revisionIdx>
+    
+    <!--Test-->
+    <!--<git-branch>alpha/v2.1</git-branch>-->
+    <!--<git-branch>beta/v2.2</git-branch>-->
+    <!--<git-branch>prerelease/v2.3</git-branch>-->
+    <!--<git-branch>release/v2.4</git-branch>-->
+    <!--Test-->
+    
+    <VersionSuffix>dev</VersionSuffix>
+    <!--<VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch.Replace('/', '').Replace('#', ''))</VersionSuffix>-->
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('alpha/v'))">
+    <VersionSuffix>alpha</VersionSuffix>
+    <AssemblyVersion>$(git-branch.Substring(7)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+  </PropertyGroup>
+ 
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('bata/v'))">
+    <VersionSuffix>bata</VersionSuffix>
+    <AssemblyVersion>$(git-branch.Substring(6)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('prerelease/v'))">
+    <VersionSuffix>prerelease</VersionSuffix>
+    <AssemblyVersion>$(git-branch.Substring(12)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/v'))">
+    <VersionSuffix></VersionSuffix>
+    <AssemblyVersion>$(git-branch.Substring(9)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
 </Project>

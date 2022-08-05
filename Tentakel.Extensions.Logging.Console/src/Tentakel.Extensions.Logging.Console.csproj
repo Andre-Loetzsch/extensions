@@ -1,25 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <VersionSuffix></VersionSuffix>
-    <Copyright>Copyright © Tentakel 2022</Copyright>
-    <TargetFramework>net6.0</TargetFramework>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
-    <Nullable>enable</Nullable>
+  <Import Project="..\..\.targets\common.targets"> </Import>
 
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Logging Console extensions</Description>
-    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>Tentakel; Logging; Console; C#</PackageTags>
-    <PackageReleaseNotes>Release 1.0.1</PackageReleaseNotes>
-    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
-    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
-  </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\..\Tentakel.Extensions.Logging.TextFormatters.Abstractions\src\Tentakel.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging.csproj" />

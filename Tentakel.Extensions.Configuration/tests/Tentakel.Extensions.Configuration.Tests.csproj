@@ -8,25 +8,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <Version>1.0</Version>
-    <Copyright>Copyright © Tentakel 2022</Copyright>
-    <Company></Company>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
-    <Nullable>enable</Nullable>
-    <Product>Tentakel.Extensions.Configuration</Product>
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <!--<PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <targeDir>$(git-repository)\.targets</targeDir>
-  </PropertyGroup>
-
-  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>-->
+  <Import Project="..\..\.targets\common.targets"> </Import>
 
   <ItemGroup>
     <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1.cs" Link="Common\tests\Extensions\Configuration\Class1.cs" />

@@ -7,33 +7,8 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
 
-   <PropertyGroup>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <!--<VersionSuffix>beta</VersionSuffix>-->
-    <Copyright>Copyright © Tentakel 2022</Copyright>
-    <TargetFramework>net6.0</TargetFramework>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
-    <Nullable>enable</Nullable>
+  <Import Project="..\..\.targets\common.targets"> </Import>
 
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Configuration extensions Json</Description>
-    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>Tentakel; Configuration; Json; C#</PackageTags>
-    <PackageReleaseNotes>First Release</PackageReleaseNotes>
-  </PropertyGroup>
-
-  <!--<PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <targeDir>$(git-repository)\.targets</targeDir>
-    <Product>Tentakel.Extensions.Configuration</Product>
-  </PropertyGroup>
-
-  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\git.targets'))" Project="$(targeDir)\git.targets"> </Import>
-  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>-->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
