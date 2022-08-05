@@ -9,7 +9,8 @@
 
     <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
     <year>$([System.DateTime]::Now.ToString("yy"))</year>
-    <revisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</revisionIdx>
+    <revisionIdx>1</revisionIdx>
+    <!--<revisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</revisionIdx>-->
     
     <!--Test-->
     <!--<git-branch>alpha/v2.1</git-branch>-->
