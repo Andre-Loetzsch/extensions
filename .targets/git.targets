@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
-    <!--<git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\refs\\heads\\$(git-branch)").Trim())</git-commit>-->
-    <git-commit Condition="Exists('$(git-repository)\\.git\\refs\\heads\\$(git-branch)')">$([System.IO.File]::ReadAllText('$(git-repository)\\.git\\refs\\heads\\$(git-branch)').Trim())</git-commit>
+    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\HEAD"))</git-repository>
+    <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\.git\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
+    <!--<git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\.git\refs\heads\$(git-branch)").Trim())</git-commit>-->
+    <git-commit Condition="Exists('$(git-repository)\.git\refs\heads\$(git-branch)')">$([System.IO.File]::ReadAllText('$(git-repository)\.git\refs\heads\$(git-branch)').Trim())</git-commit>
 
     <SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit.Substring(0, 7))</SourceRevisionId>
 
