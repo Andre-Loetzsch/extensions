@@ -14,13 +14,13 @@
     
     <!--Test-->
     <!--<git-branch>alpha/v2.1</git-branch>-->
-    <git-branch>beta/v2.2</git-branch>
+    <!--<git-branch>beta/v2.2</git-branch>-->
     <!--<git-branch>prerelease/v2.3</git-branch>-->
     <!--<git-branch>release/v2.4</git-branch>-->
     <!--Test-->
     
     <VersionSuffix>dev</VersionSuffix>
-    <!--<VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch.Replace('/', '').Replace('#', ''))</VersionSuffix>-->
+    <VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch.Replace('/', '').Replace('#', ''))</VersionSuffix>
 
   </PropertyGroup>
 
