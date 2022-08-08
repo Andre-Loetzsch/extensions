@@ -358,3 +358,6 @@ MigrationBackup/
 
 # build and test out
 /out
+
+# version informations
+/.version

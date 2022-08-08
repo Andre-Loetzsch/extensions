@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using System.Linq;
 
 namespace Tentakel.Extensions.Logging.File.Tests
 {

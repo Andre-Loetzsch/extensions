@@ -1,14 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
-    <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
-    <git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\\.git\\refs\\heads\\$(git-branch)").Trim())</git-commit>
-    <OutputPath Condition="'$(git-branch)' != ''">$(git-repository)\.bin\$(git-branch)\$(Configuration)</OutputPath>
-    <Product>$(Product) ($(git-branch))</Product>
-    <SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit)</SourceRevisionId>
-    <VersionPrefix>$(Version)</VersionPrefix>
-    <VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch)</VersionSuffix>
-    <Version></Version>
 
-  </PropertyGroup>
+  <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
+    <Exec
+      Command="git describe --long --always --exclude=* --abbrev=7"
+      ConsoleToMSBuild="True"
+      IgnoreExitCode="False"
+    >
+      <Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput"/>
+    </Exec>
+  </Target>
 </Project>

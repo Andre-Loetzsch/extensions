@@ -7,26 +7,7 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <VersionSuffix></VersionSuffix>
-    <Copyright>Copyright © Tentakel 2022</Copyright>
-    <TargetFramework>net6.0</TargetFramework>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
-    <Nullable>enable</Nullable>
-
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Logging extensions</Description>
-    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>Tentakel; Logging; C#</PackageTags>
-    <PackageReleaseNotes>Release 1.0.1</PackageReleaseNotes>
-    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
-    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
-  </PropertyGroup>
+  <Import Project="..\..\.targets\common.targets"/>
 
   <ItemGroup>
     <Folder Include="Properties\" />

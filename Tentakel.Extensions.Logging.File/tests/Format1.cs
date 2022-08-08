@@ -1,4 +1,5 @@
-﻿using Tentakel.Extensions.Logging.TextFormatters.Abstractions;
+﻿using System;
+using Tentakel.Extensions.Logging.TextFormatters.Abstractions;
 
 namespace Tentakel.Extensions.Logging.File.Tests;
 
