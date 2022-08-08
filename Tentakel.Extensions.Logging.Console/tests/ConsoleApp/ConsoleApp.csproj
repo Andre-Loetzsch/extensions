@@ -1,10 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
   <Import Project="..\..\..\.targets\common.targets"> </Import>
 
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\Tentakel.snk</AssemblyOriginatorKeyFile>
-    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

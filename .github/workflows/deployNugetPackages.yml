@@ -24,10 +24,6 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
     steps:
-     - name: 'echo GITHUB_SHA'
-       shell: bash
-       run: echo ${{ github.GITHUB_SHA }}
-
      - name: 'echo VERSION_SUFFIX'
        shell: bash
        run: echo ${{ env.VERSION_SUFFIX }}
