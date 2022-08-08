@@ -7,8 +7,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Tentakel; Configuration; Logging; C#</PackageTags>
 
-    <!--<Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
-    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>-->
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
 
     <PackageReleaseNotes>Release $(Version)</PackageReleaseNotes>
   </PropertyGroup>
