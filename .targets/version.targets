@@ -15,8 +15,8 @@
     <year>$([System.DateTime]::Now.ToString("yy"))</year>
     <revisionIdx>0</revisionIdx>
     <revisionIdx Condition="Exists('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx')">$([System.IO.File]::ReadAllText('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx').Trim())</revisionIdx>
-    <assemblyVersion_Major>1</assemblyVersion_Major>
-    <assemblyVersion_Minor>2</assemblyVersion_Minor>
+    <assemblyVersion_Major>2</assemblyVersion_Major>
+    <assemblyVersion_Minor>0</assemblyVersion_Minor>
     <assemblyVersion_Build >$(year)$(dayOfYear)</assemblyVersion_Build>
     <assemblyVersion_Revision>$(revisionIdx)</assemblyVersion_Revision>
 
