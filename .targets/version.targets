@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="WritereVisionIdxFile">
+
+  <Target Name="WritereVisionIdxFile" Condition="!Exists('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx')">
+    <WriteLinesToFile
+      File="$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx"
+      Lines="$([System.DateTime]::Now.ToString('HHmm'))"
+      Overwrite="true"
+      Encoding="Unicode"/>
+  </Target>
+  
+  <PropertyGroup>
+    <git-branch>main1</git-branch>
+
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
+    <year>$([System.DateTime]::Now.ToString("yy"))</year>
+    <revisionIdx>0</revisionIdx>
+
+    <revisionIdx Condition="Exists('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx')">$([System.IO.File]::ReadAllText('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx').Trim())</revisionIdx>
+    <assemblyVersion_Major>1</assemblyVersion_Major>
+    <assemblyVersion_Minor>2</assemblyVersion_Minor>
+    <assemblyVersion_Build >$(year)$(dayOfYear)</assemblyVersion_Build>
+    <assemblyVersion_Revision>$(revisionIdx)</assemblyVersion_Revision>
+
+    <AssemblyVersion>$(assemblyVersion_Major).$(assemblyVersion_Minor).$(assemblyVersion_Build).$(assemblyVersion_Revision)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+  </PropertyGroup>
+
+</Project>

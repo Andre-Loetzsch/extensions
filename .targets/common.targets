@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <VersionSuffix>dev</VersionSuffix>
     <Copyright>Copyright © Tentakel 2022</Copyright>
     <SignAssembly>true</SignAssembly>
@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <Import Condition="$([System.IO.File]::Exists('$(targeDir)\git.targets'))" Project="$(targeDir)\git.targets"> </Import>
+  <Import Condition="$([System.IO.File]::Exists('$(targeDir)\version.targets'))" Project="$(targeDir)\version.targets"> </Import>
   <Import Condition="$([System.IO.File]::Exists('$(targeDir)\generatePackage.targets'))" Project="$(targeDir)\generatePackage.targets"> </Import>
 
 </Project>

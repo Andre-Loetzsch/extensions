@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <Import Project="..\..\.targets\common.targets"/>
+  <Import Project="..\..\.targets\common.targets" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />

@@ -1,50 +1,72 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+
+
+
+  <Target Name="SetGitBranch" BeforeTargets="InitializeSourceControlInformation">
+    <Exec
+      Command="git symbolic-ref --short -q HEAD"
+      ConsoleToMSBuild="True"
+      IgnoreExitCode="False"
+    >
+      <Output PropertyName="git-branch" TaskParameter="ConsoleOutput"/>
+    </Exec>
+
+    <PropertyGroup>
+      <Copyright>Copyright © Tentakel 2022 $(git-branch)</Copyright>
+    </PropertyGroup>
+  </Target>
+
+
+
+  <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
+    <Exec
+      Command="git describe --long --always --exclude=* --abbrev=8"
+      ConsoleToMSBuild="True"
+      IgnoreExitCode="False"
+    >
+      <Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput"/>
+    </Exec>
+  </Target>
+
+
+
+  
   <PropertyGroup>
-    <git-repository>$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\HEAD"))</git-repository>
-    <git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\.git\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
-    <!--<git-commit Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\.git\refs\heads\$(git-branch)").Trim())</git-commit>-->
-    <git-commit Condition="Exists('$(git-repository)\.git\refs\heads\$(git-branch)')">$([System.IO.File]::ReadAllText('$(git-repository)\.git\refs\heads\$(git-branch)').Trim())</git-commit>
 
-    <SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit.Substring(0, 7))</SourceRevisionId>
+    <!--<git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\.git\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
+    <git-commit Condition="Exists('$(git-repository)\.git\refs\heads\$(git-branch)')">$([System.IO.File]::ReadAllText('$(git-repository)\.git\refs\heads\$(git-branch)').Trim())</git-commit>-->
 
-    <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
-    <year>$([System.DateTime]::Now.ToString("yy"))</year>
-    <revisionIdx>1</revisionIdx>
-    <!--<revisionIdx>$([System.DateTime]::Now.ToString("HHmm"))</revisionIdx>-->
+    <!--<SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit.Substring(0, 7))</SourceRevisionId>-->
+
+
     
-    <!--Test-->
-    <!--<git-branch>alpha/v2.1</git-branch>-->
-    <!--<git-branch>beta/v2.2</git-branch>-->
-    <!--<git-branch>prerelease/v2.3</git-branch>-->
-    <!--<git-branch>release/v2.4</git-branch>-->
-    <!--Test-->
     
-    <VersionSuffix>devX</VersionSuffix>
-    <VersionSuffix Condition="'$(git-branch)' != ''">$(git-branch.Replace('/', '').Replace('#', ''))</VersionSuffix>
+    <VersionSuffix>dev</VersionSuffix>
+    <Copyright>Copyright © Tentakel 2022 ++$(Copyright)++</Copyright>
 
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('alpha/v'))">
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/alpha/'))">
     <VersionSuffix>alpha</VersionSuffix>
-    <AssemblyVersion>$(git-branch.Substring(7)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
-    <FileVersion>$(AssemblyVersion)</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('enhancement'))">
+    <VersionSuffix>enh</VersionSuffix>
   </PropertyGroup>
  
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('beta/v'))">
-    <VersionSuffix>bata</VersionSuffix>
-    <AssemblyVersion>$(git-branch.Substring(6)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
-    <FileVersion>$(AssemblyVersion)</FileVersion>
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/beta/'))">
+    <VersionSuffix>beta</VersionSuffix>
+  
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('prerelease/v'))">
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/prerelease/'))">
     <VersionSuffix>prerelease</VersionSuffix>
-    <AssemblyVersion>$(git-branch.Substring(12)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
-    <FileVersion>$(AssemblyVersion)</FileVersion>
+  
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/v'))">
+  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/release/'))">
     <VersionSuffix></VersionSuffix>
-    <AssemblyVersion>$(git-branch.Substring(9)).$(year)$(dayOfYear).$(revisionIdx)</AssemblyVersion>
-    <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
+
 </Project>
