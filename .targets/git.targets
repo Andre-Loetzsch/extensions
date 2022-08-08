@@ -3,19 +3,6 @@
 
 
 
-  <Target Name="SetGitBranch" BeforeTargets="InitializeSourceControlInformation">
-    <Exec
-      Command="git symbolic-ref --short -q HEAD"
-      ConsoleToMSBuild="True"
-      IgnoreExitCode="False"
-    >
-      <Output PropertyName="git-branch" TaskParameter="ConsoleOutput"/>
-    </Exec>
-
-    <PropertyGroup>
-      <Copyright>Copyright © Tentakel 2022 $(git-branch)</Copyright>
-    </PropertyGroup>
-  </Target>
 
 
 
