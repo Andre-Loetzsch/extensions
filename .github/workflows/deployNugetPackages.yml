@@ -22,8 +22,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
+        os: [ ubuntu-latest, windows-latest ]
     steps:
+     - name: 'echo GITHUB_SHA'
+       shell: bash
+       run: echo ${{ github.GITHUB_SHA }}
+
      - name: 'echo VERSION_SUFFIX'
        shell: bash
        run: echo ${{ env.VERSION_SUFFIX }}
@@ -50,8 +54,6 @@ jobs:
 
      - name: 'Checkout'
        uses: actions/checkout@v3
-       with:
-         ref: 'main'
      
      - name: 'Install dotnet'
        uses: actions/setup-dotnet@v2
@@ -137,7 +139,6 @@ jobs:
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-
      - name: 'Build and test Tentakel.Extensions.Logging.ZipFile.sln'
        uses: Andre-Loetzsch/actions/buildAndTestSolution@main
        with:
@@ -145,7 +146,6 @@ jobs:
          version-suffix: ${{ env.VERSION_SUFFIX }}
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
-
 
      - name: 'push nuget packages'
        if: matrix.os == 'windows-latest'

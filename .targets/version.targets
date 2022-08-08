@@ -9,7 +9,7 @@
   </Target>
   
   <PropertyGroup>
-  
+    <VersionSuffix>dev</VersionSuffix>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <dayOfYear>$([System.DateTime]::Now.DayOfYear.ToString("000"))</dayOfYear>
     <year>$([System.DateTime]::Now.ToString("yy"))</year>
