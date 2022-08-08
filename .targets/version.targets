@@ -9,13 +9,11 @@
   </Target>
   
   <PropertyGroup>
-    <git-branch>main1</git-branch>
-
+  
     <TargetFrameworks>net6.0</TargetFrameworks>
-    <dayOfYear>$([System.DateTime]::Now.DayOfYear)</dayOfYear>
+    <dayOfYear>$([System.DateTime]::Now.DayOfYear.ToString("000"))</dayOfYear>
     <year>$([System.DateTime]::Now.ToString("yy"))</year>
     <revisionIdx>0</revisionIdx>
-
     <revisionIdx Condition="Exists('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx')">$([System.IO.File]::ReadAllText('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx').Trim())</revisionIdx>
     <assemblyVersion_Major>1</assemblyVersion_Major>
     <assemblyVersion_Minor>2</assemblyVersion_Minor>

@@ -1,59 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-
-
-
-
-
-
   <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
     <Exec
-      Command="git describe --long --always --exclude=* --abbrev=8"
+      Command="git describe --long --always --exclude=* --abbrev=7"
       ConsoleToMSBuild="True"
       IgnoreExitCode="False"
     >
       <Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput"/>
     </Exec>
   </Target>
-
-
-
-  
-  <PropertyGroup>
-
-    <!--<git-branch Condition="'$(git-repository)' != ''">$([System.IO.File]::ReadAllText("$(git-repository)\.git\HEAD").Trim().Replace("ref: refs/heads/", ""))</git-branch>
-    <git-commit Condition="Exists('$(git-repository)\.git\refs\heads\$(git-branch)')">$([System.IO.File]::ReadAllText('$(git-repository)\.git\refs\heads\$(git-branch)').Trim())</git-commit>-->
-
-    <!--<SourceRevisionId Condition="'$(git-commit)' != ''">$(git-commit.Substring(0, 7))</SourceRevisionId>-->
-
-
-    
-    
-    <VersionSuffix>dev</VersionSuffix>
-    <Copyright>Copyright © Tentakel 2022 ++$(Copyright)++</Copyright>
-
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/alpha/'))">
-    <VersionSuffix>alpha</VersionSuffix>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('enhancement'))">
-    <VersionSuffix>enh</VersionSuffix>
-  </PropertyGroup>
- 
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/beta/'))">
-    <VersionSuffix>beta</VersionSuffix>
-  
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/prerelease/'))">
-    <VersionSuffix>prerelease</VersionSuffix>
-  
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(git-branch.ToLower().StartsWith('release/release/'))">
-    <VersionSuffix></VersionSuffix>
-  </PropertyGroup>
-
 </Project>
