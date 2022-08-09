@@ -1,9 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="WritereVisionIdxFile">
 
-  <Target Name="WritereVisionIdxFile" Condition="!Exists('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx')">
+  <Target Name="WritereVisionIdxFile" Condition="!Exists('$(git-repository)\.version\revisionIdx')">
     <WriteLinesToFile
-      File="$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx"
-      Lines="$([System.DateTime]::Now.ToString('HHmm'))"
+      File="$(git-repository)\.version\revisionIdx"
+      Lines="$([System.DateTime]::UtcNow.ToString('HHmm'))"
       Overwrite="true"
       Encoding="Unicode"/>
   </Target>
@@ -11,10 +11,10 @@
   <PropertyGroup>
     <VersionSuffix>dev</VersionSuffix>
     <TargetFrameworks>net6.0</TargetFrameworks>
-    <dayOfYear>$([System.DateTime]::Now.DayOfYear.ToString("000"))</dayOfYear>
-    <year>$([System.DateTime]::Now.ToString("yy"))</year>
+    <dayOfYear>$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</dayOfYear>
+    <year>$([System.DateTime]::UtcNow.ToString("yy"))</year>
     <revisionIdx>0</revisionIdx>
-    <revisionIdx Condition="Exists('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx')">$([System.IO.File]::ReadAllText('$(git-repository)\.version\$(year)$(dayOfYear).revisionIdx').Trim())</revisionIdx>
+    <revisionIdx Condition="Exists('$(git-repository)\.version\revisionIdx')">$([System.IO.File]::ReadAllText('$(git-repository)\.version\revisionIdx').Trim())</revisionIdx>
   
     <assemblyVersion_Build >$(year)$(dayOfYear)</assemblyVersion_Build>
     <assemblyVersion_Revision>$(revisionIdx)</assemblyVersion_Revision>
