@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="$(IsPackable) != false">
+  <PropertyGroup Condition="$(IsPackable) != false AND $(MSBuildProjectDirectory.Contains('src'))">
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Configuration extensions</Description>
     <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
