@@ -144,7 +144,7 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'push nuget packages'
-       if: matrix.os == 'windows-latest'
+       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request'
        uses: Andre-Loetzsch/actions/pushNugetPackages@main
        with:
          outdir: ${{ env.OUTDIR }}
