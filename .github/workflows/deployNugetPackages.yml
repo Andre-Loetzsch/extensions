@@ -143,70 +143,80 @@ jobs:
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
      
-     - name: 'delete Tentakel.Extensions.Configuration old packages'
+     - name: 'delete Tentakel.Extensions.Configuration-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Configuration'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Configuration.Json old packages'
+     - name: 'delete Tentakel.Extensions.Configuration.Json-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Configuration.Json'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.DependencyInjection old packages'
+     - name: 'delete Tentakel.Extensions.DependencyInjection-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.DependencyInjection'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging old packages'
+     - name: 'delete Tentakel.Extensions.Logging-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging.Abstractions old packages'
+     - name: 'delete Tentakel.Extensions.Logging.Abstractions-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging.Abstractions'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging.Console old packages'
+     - name: 'delete Tentakel.Extensions.Logging.Console-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging.Console'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging.File old packages'
+     - name: 'delete Tentakel.Extensions.Logging.File-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging.File'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging.TextFormatters old packages'
+     - name: 'delete Tentakel.Extensions.Logging.TextFormatters-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging.TextFormatters'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging.TextFormatters.Abstractions old packages'
+     - name: 'delete Tentakel.Extensions.Logging.TextFormatters.Abstractions-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging.TextFormatters.Abstractions'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
-     - name: 'delete Tentakel.Extensions.Logging.ZipFile old packages'
+     - name: 'delete Tentakel.Extensions.Logging.ZipFile-dev old packages'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
        uses: actions/delete-package-versions@v3
        with:
          package-name: 'Tentakel.Extensions.Logging.ZipFile'
