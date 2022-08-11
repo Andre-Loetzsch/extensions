@@ -17,7 +17,7 @@ namespace Tentakel.Extensions.Logging.File
 
         #region FileName
 
-        private const string defaultFileNameTemplate = "{baseDirectory}/Logging/{processName}/{processName}.{processId}.log";
+        private const string defaultFileNameTemplate = "{baseDirectory}/Logging/{processName}/{processName}.log";
 
         private string _fileNameTemplate = defaultFileNameTemplate;
         public string FileNameTemplate
@@ -47,7 +47,7 @@ namespace Tentakel.Extensions.Logging.File
 
         #region ArchiveFileNameTemplate
 
-        private const string defaultArchiveFileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.{processId}.log";
+        private const string defaultArchiveFileNameTemplate = "{baseDirectory}/Logging/{dateTime:yyyy}/{dateTime:MM}/{processName}/{dateTime:yyyy-MM-dd}.log";
 
         private string _archiveFileNameTemplate = defaultArchiveFileNameTemplate;
         public string ArchiveFileNameTemplate
