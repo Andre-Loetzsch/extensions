@@ -142,7 +142,13 @@ jobs:
          version-suffix: ${{ env.VERSION_SUFFIX }}
          outdir: ${{ env.OUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
-
+     
+     - name: 'delete old packages'
+       uses: actions/delete-package-versions@v3
+       with:
+         min-versions-to-keep: 5
+         delete-only-pre-release-versions: "true"
+         
      - name: 'push nuget packages'
        if: matrix.os == 'windows-latest' && github.event_name != 'pull_request'
        uses: Andre-Loetzsch/actions/pushNugetPackages@main
