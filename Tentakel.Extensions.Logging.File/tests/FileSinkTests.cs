@@ -175,8 +175,21 @@ public class FileSinkTests
             ArchiveFileNameTemplate = archiveCFileName,
         };
 
-        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message1" });
-        fileSink2.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message2" });
+        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 1" });
+        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 2" });
+        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 3" });
+        
+        fileSink2.Log(new() { LogLevel = LogLevel.Debug, LogCategory = "Test", Message = "Test message 4" });
+        fileSink2.Log(new() { LogLevel = LogLevel.Debug, LogCategory = "Test", Message = "Test message 5" });
+        fileSink2.Log(new() { LogLevel = LogLevel.Debug, LogCategory = "Test", Message = "Test message 6" });
+
+        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 7" });
+        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 8" });
+        fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 9" });
+
+        fileSink2.Log(new() { LogLevel = LogLevel.Debug, LogCategory = "Test", Message = "Test message 10" });
+        fileSink2.Log(new() { LogLevel = LogLevel.Debug, LogCategory = "Test", Message = "Test message 11" });
+        fileSink2.Log(new() { LogLevel = LogLevel.Debug, LogCategory = "Test", Message = "Test message 12" });
 
         Assert.True(IOFile.Exists(traceCFileName));
 
@@ -191,8 +204,18 @@ public class FileSinkTests
 
         var logContent = Encoding.UTF8.GetString(buffer).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-        Assert.Equal(2, logContent.Length);
-        Assert.Contains("Test message1", logContent[0]);
-        Assert.Contains("Test message2", logContent[1]);
+        Assert.Equal(12, logContent.Length);
+        Assert.Contains("Test message 1", logContent[0]);
+        Assert.Contains("Test message 2", logContent[1]);
+        Assert.Contains("Test message 3", logContent[2]);
+        Assert.Contains("Test message 4", logContent[3]);
+        Assert.Contains("Test message 5", logContent[4]);
+        Assert.Contains("Test message 6", logContent[5]);
+        Assert.Contains("Test message 7", logContent[6]);
+        Assert.Contains("Test message 8", logContent[7]);
+        Assert.Contains("Test message 9", logContent[8]);
+        Assert.Contains("Test message 10", logContent[9]);
+        Assert.Contains("Test message 11", logContent[10]);
+        Assert.Contains("Test message 12", logContent[11]);
     }
 }

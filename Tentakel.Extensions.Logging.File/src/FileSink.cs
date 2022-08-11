@@ -97,8 +97,15 @@ namespace Tentakel.Extensions.Logging.File
                 this.CreatePartialFile();
             }
 
-            this._fileStream!.Write(buffer, 0, buffer.Length);
-            this._fileStream!.Flush();
+            if (this._fileStream == null) return;
+            
+            if (this._fileStream.Position < this._fileStream.Length)
+            {
+                this._fileStream.Position = this._fileStream.Length;
+            }
+
+            this._fileStream.Write(buffer, 0, buffer.Length);
+            this._fileStream.Flush();
         }
 
         #endregion
