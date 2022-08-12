@@ -581,8 +581,8 @@ namespace Tentakel.Extensions.Configuration.Tests
             Assert.AreEqual("Value1B", class1B?.Property1);
 
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A1.json"), "{\"C1A\": {\"Property1\": \"Value2A\"}}");
-            Assert.IsTrue(waitHandle.WaitOne(300));
-            Assert.IsTrue(waitHandle.WaitOne(300));
+            Assert.IsTrue(waitHandle.WaitOne(500));
+            Assert.IsTrue(waitHandle.WaitOne(500));
 
             Assert.AreEqual("Value2A", class1A.Property1);
             Assert.AreEqual("Value1B", class1B?.Property1);
