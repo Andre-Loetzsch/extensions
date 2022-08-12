@@ -10,6 +10,9 @@ internal class Program
         var logger1 = loggerFactory.CreateLogger<Program>();
         var logger2 = loggerFactory.CreateLogger("Test");
 
+        logger1.LogInformation(string.Empty);
+        logger1.LogDebug(null);
+        logger1.LogWarning($"{Environment.NewLine}Test empty line{Environment.NewLine}{Environment.NewLine}{"".PadLeft(2, '\t')}Test empty line{Environment.NewLine}{Environment.NewLine}{"".PadLeft(4, '\t')}Test empty line{Environment.NewLine}");
 
         logger1.LogTrace("This is a Trace message!");
         //logger2.LogTrace("This is a Trace message!");
@@ -39,9 +42,9 @@ internal class Program
         //logger2.LogTrace($"This is a Trace message{Environment.NewLine}with multi{Environment.NewLine}lines.");
 
 
-        //Console.ReadLine();
-
-
+        logger2.LogInformation(string.Empty);
+        logger2.LogDebug(null);
+        logger2.LogWarning($"{Environment.NewLine}Test empty line{Environment.NewLine}{Environment.NewLine}{"".PadLeft(2, '\t')}Test empty line{Environment.NewLine}{Environment.NewLine}{"".PadLeft(4, '\t')}Test empty line{Environment.NewLine}");
 
         logger2.LogTrace("This is a Trace message!");
         logger2.LogDebug("This is a Debug message!");

@@ -33,7 +33,7 @@ namespace Tentakel.Extensions.Logging.Console
                         this._textFormatterCreated = true;
                         this.CreateTextFormatter();
                     }
-                    
+
                     this.ColorizeKeywords(logEntry, this.TextFormatter.Format(logEntry));
                 }
 
@@ -50,7 +50,7 @@ namespace Tentakel.Extensions.Logging.Console
         {
             logEntry.Message ??= string.Empty;
 
-            var messageLines = logEntry.Message.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var messageLines = logEntry.Message.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             var messageLineDict = new Dictionary<string, string>();
 
             for (var i = 0; i < messageLines.Length; i++)
@@ -64,7 +64,9 @@ namespace Tentakel.Extensions.Logging.Console
             {
                 foreach (var (key, value) in messageLineDict)
                 {
-                    formatMessageLines[i] = formatMessageLines[i].Replace(value, string.Concat("%%", key, "%%"));
+                    formatMessageLines[i] = string.IsNullOrEmpty(value) ? 
+                        string.Concat("%%", key, "%%") : 
+                        formatMessageLines[i].Replace(value, string.Concat("%%", key, "%%"));
                 }
 
                 formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogLevel.ToString(), string.Concat("%%", logEntry.LogLevel, "%%"));
