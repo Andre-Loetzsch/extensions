@@ -31,7 +31,7 @@ public class ConsoleLoggerFactory : ILoggerFactory
         this._loggerSinkProvider.AddOrUpdateLoggerSink(new ColoredConsoleSink
         {
             Name = "C3",
-            Categories = new[] { "Test2*" },
+            Categories = new[] { "Test1*", "Test2*" },
             LogLevel = LogLevel.Trace,
             ForegroundColor = ConsoleColor.White,
             TextFormatterType = "ConsoleApp.TestTextFormatter3, ConsoleApp"
