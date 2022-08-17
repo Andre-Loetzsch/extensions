@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
 
@@ -19,7 +19,7 @@ namespace Tentakel.Extensions.Logging.SourceHelper
             public int Count { get; set; }
         }
 
-        private readonly Dictionary<string, SourceCacheItem> _cache = new();
+        private readonly ConcurrentDictionary<string, SourceCacheItem> _cache = new();
 
         public void AddSource(string originalFormat, string source)
         {
@@ -48,7 +48,7 @@ namespace Tentakel.Extensions.Logging.SourceHelper
                 if (this._cache.Count <= maxSize) return;
 
                 //Debug.WriteLine($"Remove cache item: {this._cache[key].Count} - {key}");
-                this._cache.Remove(key);
+                this._cache.TryRemove(key, out _);
             }
         }
     }
