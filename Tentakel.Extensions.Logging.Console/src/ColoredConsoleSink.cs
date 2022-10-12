@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.TextFormatters.Abstractions.LoggerSinks;
 

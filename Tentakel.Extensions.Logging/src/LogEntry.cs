@@ -70,6 +70,7 @@ namespace Tentakel.Extensions.Logging
 
         public IDictionary<string, object> Attributes { get; set; }
         public string? Message { get; set; }
+        // ReSharper disable once CollectionNeverQueried.Global
         public List<LogScopeInfo> Scopes { get; set; } = new ();
 
         internal bool IsSourceNullOrEmpty => string.IsNullOrEmpty(this._source);

@@ -31,13 +31,11 @@ namespace Tentakel.Extensions.Logging
         {
             var sb = new StringBuilder();
 
-            if (attributes == null) return sb.ToString();
-
             foreach (var (k, v) in attributes)
             {
                 if (sb.Length > 0) sb.Append("; ");
                 var key = k.Replace("; ", ";").Replace(", ", ",");
-                var value = v == null ? string.Empty : v?.ToString()?.Replace("; ", ";").Replace(", ", ",");
+                var value = v.ToString()?.Replace("; ", ";").Replace(", ", ",");
                 sb.Append(key).Append(", ").Append(value);
             }
 
