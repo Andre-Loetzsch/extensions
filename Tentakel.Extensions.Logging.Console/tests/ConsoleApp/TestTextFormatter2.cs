@@ -15,6 +15,7 @@ public class TestTextFormatter2 : ITextFormatter
         this._formatBuilder
             .Append('[').Append(logEntry.LogEntryId.ToString("0000000")).Append(' ')
             .Append(logEntry.DateTime.ToString("yyyy-MM-dd HH:mm:ss fff")).Append("] ")
+            .Append(logEntry.Source.PadRight(25))
             .Append(logEntry.LogLevel.ToString().PadRight(12))
             .Append(logEntry.LogCategory).AppendLine();
 
