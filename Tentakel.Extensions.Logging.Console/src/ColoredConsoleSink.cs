@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 using Tentakel.Extensions.Logging.TextFormatters.Abstractions.LoggerSinks;
 
@@ -36,7 +37,6 @@ namespace Tentakel.Extensions.Logging.Console
 
                     this.ColorizeKeywords(logEntry, this.TextFormatter.Format(logEntry));
                 }
-
             }
             catch (Exception e)
             {
@@ -45,6 +45,9 @@ namespace Tentakel.Extensions.Logging.Console
                 System.Console.ResetColor();
             }
         }
+
+
+        #region private members
 
         private void ColorizeKeywords(LogEntry logEntry, string formatMessage)
         {
@@ -64,12 +67,13 @@ namespace Tentakel.Extensions.Logging.Console
             {
                 foreach (var (key, value) in messageLineDict)
                 {
-                    formatMessageLines[i] = string.IsNullOrEmpty(value) ? 
-                        string.Concat("%%", key, "%%") : 
+                    formatMessageLines[i] = string.IsNullOrEmpty(value) ?
+                        string.Concat("%%", key, "%%") :
                         formatMessageLines[i].Replace(value, string.Concat("%%", key, "%%"));
                 }
 
                 formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogLevel.ToString(), string.Concat("%%", logEntry.LogLevel, "%%"));
+                formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.Source, "%%Source%%");
                 formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogCategory, "%%LogCategory%%");
             }
 
@@ -79,41 +83,26 @@ namespace Tentakel.Extensions.Logging.Console
                 {
                     if (messageLineDict.TryGetValue(test, out var msg))
                     {
-                        System.Console.ForegroundColor = logEntry.LogLevel switch
-                        {
-                            LogLevel.Trace => ConsoleColor.DarkGray,
-                            LogLevel.Debug => ConsoleColor.Gray,
-                            LogLevel.Information => ConsoleColor.Blue,
-                            LogLevel.Warning => ConsoleColor.Yellow,
-                            LogLevel.Error => ConsoleColor.Red,
-                            LogLevel.Critical => ConsoleColor.DarkRed,
-                            _ => this.ForegroundColor
-                        };
-
-                        //System.Console.ForegroundColor = this.ForegroundColor;
+                        this.SetLogLevelConsoleColor(logEntry.LogLevel);
                         System.Console.Write(msg);
                         continue;
                     }
 
-                    if (test == "LogCategory")
+                    switch (test)
                     {
-                        System.Console.ForegroundColor = GetCategoryForegroundColors(logEntry.LogCategory);
-                        System.Console.Write(logEntry.LogCategory);
-                        continue;
+                        case "LogCategory":
+                            System.Console.ForegroundColor = GetCategoryForegroundColors(logEntry.LogCategory);
+                            System.Console.Write(logEntry.LogCategory);
+                            continue;
+                        case "Source":
+                            System.Console.ForegroundColor = ConsoleColor.DarkGray;
+                            System.Console.Write(logEntry.Source);
+                            continue;
+                        default:
+                            this.SetLogLevelConsoleColor(test);
+                            System.Console.Write(test);
+                            break;
                     }
-
-                    System.Console.ForegroundColor = test switch
-                    {
-                        "Trace" => ConsoleColor.DarkGray,
-                        "Debug" => ConsoleColor.Gray,
-                        "Information" => ConsoleColor.Blue,
-                        "Warning" => ConsoleColor.Yellow,
-                        "Error" => ConsoleColor.Red,
-                        "Critical" => ConsoleColor.DarkRed,
-                        _ => this.ForegroundColor
-                    };
-
-                    System.Console.Write(test);
                 }
 
                 System.Console.ResetColor();
@@ -131,5 +120,32 @@ namespace Tentakel.Extensions.Logging.Console
             categoryForegroundColors[logCategory] = color;
             return color;
         }
+
+        private void SetLogLevelConsoleColor(string logLevel)
+        {
+            if (Enum.TryParse<LogLevel>(logLevel, out var result))
+            {
+                this.SetLogLevelConsoleColor(result);
+                return;
+            }
+
+            System.Console.ForegroundColor = this.ForegroundColor;
+        }
+
+        private void SetLogLevelConsoleColor(LogLevel logLevel)
+        {
+            System.Console.ForegroundColor = logLevel switch
+            {
+                LogLevel.Trace => ConsoleColor.DarkGray,
+                LogLevel.Debug => ConsoleColor.Gray,
+                LogLevel.Information => ConsoleColor.Blue,
+                LogLevel.Warning => ConsoleColor.Yellow,
+                LogLevel.Error => ConsoleColor.Red,
+                LogLevel.Critical => ConsoleColor.DarkRed,
+                _ => this.ForegroundColor
+            };
+        }
+
+        #endregion
     }
 }
