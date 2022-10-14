@@ -18,6 +18,15 @@ internal class Program
         //logger2.LogTrace("This is a Trace message!");
 
 
+
+        logger1.LogError("Error");
+        //logger2.LogTrace("This is a Trace message!");
+
+
+
+
+
+
         logger1.LogDebug("This is a Debug message!");
         //logger2.LogDebug("This is a Debug message!");
 

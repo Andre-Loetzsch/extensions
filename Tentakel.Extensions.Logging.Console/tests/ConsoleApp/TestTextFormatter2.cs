@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Tentakel.Extensions.Logging;
+﻿using Tentakel.Extensions.Logging;
 using Tentakel.Extensions.Logging.TextFormatters.Abstractions;
 
 namespace ConsoleApp;
@@ -17,6 +16,7 @@ public class TestTextFormatter2 : ITextFormatter
             .Append(logEntry.DateTime.ToString("yyyy-MM-dd HH:mm:ss fff")).Append("] ")
             .Append(logEntry.Source.PadRight(25))
             .Append(logEntry.LogLevel.ToString().PadRight(12))
+            .Append(logEntry.MachineName.PadRight(12))
             .Append(logEntry.LogCategory).AppendLine();
 
         if (string.IsNullOrEmpty(logEntry.Message)) return this._formatBuilder.ToString();

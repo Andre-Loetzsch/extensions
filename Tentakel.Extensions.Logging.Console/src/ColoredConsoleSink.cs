@@ -72,7 +72,7 @@ namespace Tentakel.Extensions.Logging.Console
                         formatMessageLines[i].Replace(value, string.Concat("%%", key, "%%"));
                 }
 
-                formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogLevel.ToString(), string.Concat("%%", logEntry.LogLevel, "%%"));
+                formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogLevel.ToString(), "%%LogLevel%%");
                 formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.Source, "%%Source%%");
                 formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogCategory, "%%LogCategory%%");
             }
@@ -98,8 +98,12 @@ namespace Tentakel.Extensions.Logging.Console
                             System.Console.ForegroundColor = ConsoleColor.DarkGray;
                             System.Console.Write(logEntry.Source);
                             continue;
+                        case "LogLevel":
+                            this.SetLogLevelConsoleColor(logEntry.LogLevel);
+                            System.Console.Write(logEntry.LogLevel);
+                            break;
                         default:
-                            this.SetLogLevelConsoleColor(test);
+                            System.Console.ForegroundColor = this.ForegroundColor;
                             System.Console.Write(test);
                             break;
                     }
@@ -110,6 +114,7 @@ namespace Tentakel.Extensions.Logging.Console
             }
         }
 
+
         private static ConsoleColor GetCategoryForegroundColors(string logCategory)
         {
             if (categoryForegroundColors.TryGetValue(logCategory, out var color)) return color;
@@ -119,17 +124,6 @@ namespace Tentakel.Extensions.Logging.Console
 
             categoryForegroundColors[logCategory] = color;
             return color;
-        }
-
-        private void SetLogLevelConsoleColor(string logLevel)
-        {
-            if (Enum.TryParse<LogLevel>(logLevel, out var result))
-            {
-                this.SetLogLevelConsoleColor(result);
-                return;
-            }
-
-            System.Console.ForegroundColor = this.ForegroundColor;
         }
 
         private void SetLogLevelConsoleColor(LogLevel logLevel)

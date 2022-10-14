@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Tentakel.Extensions.Logging;
+﻿using Tentakel.Extensions.Logging;
 using Tentakel.Extensions.Logging.TextFormatters.Abstractions;
 
 namespace ConsoleApp;
