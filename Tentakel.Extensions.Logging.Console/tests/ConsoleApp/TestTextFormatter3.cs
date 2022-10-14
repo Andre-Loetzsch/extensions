@@ -25,7 +25,6 @@ public class TestTextFormatter3 : ITextFormatter
         for (var i = 0; i < messageSplit.Length; i++)
         {
             if (i > 0) this._formatBuilder.Append(string.Empty.PadLeft(padLeft));
-            //this._formatBuilder.AppendLine(messageSplit[i]);
             this._formatBuilder.Append(messageSplit[i]);
 
 

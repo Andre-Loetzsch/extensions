@@ -114,7 +114,6 @@ namespace Tentakel.Extensions.Logging.Console
             }
         }
 
-
         private static ConsoleColor GetCategoryForegroundColors(string logCategory)
         {
             if (categoryForegroundColors.TryGetValue(logCategory, out var color)) return color;
