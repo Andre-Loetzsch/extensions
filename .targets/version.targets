@@ -10,7 +10,7 @@
   
   <PropertyGroup>
     <VersionSuffix Condition="'$(Configuration)' == 'Debug'">dev</VersionSuffix>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+  
     <dayOfYear>$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</dayOfYear>
     <year>$([System.DateTime]::UtcNow.ToString("yy"))</year>
     <revisionIdx>0</revisionIdx>

@@ -1,4 +1,4 @@
-﻿namespace Tentakel.Extensions.Configuration.Tests;
+﻿namespace Oleander.Extensions.Configuration.Tests;
 // ReSharper disable once InconsistentNaming
 
 public class Class2_3 : IInterface2_3

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace Tentakel.Extensions.Configuration.Tests;
+namespace Oleander.Extensions.Configuration.Tests;
 
 public static class JsonStringBuilder
 {

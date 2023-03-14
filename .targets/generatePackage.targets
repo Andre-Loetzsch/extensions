@@ -5,7 +5,7 @@
     <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Andre-Loetzsch/tentakel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Tentakel; Configuration; Logging; C#</PackageTags>
+    <PackageTags>Oleander; Configuration; Logging; C#</PackageTags>
     <PackageReleaseNotes>Release $(Version)</PackageReleaseNotes>
   </PropertyGroup>
 </Project>
