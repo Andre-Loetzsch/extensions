@@ -1,4 +1,4 @@
-﻿namespace Tentakel.Extensions.Configuration.Tests;
+﻿namespace Oleander.Extensions.Configuration.Tests;
 
 public class NestedClass
 {

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\.targets\common.targets"/>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />
+  </ItemGroup>
+
+</Project>

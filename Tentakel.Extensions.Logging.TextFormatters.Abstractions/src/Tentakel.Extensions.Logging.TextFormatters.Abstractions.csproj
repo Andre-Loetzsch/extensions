@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\.targets\common.targets"/>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Tentakel.Extensions.Logging\src\Tentakel.Extensions.Logging.csproj" />
-  </ItemGroup>
-
-</Project>

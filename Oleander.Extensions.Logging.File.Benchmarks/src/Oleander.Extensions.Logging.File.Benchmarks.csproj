@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <Import Project="..\..\.targets\common.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Oleander.Extensions.Logging.Abstractions\src\Oleander.Extensions.Logging.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Oleander.Extensions.Logging.File\src\Oleander.Extensions.Logging.File.csproj" />
+    <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />
+  </ItemGroup>
+
+</Project>
