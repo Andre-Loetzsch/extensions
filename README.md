@@ -1,3 +1,3 @@
-# tentakel
+# oleander
 
-Tentakel Software
+Oleander Software
