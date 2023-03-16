@@ -1,6 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\.targets\common.targets"/>
+  <Import Project="..\..\.targets\common.targets" />
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />

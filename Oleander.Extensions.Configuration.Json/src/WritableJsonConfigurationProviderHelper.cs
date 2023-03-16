@@ -9,7 +9,7 @@ namespace Oleander.Extensions.Configuration.Json
 {
     internal class WritableJsonConfigurationProviderHelper
     {
-        internal string Set(string json, string key, string value, Action<string, string> baseSetAction)
+        internal static string Set(string json, string key, string value, Action<string, string> baseSetAction)
         {
             #region update current configuration
 
@@ -24,7 +24,7 @@ namespace Oleander.Extensions.Configuration.Json
                 {
                     foreach (var (k, v) in provider.InnerData)
                     {
-                        baseSetAction($"{key}:{k}", v);
+                        baseSetAction($"{key}:{k}", v ?? string.Empty);
                     }
                 }
             }

@@ -1,13 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-
   <Import Project="..\..\.targets\common.targets" />
+
+  <PropertyGroup>
+    <Product>Logging Extensions</Product>
+  </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -55,5 +51,4 @@
       <LastGenOutput>SR.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
 </Project>

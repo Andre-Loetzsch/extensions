@@ -15,8 +15,8 @@ namespace Oleander.Extensions.Configuration
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, TOptions>> _cache = new();
 
         private readonly List<IDisposable> _registrations = new();
-        private event Action<TOptions?, string, string>? Changed;
-        private event Action<string>? ConfigurationChanged;
+        private event Action<TOptions?, string?, string?>? Changed;
+        private event Action<string?>? ConfigurationChanged;
 
         public ConfiguredTypesOptionsMonitor(IOptionsMonitor<ConfiguredTypes> optionsMonitor, IConfigurationRoot configurationRoot)
         {
@@ -39,7 +39,7 @@ namespace Oleander.Extensions.Configuration
 
         #region IConfiguredTypesOptionsMonitor
 
-        public IDisposable OnChange(Action<string> listener)
+        public IDisposable OnChange(Action<string?> listener)
         {
             var disposable = new ChangeTrackerDisposable(this, listener);
             this.ConfigurationChanged += disposable.ConfigurationChanged;
@@ -48,7 +48,7 @@ namespace Oleander.Extensions.Configuration
             return disposable;
         }
 
-        public IDisposable OnChange(Action<TOptions?, string> listener)
+        public IDisposable OnChange(Action<TOptions?, string?> listener)
         {
             var disposable = new ChangeTrackerDisposable(this, listener);
             this.Changed += disposable.OnChange;
@@ -57,7 +57,7 @@ namespace Oleander.Extensions.Configuration
             return disposable;
         }
 
-        public IDisposable OnChange(Action<TOptions?, string, string> listener)
+        public IDisposable OnChange(Action<TOptions?, string?, string?> listener)
         {
             var disposable = new ChangeTrackerDisposable(this, listener);
             this.Changed += disposable.OnChange;
@@ -76,15 +76,15 @@ namespace Oleander.Extensions.Configuration
             return this.GetConfiguredTypes(name).GetKeys<TOptions>();
         }
 
-        public TOptions? Get(string key)
+        public TOptions? Get(string? key)
         {
             return this.Get(Options.DefaultName, key);
         }
 
-        public TOptions? Get(string name, string key)
+        public TOptions? Get(string? name, string? key)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            if (key == null) throw new ArgumentNullException(nameof(key));
+            if (name == null) return default;
+            if (key == null) return default;
 
             if (this.GetInnerCache(name).TryGetValue(key, out var options))
             {
@@ -119,35 +119,35 @@ namespace Oleander.Extensions.Configuration
 
         private sealed class ChangeTrackerDisposable : IDisposable
         {
-            private readonly Action<string>? _configurationChangedListener;
-            private readonly Action<TOptions?, string>? _optionsKeyListener;
-            private readonly Action<TOptions?, string, string>? _optionsNameKeyListener;
+            private readonly Action<string?>? _configurationChangedListener;
+            private readonly Action<TOptions?, string?>? _optionsKeyListener;
+            private readonly Action<TOptions?, string?, string?>? _optionsNameKeyListener;
 
             private readonly ConfiguredTypesOptionsMonitor<TOptions> _monitor;
 
-            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<string> listener)
+            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<string?> listener)
             {
                 this._configurationChangedListener = listener;
                 this._monitor = monitor;
             }
 
-            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions?, string> listener)
+            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions?, string?> listener)
             {
                 this._optionsKeyListener = listener;
                 this._monitor = monitor;
             }
 
-            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions?, string, string> listener)
+            public ChangeTrackerDisposable(ConfiguredTypesOptionsMonitor<TOptions> monitor, Action<TOptions?, string?, string?> listener)
             {
                 this._optionsNameKeyListener = listener;
                 this._monitor = monitor;
             }
 
-            public void ConfigurationChanged(string name)
+            public void ConfigurationChanged(string? name)
             {
                 this._configurationChangedListener?.Invoke(name);
             }
-            public void OnChange(TOptions? options, string name, string key)
+            public void OnChange(TOptions? options, string? name, string? key)
             {
                 this._optionsKeyListener?.Invoke(options, key);
                 this._optionsNameKeyListener?.Invoke(options, name, key);
@@ -167,15 +167,14 @@ namespace Oleander.Extensions.Configuration
         
         private ConfiguredTypes GetConfiguredTypes(string name)
         {
-            var configuredTypes = this._optionsMonitor.Get(name) ?? new ConfiguredTypes();
+            var configuredTypes = this._optionsMonitor.Get(name);
             configuredTypes.ConfigurationRoot = this._configurationRoot;
             return configuredTypes;
         }
 
-        private ConcurrentDictionary<string, TOptions> GetInnerCache(string name)
+        private ConcurrentDictionary<string, TOptions> GetInnerCache(string? name)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            return this._cache.GetOrAdd(name, _ => new ConcurrentDictionary<string, TOptions>());
+            return name == null ? new() : this._cache.GetOrAdd(name, _ => new());
         }
 
         private static TOptions? GetOrCreateInstance(TOptions? instance)

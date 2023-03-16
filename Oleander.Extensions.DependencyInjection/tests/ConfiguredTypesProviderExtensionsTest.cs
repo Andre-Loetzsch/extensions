@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,12 +11,12 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oleander.Extensions.Configuration;
 using Oleander.Extensions.Configuration.Tests;
+// ReSharper disable IdentifierTypo
 
 
 namespace Oleander.Extensions.DependencyInjection.Tests
 {
     [TestClass]
-    [SuppressMessage("ReSharper", "IdentifierTypo")]
     public class ConfiguredTypesProviderExtensionsTest
     {
         [TestMethod]
@@ -203,6 +202,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp1 = c1OptionsMonitor.OnChange((class1, s) =>
             {
+                s ??= string.Empty;
                 onChangeResult1.Add(s, class1);
                 if (onChangeResult1.Count < 1) return;
                 waitHandle1.Set();
@@ -210,6 +210,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp2 = c2OptionsMonitor.OnChange((class2, s) =>
             {
+                s ??= string.Empty;
                 onChangeResult2.Add(s, class2);
                 if (onChangeResult2.Count < 1) return;
                 waitHandle2.Set();
@@ -217,6 +218,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp3 = c3OptionsMonitor.OnChange((class3, s) =>
             {
+                s ??= string.Empty;
                 onChangeResult3.Add(s, class3);
                 waitHandle3.Set();
             });
@@ -256,9 +258,9 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             Assert.IsNull(c3OptionsMonitor.Get("C3A").Property3);
             Assert.IsNull(c3OptionsMonitor.Get("C3B").Property3);
 
-            disp1.Dispose();
-            disp2.Dispose();
-            disp3.Dispose();
+            disp1?.Dispose();
+            disp2?.Dispose();
+            disp3?.Dispose();
         }
 
         [TestMethod]
@@ -334,6 +336,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp = c1OptionsMonitor.OnChange(name =>
             {
+                name ??= string.Empty;
                 onChangeResult.Add(name);
                 if (onChangeResult.Count < 2) return;
                 waitHandle.Set();
@@ -484,6 +487,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp = c1OptionsMonitor.OnChange(name =>
             {
+                name ??= string.Empty;
                 onChangeResult.Add(name);
                 if (onChangeResult.Count < 2) return;
                 waitHandle.Set();
@@ -615,6 +619,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp = optionsMonitor.OnChange(name =>
             {
+                name ??= string.Empty;
                 onChangeResult.Add(name);
                 if (onChangeResult.Count < 2) return;
                 waitHandle.Set();
@@ -752,6 +757,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             var disp = c1OptionsMonitor.OnChange(name =>
             {
+                name ??= string.Empty;
                 onChangeResult.Add(name);
                 if (onChangeResult.Count < 2) return;
                 waitHandle.Set();

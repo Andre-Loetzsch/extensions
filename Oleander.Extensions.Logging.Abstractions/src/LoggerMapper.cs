@@ -22,7 +22,7 @@ namespace Oleander.Extensions.Logging.Abstractions
 
         public Dictionary<string, object?> AdditionalData { get; set; } = new();
 
-        public IDisposable BeginScope<TState>(TState state)
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
             return this._logger.BeginScope(state);
         }

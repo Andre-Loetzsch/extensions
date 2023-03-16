@@ -58,6 +58,8 @@ namespace Oleander.Extensions.Configuration.Test
                 });
 
             var configuredTypes = configurationRoot.GetSection("types").Get<ConfiguredTypes>();
+            if (configuredTypes == null) throw new NullReferenceException(nameof(configuredTypes));
+
             configuredTypes.ConfigurationRoot = configurationRoot;
 
             var services1 = configuredTypes.GetAll<IInterface1>().ToList();
@@ -106,6 +108,9 @@ namespace Oleander.Extensions.Configuration.Test
                 });
 
             var configuredTypes = configurationRoot.GetSection("types").Get<ConfiguredTypes>();
+
+            if (configuredTypes == null) throw new NullReferenceException(nameof(configuredTypes));
+            
             configuredTypes.ConfigurationRoot = configurationRoot;
             configuredTypes["EXC"] = new ConfiguredType { Type = typeof(Class3).FullName };
 

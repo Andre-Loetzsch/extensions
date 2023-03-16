@@ -84,7 +84,7 @@ namespace Oleander.Extensions.Logging.Loggers
             return this._loggerProvider.IsEnabled(logLevel);
         }
 
-        public IDisposable BeginScope<TState>(TState state)
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
             return this._loggerProvider.ScopeProvider.Push(state);
         }

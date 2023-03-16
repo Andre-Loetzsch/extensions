@@ -1,6 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\.targets\common.targets"> </Import>
 
+  <PropertyGroup>
+    <Product>Logging Console</Product>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />

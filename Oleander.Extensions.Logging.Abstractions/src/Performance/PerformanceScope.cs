@@ -9,14 +9,14 @@ namespace Oleander.Extensions.Logging.Abstractions.Performance
     {
         private readonly ILogger _logger;
         private readonly IEnumerable<PerformanceControlPointPolicy> _policies;
-        private readonly IDisposable _innerScope;
+        private readonly IDisposable? _innerScope;
         private DateTime _startDateTime = DateTime.Now;
 
-        public PerformanceScope(ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, IDisposable innerScope)
+        public PerformanceScope(ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, IDisposable? innerScope)
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._policies = policies ?? throw new ArgumentNullException(nameof(policies));
-            this._innerScope = innerScope ?? throw new ArgumentNullException(nameof(innerScope));
+            this._innerScope = innerScope;
         }
 
         public void SetPerformanceControlPoint(string policyName)
@@ -33,26 +33,9 @@ namespace Oleander.Extensions.Logging.Abstractions.Performance
 
         #region IDisposable
 
-        private bool _disposed;
-
-        ~PerformanceScope()
-        {
-            this.Dispose(false);
-        }
-
         public void Dispose()
         {
-            this.Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (this._disposed) return;
-            this._disposed = true;
-
             this._innerScope?.Dispose();
-
-            if (!disposing) return;
             GC.SuppressFinalize(this);
         }
 

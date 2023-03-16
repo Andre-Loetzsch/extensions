@@ -1,12 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
@@ -45,7 +37,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj" />
@@ -55,5 +46,4 @@
   <ItemGroup>
     <Folder Include="Common\" />
   </ItemGroup>
-
 </Project>
