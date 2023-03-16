@@ -26,20 +26,20 @@ namespace Oleander.Extensions.Logging.Abstractions
             }
         }
 
-        public static PerformanceScope BeginPerformanceScope<TState>(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, TState state)
+        public static PerformanceScope BeginPerformanceScope<TState>(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, TState state) where TState : notnull
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
             if (policies == null) throw new ArgumentNullException(nameof(policies));
 
-            return new PerformanceScope(logger, policies, logger.BeginScope(state));
+            return new(logger, policies, logger.BeginScope(state));
         }
 
-        public static PerformanceScope BeginPerformanceScope(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, string messageFormat, params object[] args)
+        public static PerformanceScope BeginPerformanceScope(this ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, string messageFormat, params object?[] args)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
             if (policies == null) throw new ArgumentNullException(nameof(policies));
 
-            return new PerformanceScope(logger, policies, logger.BeginScope(messageFormat, args));
+            return new(logger, policies, logger.BeginScope(messageFormat, args));
         }
     }
 }

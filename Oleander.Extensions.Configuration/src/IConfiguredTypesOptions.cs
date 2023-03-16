@@ -6,6 +6,6 @@ namespace Oleander.Extensions.Configuration
     {
         IReadOnlyCollection<string> GetKeys<TOptions>();
 
-        TOptions? Get<TOptions>(string key);
+        TOptions? Get<TOptions>(string? key);
     }
 }

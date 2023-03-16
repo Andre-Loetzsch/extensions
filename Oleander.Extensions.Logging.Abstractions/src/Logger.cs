@@ -12,7 +12,7 @@ namespace Oleander.Extensions.Logging.Abstractions
             this._innerInstance = LoggerFactory.CreateLogger(category);
         }
 
-        public IDisposable BeginScope<TState>(TState state)
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
             return this._innerInstance.BeginScope(state);
         }

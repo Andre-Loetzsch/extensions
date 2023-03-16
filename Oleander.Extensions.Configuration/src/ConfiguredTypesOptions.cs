@@ -12,7 +12,7 @@ namespace Oleander.Extensions.Configuration
         public ConfiguredTypesOptions(IOptions<ConfiguredTypes> options, IConfigurationRoot configurationRoot)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
-            this._configuredTypes = options.Value ?? new ConfiguredTypes();
+            this._configuredTypes = options.Value;
             this._configuredTypes.ConfigurationRoot = configurationRoot ?? throw new ArgumentNullException(nameof(configurationRoot));
         }
 
@@ -23,7 +23,7 @@ namespace Oleander.Extensions.Configuration
             return this._configuredTypes.GetKeys<TOptions>();
         }
 
-        public TOptions? Get<TOptions>(string key)
+        public TOptions? Get<TOptions>(string? key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 

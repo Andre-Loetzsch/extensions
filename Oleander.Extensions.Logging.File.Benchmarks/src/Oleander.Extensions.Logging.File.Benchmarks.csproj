@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <Import Project="..\..\.targets\common.targets" />

@@ -24,14 +24,12 @@ namespace Oleander.Extensions.Configuration
             var configuredTypes = string.IsNullOrEmpty(sectionKey) ? 
                 this._optionsMonitor.CurrentValue : 
                 this._optionsMonitor.Get(sectionKey);
-
-            if (configuredTypes == null) return false;
+         
             if (configuredTypes.Count == 0) return true;
 
             const string methodName = nameof(InnerConfigure);
-            var methodInfo = typeof(ConfigureOptions).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
-
-            if (methodInfo == null) throw new InvalidOperationException($"Method {methodName} not found!");
+            var methodInfo = typeof(ConfigureOptions).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static) ?? 
+                throw new InvalidOperationException($"Method {methodName} not found!");
 
             foreach (var (key, value) in configuredTypes)
             {

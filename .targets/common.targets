@@ -3,11 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>net7.0</TargetFrameworks>
     <Copyright>Copyright © Oleander 2023</Copyright>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <Nullable>enable</Nullable>
     <Product>Oleander Extensions</Product>
     <Company>Oleander</Company>
+    <Nullable>enable</Nullable>
 
     <git-repository Condition="Exists('$(SolutionDir)')">$([MSBuild]::GetDirectoryNameOfFileAbove($(SolutionDir), ".git\\HEAD"))</git-repository>
     <targeDir>$(git-repository)\.targets</targeDir>

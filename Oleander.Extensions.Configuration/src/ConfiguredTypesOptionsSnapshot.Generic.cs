@@ -26,17 +26,17 @@ namespace Oleander.Extensions.Configuration
             return this.GetKeys(Options.DefaultName);
         }
 
-        public IReadOnlyCollection<string> GetKeys(string name)
+        public IReadOnlyCollection<string> GetKeys(string? name)
         {
             return this.GetConfiguredTypes(name).GetKeys<TOptions>();
         }
 
-        public TOptions? Get(string key)
+        public TOptions? Get(string? key)
         {
             return this.Get(Options.DefaultName, key);
         }
 
-        public TOptions? Get(string name, string key)
+        public TOptions? Get(string? name, string? key)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (key == null) throw new ArgumentNullException(nameof(key));
@@ -56,17 +56,16 @@ namespace Oleander.Extensions.Configuration
 
         #region private members
 
-        private ConfiguredTypes GetConfiguredTypes(string name)
+        private ConfiguredTypes GetConfiguredTypes(string? name)
         {
-            var configuredTypes = this._optionsSnapshot.Get(name) ?? new ConfiguredTypes();
+            var configuredTypes = this._optionsSnapshot.Get(name);
             configuredTypes.ConfigurationRoot = this._configurationRoot;
             return configuredTypes;
         }
 
         private ConcurrentDictionary<string, TOptions> GetInnerCache(string name)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            return this._cache.GetOrAdd(name, _ => new ConcurrentDictionary<string, TOptions>());
+            return this._cache.GetOrAdd(name, _ => new());
         }
 
         private static TOptions? GetOrCreateInstance(TOptions? instance)

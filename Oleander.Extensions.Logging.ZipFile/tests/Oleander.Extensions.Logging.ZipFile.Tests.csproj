@@ -3,6 +3,7 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <Import Project="..\..\.targets\common.targets" />

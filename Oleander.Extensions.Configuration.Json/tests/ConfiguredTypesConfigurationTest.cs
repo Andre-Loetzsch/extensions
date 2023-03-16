@@ -174,6 +174,7 @@ namespace Oleander.Extensions.Configuration.Json.Tests
                 .Build();
 
             var configuredTypes = configurationRoot.GetSection("types").Get<ConfiguredTypes>();
+            if (configuredTypes == null) throw new NullReferenceException(nameof(configuredTypes));
             configuredTypes.ConfigurationRoot = configurationRoot;
 
             var c1 = configuredTypes.Get<Class1>("C1");
@@ -207,6 +208,7 @@ namespace Oleander.Extensions.Configuration.Json.Tests
                 .Build();
 
             configuredTypes = configurationRoot.GetSection("types").Get<ConfiguredTypes>();
+            if (configuredTypes == null) throw new NullReferenceException(nameof(configuredTypes));
             configuredTypes.ConfigurationRoot = configurationRoot;
 
             c1 = configuredTypes.Get<Class1>("C1");

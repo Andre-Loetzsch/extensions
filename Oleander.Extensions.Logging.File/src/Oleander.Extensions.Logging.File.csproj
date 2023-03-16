@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\.targets\common.targets"/>
+  <Import Project="..\..\.targets\common.targets" />
+
+  <PropertyGroup>
+    <Product>Logging File Extensions</Product>
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj" />

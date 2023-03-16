@@ -1,17 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
+  <Import Project="..\..\.targets\common.targets"> </Import>
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <Import Project="..\..\.targets\common.targets"> </Import>
 
   <ItemGroup>
     <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1.cs" Link="Common\Class1.cs" />

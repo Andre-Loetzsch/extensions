@@ -20,7 +20,11 @@ namespace Oleander.Extensions.Configuration
                     try
                     {
                         if (string.IsNullOrEmpty(value.Type)) continue;
-                        value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(Type.GetType(value.Type, true));
+
+                        var type = Type.GetType(value.Type, true);
+                        if (type == null) continue;
+
+                        value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(type);
                     }
                     catch (Exception ex)
                     {
@@ -50,7 +54,11 @@ namespace Oleander.Extensions.Configuration
                 try
                 {
                     if (string.IsNullOrEmpty(item.Type)) return default;
-                    item.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(Type.GetType(item.Type, true));
+
+                    var type = Type.GetType(item.Type, true);
+                    if (type == null) return default;
+
+                    item.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(type);
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +96,7 @@ namespace Oleander.Extensions.Configuration
         {
             if (configurationRoot == null)
                 throw new InvalidOperationException(
-                    $"ConfigurationRoot is null! The property must be to a valid instance of the type {nameof(IConfigurationRoot)}.");
+                    $"ConfigurationRoot is null! The property must be to a valid instance of the type '{nameof(IConfigurationRoot)}'.");
 
             return configurationRoot;
         }

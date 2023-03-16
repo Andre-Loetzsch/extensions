@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Logging.Abstractions;
 using Oleander.Extensions.Logging.Providers;
