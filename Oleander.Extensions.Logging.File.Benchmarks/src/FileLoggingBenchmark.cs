@@ -117,7 +117,5 @@ namespace Oleander.Extensions.Logging.File.Benchmarks
 
             logger.AddCallerInfos().LogDebug($"TotalMilliseconds: {totalMilliseconds}");
         }
-    } 
-    
-    
+    }
 }

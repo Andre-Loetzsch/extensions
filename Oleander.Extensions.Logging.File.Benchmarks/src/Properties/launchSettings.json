@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Oleander.Extensions.Logging.File.Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": "--logBuildOutput"
+    }
+  }
+}

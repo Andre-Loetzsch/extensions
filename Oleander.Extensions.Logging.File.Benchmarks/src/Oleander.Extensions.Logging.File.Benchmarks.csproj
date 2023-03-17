@@ -1,21 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\.targets\common.targets" />
+
   <PropertyGroup>
     <ImplicitUsings>disable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
-  <Import Project="..\..\.targets\common.targets" />
-
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Oleander.Extensions.Logging.Abstractions\src\Oleander.Extensions.Logging.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Oleander.Extensions.Logging.File\src\Oleander.Extensions.Logging.File.csproj" />
-    <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />
+    <PackageReference Include="Oleander.Extensions.Logging.Abstractions" Version="1.0.23075.1401-dev" />
+    <PackageReference Include="Oleander.Extensions.Logging.File" Version="1.0.23075.1401-dev" />
   </ItemGroup>
 
 </Project>

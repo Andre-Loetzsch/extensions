@@ -87,8 +87,6 @@ namespace Oleander.Extensions.Logging.File.Benchmarks
             }
         }
 
-
-
         public static void LongRunningAddCallerInfosTest(string fileNameTemplate, bool parameterized)
         {
             lock (syncObj)
