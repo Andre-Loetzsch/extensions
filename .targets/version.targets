@@ -19,7 +19,7 @@
     <assemblyVersion_Build >$(year)$(dayOfYear)</assemblyVersion_Build>
     <assemblyVersion_Revision>$(revisionIdx)</assemblyVersion_Revision>
 
-    <AssemblyVersion>1.0.$(assemblyVersion_Build).$(assemblyVersion_Revision)</AssemblyVersion>
+    <AssemblyVersion>1.1.$(assemblyVersion_Build).$(assemblyVersion_Revision)</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
 
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
