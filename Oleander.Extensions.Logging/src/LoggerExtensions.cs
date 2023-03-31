@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Oleander.Extensions.Configuration;
@@ -40,6 +43,54 @@ namespace Oleander.Extensions.Logging
             }
 
             return sb.ToString();
+        }
+
+        #endregion
+
+        #region ILoggerProvider.WaitOne()
+
+        public static int WaitOne(this ILoggerProvider provider, int millisecondsTimeout)
+        {
+            return provider.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        }
+
+        public static int WaitOne(this ILoggerProvider provider, TimeSpan timeout)
+        {
+            return provider is LoggerSinkProvider lsp ? lsp.WaitOne(timeout) : 0;
+        }
+
+        public static Task<int> WaitOneAsync(this ILoggerProvider provider, int millisecondsTimeout)
+        {
+            return provider.WaitOneAsync(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        }
+
+        public static async Task<int> WaitOneAsync(this ILoggerProvider provider, TimeSpan timeout)
+        {
+            return await Task.Run(() => provider is LoggerSinkProvider lsp ? lsp.WaitOne(timeout) : 0);
+        }
+
+        #endregion
+
+        #region IHost.WaitForLogging()
+
+        public static int WaitForLogging(this IHost host, int millisecondsTimeout)
+        {
+            return host.WaitForLogging(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        }
+
+        public static int WaitForLogging(this IHost host, TimeSpan timeout)
+        {
+            return host.Services.GetRequiredService<ILoggerProvider>().WaitOne(timeout);
+        }
+
+        public static async Task<int> WaitForLoggingAsync(this IHost host, int millisecondsTimeout)
+        {
+            return await host.WaitForLoggingAsync(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        }
+
+        public static async Task<int> WaitForLoggingAsync(this IHost host, TimeSpan timeout)
+        {
+            return await Task.Run(() => host.Services.GetRequiredService<ILoggerProvider>().WaitOne(timeout));
         }
 
         #endregion
