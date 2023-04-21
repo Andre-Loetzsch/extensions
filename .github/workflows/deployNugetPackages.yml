@@ -62,7 +62,7 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'Build and test Oleander.Extensions.Configuration.sln'
-       uses: Andre-Loetzsch/actions/buildAndTestSolution@mv1
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@v1
        with:
          solution: '${{ github.workspace }}\Oleander.Extensions.Configuration\Oleander.Extensions.Configuration.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
