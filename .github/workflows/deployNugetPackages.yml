@@ -145,81 +145,91 @@ jobs:
      
      - name: 'delete Oleander.Extensions.Configuration-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Configuration'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Configuration.Json-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Configuration.Json'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.DependencyInjection-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.DependencyInjection'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.Abstractions-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.Abstractions'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.Console-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.Console'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.File-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.File'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.TextFormatters-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.TextFormatters'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.TextFormatters.Abstractions-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.TextFormatters.Abstractions'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.ZipFile-dev old packages'
        if: ${{ env.VERSION_SUFFIX }} == 'dev'
-       uses: actions/delete-package-versions@v3
+       uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.ZipFile'
+         package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
