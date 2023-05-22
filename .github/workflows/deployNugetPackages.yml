@@ -241,7 +241,7 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'push nuget packages to nuget gallery'
-       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' && ${{ env.VERSION_SUFFIX }} != 'dev'
+       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' 
        uses: Andre-Loetzsch/actions/pushNugetPackagesToNugetOrg@v1
        with:
          packagedir: ${{ env.PACKOUTDIR }}
