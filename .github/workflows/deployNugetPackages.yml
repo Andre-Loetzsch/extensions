@@ -243,11 +243,11 @@ jobs:
 
 
      - name: 'test != dev'
-       if: ${{ env.VERSION_SUFFIX }} != 'dev'
+       if: env.VERSION_SUFFIX != 'dev'
        run: echo "runs"
 
      - name: 'test == dev'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        run: echo "runs"
 
 
