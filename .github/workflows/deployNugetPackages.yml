@@ -144,7 +144,7 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
      
      - name: 'delete Oleander.Extensions.Configuration-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Configuration'
@@ -153,7 +153,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Configuration.Json-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Configuration.Json'
@@ -162,7 +162,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.DependencyInjection-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.DependencyInjection'
@@ -171,7 +171,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging'
@@ -180,7 +180,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.Abstractions-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.Abstractions'
@@ -189,7 +189,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.Console-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.Console'
@@ -198,7 +198,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.File-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.File'
@@ -207,7 +207,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.TextFormatters-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.TextFormatters'
@@ -216,7 +216,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.TextFormatters.Abstractions-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.TextFormatters.Abstractions'
@@ -225,7 +225,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.ZipFile-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.ZipFile'
@@ -239,3 +239,10 @@ jobs:
        with:
          outdir: ${{ env.PACKOUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: 'push nuget packages to nuget gallery'
+       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' && env.VERSION_SUFFIX != 'dev'
+       uses: Andre-Loetzsch/actions/pushNugetPackagesToNugetOrg@v1
+       with:
+         packagedir: ${{ env.PACKOUTDIR }}
+         nuget_apikey: ${{ secrets.NUGETORG_ACCESS_TOKEN }}
