@@ -241,8 +241,8 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'push nuget packages to nuget org'
-       if: matrix.os == 'windows-latest' && github.event_name == 'pull_request'
-       uses: Andre-Loetzsch/actions/pushNugetPackagesToNugetOrg@main
+       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' && ${{ env.VERSION_SUFFIX }} != 'dev'
+       uses: Andre-Loetzsch/actions/pushNugetPackagesToNugetOrg@v1
        with:
          packagedir: ${{ env.PACKOUTDIR }}
          nuget_apikey: ${{ secrets.NUGETORG_ACCESS_TOKEN }}
