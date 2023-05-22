@@ -225,7 +225,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Logging.ZipFile-dev old packages'
-       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev1'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Logging.ZipFile'
@@ -240,8 +240,20 @@ jobs:
          outdir: ${{ env.PACKOUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
+
+
+     - name: 'test != dev'
+       if: ${{ env.VERSION_SUFFIX }} != 'dev'
+       run: echo "runs"
+
+     - name: 'test == dev'
+       if: ${{ env.VERSION_SUFFIX }} == 'dev'
+       run: echo "runs"
+
+
+
      - name: 'push nuget packages to nuget gallery'
-       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' 
+       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request'
        uses: Andre-Loetzsch/actions/pushNugetPackagesToNugetOrg@v1
        with:
          packagedir: ${{ env.PACKOUTDIR }}
