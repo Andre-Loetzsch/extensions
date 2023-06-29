@@ -3,7 +3,7 @@
   <Target Name="WritereVisionIdxFile" Condition="!Exists('$(git-repository)\.version\revisionIdx')">
     <WriteLinesToFile
       File="$(git-repository)\.version\revisionIdx"
-      Lines="$([System.DateTime]::UtcNow.ToString('HHmm'))"
+      Lines="1$([System.DateTime]::UtcNow.ToString('HHmm'))"
       Overwrite="true"
       Encoding="Unicode"/>
   </Target>
