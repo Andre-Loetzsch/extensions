@@ -143,6 +143,15 @@ jobs:
          packoutdir: ${{ env.PACKOUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
      
+
+     - name: 'Build and test Oleander.Extensions.Hosting.Abstractions.sln'
+       uses: Andre-Loetzsch/actions/buildAndTestSolution@v1
+       with:
+         solution: '${{ github.workspace }}\Oleander.Extensions.Hosting.Abstractions\Oleander.Extensions.Hosting.Abstractions.sln'
+         version-suffix: ${{ env.VERSION_SUFFIX }}
+         packoutdir: ${{ env.PACKOUTDIR }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+   
      - name: 'delete Oleander.Extensions.Configuration-dev old packages'
        if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
@@ -233,6 +242,15 @@ jobs:
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
          
+     - name: 'delete Oleander.Extensions.Hosting.Abstractions-dev old packages'
+       if: env.VERSION_SUFFIX == 'devX'
+       uses: actions/delete-package-versions@v4
+       with:
+         package-name: 'Oleander.Extensions.Hosting.Abstractions'
+         package-type: 'nuget'
+         min-versions-to-keep: 5
+         delete-only-pre-release-versions: "true"
+
      - name: 'push nuget packages'
        if: matrix.os == 'windows-latest' && github.event_name != 'pull_request'
        uses: Andre-Loetzsch/actions/pushNugetPackages@v1
