@@ -246,7 +246,7 @@ jobs:
        if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
-         package-name: 'Oleander.Extensions.Configuration.Hosting.Abstractions'
+         package-name: 'Oleander.Extensions.Hosting.Abstractions'
          package-type: 'nuget'
          min-versions-to-keep: 5
          delete-only-pre-release-versions: "true"
