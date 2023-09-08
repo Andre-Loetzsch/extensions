@@ -144,10 +144,10 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
      
 
-     - name: 'Build and test Oleander.Extensions.Configuration.Hosting.Abstractions.sln'
+     - name: 'Build and test Oleander.Extensions.Hosting.Abstractions.sln'
        uses: Andre-Loetzsch/actions/buildAndTestSolution@v1
        with:
-         solution: '${{ github.workspace }}\Oleander.Extensions.Configuration.Hosting.Abstractions\Oleander.Extensions.Configuration.Hosting.Abstractions.sln'
+         solution: '${{ github.workspace }}\Oleander.Extensions.Hosting.Abstractions\Oleander.Extensions.Hosting.Abstractions.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
          packoutdir: ${{ env.PACKOUTDIR }}
          github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -243,7 +243,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Configuration.Hosting.Abstractions-dev old packages'
-       if: env.VERSION_SUFFIX == 'dev'
+       if: env.VERSION_SUFFIX == 'devX'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Configuration.Hosting.Abstractions'

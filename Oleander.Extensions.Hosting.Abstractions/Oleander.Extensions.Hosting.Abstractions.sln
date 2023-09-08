@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Configuration.Hosting.Abstractions", "src\Oleander.Extensions.Configuration.Hosting.Abstractions.csproj", "{BD9D1D2A-1108-48C3-9F13-CF3778963E3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Hosting.Abstractions", "src\Oleander.Extensions.Hosting.Abstractions.csproj", "{BD9D1D2A-1108-48C3-9F13-CF3778963E3B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{75CEF0EF-76F2-4F33-A026-EF31FC0DFBA9}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Logging
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E9F4E29D-22AC-4739-A9AF-26B12D127FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oleander.Extensions.Configuration.Hosting.Abstractions.Tests", "tests\Oleander.Extensions.Configuration.Hosting.Abstractions.Tests.csproj", "{096259CC-35D9-4891-8667-5F63780D88E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Hosting.Abstractions.Tests", "tests\Oleander.Extensions.Hosting.Abstractions.Tests.csproj", "{096259CC-35D9-4891-8667-5F63780D88E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

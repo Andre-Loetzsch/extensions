@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Oleander.Extensions.Configuration.Hosting.Abstractions.csproj" />
+    <ProjectReference Include="..\src\Oleander.Extensions.Hosting.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
