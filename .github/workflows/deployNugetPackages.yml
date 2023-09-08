@@ -243,7 +243,7 @@ jobs:
          delete-only-pre-release-versions: "true"
          
      - name: 'delete Oleander.Extensions.Hosting.Abstractions-dev old packages'
-       if: env.VERSION_SUFFIX == 'devX'
+       if: env.VERSION_SUFFIX == 'dev'
        uses: actions/delete-package-versions@v4
        with:
          package-name: 'Oleander.Extensions.Hosting.Abstractions'

@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
-    <PackageReference Include="Oleander.Extensions.Logging.Abstractions" Version="1.0.23075.1401-dev" />
-    <PackageReference Include="Oleander.Extensions.Logging.File" Version="1.0.23075.1401-dev" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.8" />
+    <PackageReference Include="Oleander.Extensions.Logging.Abstractions" Version="1.1.23142.1757" />
+    <PackageReference Include="Oleander.Extensions.Logging.File" Version="1.1.23142.1757" />
   </ItemGroup>
 
 </Project>
