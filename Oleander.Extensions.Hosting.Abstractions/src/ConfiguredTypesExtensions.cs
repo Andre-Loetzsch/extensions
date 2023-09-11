@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Oleander.Extensions.DependencyInjection;
 using Oleander.Extensions.Logging.Abstractions;
 
-namespace Oleander.Extensions.Configuration.Hosting.Abstractions
+namespace Oleander.Extensions.Hosting.Abstractions
 {
     public static class ConfiguredTypesExtensions
     {

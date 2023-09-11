@@ -1,10 +1,10 @@
-using Microsoft.Extensions.Hosting;
-using System.IO;
 using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Oleander.Extensions.DependencyInjection;
 
-namespace Oleander.Extensions.Configuration.Hosting.Abstractions.Tests
+namespace Oleander.Extensions.Hosting.Abstractions.Tests
 {
     public class ConfiguredTypesExtensionsTest
     {
