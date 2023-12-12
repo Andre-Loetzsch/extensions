@@ -39,6 +39,7 @@ namespace Oleander.Extensions.Configuration
             }
         }
 
+
         public bool TryGet<T>(string key, [MaybeNullWhen(false)] out T instance)
         {
             instance = this.Get<T>(key);
@@ -82,7 +83,7 @@ namespace Oleander.Extensions.Configuration
         {
             try
             {
-                return string.IsNullOrEmpty(configuredType.Type) ? 
+                return string.IsNullOrEmpty(configuredType.Type) ?
                     default : Type.GetType(configuredType.Type, true);
             }
             catch (Exception ex)
