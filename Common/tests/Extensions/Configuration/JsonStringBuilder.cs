@@ -12,19 +12,19 @@ public static class JsonStringBuilder
         var sb = new StringBuilder();
         var typeDescriptions = new ConfiguredTypes();
 
-        foreach (var (key, value) in configuration)
+        foreach (var item in configuration)
         {
-            var assemblyQualifiedName = value.GetType().AssemblyQualifiedName;
+            var assemblyQualifiedName = item.Value.GetType().AssemblyQualifiedName;
             if (assemblyQualifiedName == null) continue;
-            var typeInfos = assemblyQualifiedName.Split(", ");
-            typeDescriptions.Add(key, new ConfiguredType { Type = $"{typeInfos[0]}, {typeInfos[1]}" });
+            var typeInfos = assemblyQualifiedName.Split(new []{", "}, StringSplitOptions.RemoveEmptyEntries);
+            typeDescriptions.Add(item.Key, new ConfiguredType { Type = $"{typeInfos[0]}, {typeInfos[1]}" });
         }
 
         sb.AppendLine("{")
             .Append($"  \"{sectionName}\":");
 
         var jsonString = JsonSerializer.Serialize(typeDescriptions, new JsonSerializerOptions { WriteIndented = true });
-        var lines = jsonString.Split(Environment.NewLine);
+        var lines = jsonString.Split(new []{  Environment.NewLine }, StringSplitOptions.None);
 
         for (var i = 0; i < lines.Length; i++)
         {
@@ -36,12 +36,12 @@ public static class JsonStringBuilder
             sb.Append(lines[i]);
         }
 
-        foreach (var (key, value) in configuration)
+        foreach (var item in configuration)
         {
-            sb.AppendLine(",").Append($"  \"{key}\":");
+            sb.AppendLine(",").Append($"  \"{item.Key}\":");
 
-            jsonString = JsonSerializer.Serialize(value, new JsonSerializerOptions { WriteIndented = true });
-            lines = jsonString.Split(Environment.NewLine);
+            jsonString = JsonSerializer.Serialize(item.Value, new JsonSerializerOptions { WriteIndented = true });
+            lines = jsonString.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             for (var i = 0; i < lines.Length; i++)
             {

@@ -66,7 +66,8 @@ namespace Oleander.Extensions.Logging.SourceHelper
             //Oleander.Tracing.Test.SourceResolverTest+<>c.<TestTraceAsync>b__4_0
             if (stackTraceSource != null && stackTraceSource.Contains("+<>"))
             {
-                stackTraceSource = stackTraceSource[..^2];
+                //stackTraceSource = stackTraceSource[..^2];
+                stackTraceSource = stackTraceSource.Substring(0, stackTraceSource.Length - 2);
             }
 
             return !string.IsNullOrEmpty(stackTraceSource);
@@ -89,11 +90,26 @@ namespace Oleander.Extensions.Logging.SourceHelper
                     source = $"{callerFilePath}[{callerLineNumber}]";
                     return true;
                 }
-
+               
                 source = string
                     .Join(".", callerFilePath
                     .Replace("\\", ".")
                     .Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[..^1])[indexOf..];
+
+
+                //source = string
+                //    .Join(".", callerFilePath
+                //        .Replace("\\", ".")
+                //        .Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).Last()).Substring(indexOf);
+
+
+
+
+
+                //source = split.Substring(split.Length - 1).Substring(indexOf);
+
+                // source = split[..^1][indexOf..];
+
 
                 source = $"{source}.{callerMemberName}[{callerLineNumber}]";
                 return true;

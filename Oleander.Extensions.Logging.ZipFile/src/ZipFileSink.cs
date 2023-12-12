@@ -38,7 +38,8 @@ public class ZipFileSink : FileSink
 
         if (string.Equals(fileExtension, ".zip", StringComparison.InvariantCultureIgnoreCase)) return;
 
-        var zipFileName = string.Concat(archiveFileName[..^fileExtension.Length], ".zip");
+        //var zipFileName = string.Concat(archiveFileName[..^fileExtension.Length], ".zip");
+        var zipFileName = string.Concat(archiveFileName.Substring(0, archiveFileName.Length - fileExtension.Length), ".zip");
         var logFiles = this.FindExistsPartialFileNames(archiveFileName).ToList();
 
         logFiles.Add(archiveFileName);
@@ -60,16 +61,17 @@ public class ZipFileSink : FileSink
 
         if (string.Equals(fileExtension, ".zip", StringComparison.InvariantCultureIgnoreCase)) return;
        
-        var zipFileName = string.Concat(partialFileName[..^fileExtension.Length], ".zip");
+        var zipFileName = string.Concat(partialFileName.Substring(0, partialFileName.Length - fileExtension.Length), ".zip");
 
         if (zipFileName.ToLower().Contains(".partial"))
         {
-            zipFileName = string.Concat(zipFileName.Substring(0, zipFileName.ToLower().IndexOf(".partial")), ".zip");
+            zipFileName = string.Concat(zipFileName.Substring(0, zipFileName.ToLower().IndexOf(".partial", StringComparison.Ordinal)), ".zip");
         }
 
         zipFileName = this.FindNextPartialFileName(zipFileName);
 
-        var tempFileName = string.Concat(zipFileName[..^4], fileExtension);
+        //var tempFileName = string.Concat(zipFileName[..^4], fileExtension);
+        var tempFileName = string.Concat(zipFileName.Substring(0, zipFileName.Length - 4), fileExtension);
 
         if (!IOFile.Exists(tempFileName))
         {

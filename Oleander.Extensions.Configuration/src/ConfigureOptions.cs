@@ -31,12 +31,12 @@ namespace Oleander.Extensions.Configuration
             var methodInfo = typeof(ConfigureOptions).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static) ?? 
                 throw new InvalidOperationException($"Method {methodName} not found!");
 
-            foreach (var (key, value) in configuredTypes)
+            foreach (var item in configuredTypes)
             {
-                if (string.IsNullOrEmpty(value.Type)) continue;
+                if (string.IsNullOrEmpty(item.Value.Type)) continue;
 
-                methodInfo.MakeGenericMethod(Type.GetType(value.Type, true)!)
-                    .Invoke(null, new object[] { this._serviceCollection, this._configuration, key, key });
+                methodInfo.MakeGenericMethod(Type.GetType(item.Value.Type, true)!)
+                    .Invoke(null, new object[] { this._serviceCollection, this._configuration, item.Key, item.Key });
             }
 
             return true;

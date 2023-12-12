@@ -35,7 +35,12 @@ namespace Oleander.Extensions.Logging.Loggers
 
                 if (state is IEnumerable<KeyValuePair<string, object>> attributes)
                 {
-                    logEntry.Attributes = new Dictionary<string, object>(attributes);
+                    logEntry.Attributes = new Dictionary<string, object>();
+
+                    foreach (var item in attributes)
+                    {
+                        logEntry.Attributes[item.Key] = item.Value;
+                    }
                 }
               
                 if (logEntry.IsSourceNullOrEmpty)
