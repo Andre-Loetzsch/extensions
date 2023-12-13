@@ -13,31 +13,32 @@ namespace Oleander.Extensions.Configuration
 
         public IEnumerable<T> GetAll<T>()
         {
-            foreach (var (key, value) in this)
+            foreach (var item in this)
             {
-                if (value.Instance == null)
+                if (item.Value.Instance == null)
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(value.Type)) continue;
+                        if (string.IsNullOrEmpty(item.Value.Type)) continue;
 
-                        var type = Type.GetType(value.Type, true);
+                        var type = Type.GetType(item.Value.Type!, true);
                         if (type == null) continue;
 
-                        value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(type);
+                        item.Value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(item.Key.Replace("__", ":")).Get(type);
                     }
                     catch (Exception ex)
                     {
-                        value.Instance = ex;
+                        item.Value.Instance = ex;
                     }
                 }
 
-                if (value.Instance is T instance)
+                if (item.Value.Instance is T instance)
                 {
                     yield return instance;
                 }
             }
         }
+
 
         public bool TryGet<T>(string key, [MaybeNullWhen(false)] out T instance)
         {
@@ -82,7 +83,7 @@ namespace Oleander.Extensions.Configuration
         {
             try
             {
-                return string.IsNullOrEmpty(configuredType.Type) ? 
+                return string.IsNullOrEmpty(configuredType.Type) ?
                     default : Type.GetType(configuredType.Type, true);
             }
             catch (Exception ex)

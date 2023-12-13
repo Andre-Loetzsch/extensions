@@ -141,7 +141,11 @@ namespace Oleander.Extensions.Logging.File
             {
                 if (IOFile.Exists(this.FileName))
                 {
+#if NET7_0_OR_GREATER
                     IOFile.Move(this.FileName, this.ArchiveFileName, true);
+#else 
+                    IOFile.Move(this.FileName, this.ArchiveFileName);
+#endif
                     this.ArchiveFileCreated(this.FileName, this.ArchiveFileName);
                 }
             }
@@ -169,7 +173,13 @@ namespace Oleander.Extensions.Logging.File
 
             var partialFileName = this.FindNextPartialFileName(this.ArchiveFileName);
 
+#if NET7_0_OR_GREATER
+
             IOFile.Move(this.FileName, partialFileName, true);
+#else
+            IOFile.Move(this.FileName, partialFileName);
+#endif
+
             this.PartialFileCreated(this.FileName, partialFileName);
 
             (this._fileStream, this.FileName) = OpenFileStream(this.FileName, FileMode.Create);
@@ -225,7 +235,13 @@ namespace Oleander.Extensions.Logging.File
                 {
                     "baseDirectory" => fileName.Replace("{baseDirectory}", AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')),
                     "processName" => fileName.Replace("{processName}", Process.GetCurrentProcess().ProcessName),
+
+#if NET7_0_OR_GREATER
                     "processId" => fileName.Replace("{processId}", Environment.ProcessId.ToString()),
+#else
+                    "processId" => fileName.Replace("{processId}", Process.GetCurrentProcess().Id.ToString()),
+
+#endif
                     "appDomainId" => fileName.Replace("{appDomainId}", AppDomain.CurrentDomain.Id.ToString()),
                     "applicationName" => fileName.Replace("{applicationName}", AppDomain.CurrentDomain.FriendlyName),
                     _ => fileName
@@ -262,7 +278,7 @@ namespace Oleander.Extensions.Logging.File
             return (fs, fileName);
         }
 
-        #endregion
+#endregion
 
         #region protected virtual
 

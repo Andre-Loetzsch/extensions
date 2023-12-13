@@ -65,11 +65,11 @@ namespace Oleander.Extensions.Logging.Console
 
             for (var i = 0; i < formatMessageLines.Length; i++)
             {
-                foreach (var (key, value) in messageLineDict)
+                foreach (var item in messageLineDict)
                 {
-                    formatMessageLines[i] = string.IsNullOrEmpty(value) ?
-                        string.Concat("%%", key, "%%") :
-                        formatMessageLines[i].Replace(value, string.Concat("%%", key, "%%"));
+                    formatMessageLines[i] = string.IsNullOrEmpty(item.Value) ?
+                        string.Concat("%%", item.Key, "%%") :
+                        formatMessageLines[i].Replace(item.Value, string.Concat("%%", item.Key, "%%"));
                 }
 
                 formatMessageLines[i] = formatMessageLines[i].Replace(logEntry.LogLevel.ToString(), "%%LogLevel%%");
@@ -79,7 +79,7 @@ namespace Oleander.Extensions.Logging.Console
 
             foreach (var line in formatMessageLines)
             {
-                foreach (var test in line.Split("%%"))
+                foreach (var test in line.Split(new []{"%%"}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (messageLineDict.TryGetValue(test, out var msg))
                     {

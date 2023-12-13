@@ -155,9 +155,9 @@ namespace Oleander.Extensions.Logging.Providers
                         {
                             scope.Text = loggingProps?.ToString();
 
-                            foreach (var (k, v) in props)
+                            foreach (var item in props)
                             {
-                                scope.Properties[k] = v;
+                                scope.Properties[item.Key] = item.Value;
                             }
 
                             break;

@@ -17,14 +17,8 @@ internal class Program
         logger1.LogTrace("This is a Trace message!");
         //logger2.LogTrace("This is a Trace message!");
 
-
-
         logger1.LogError("Error");
         //logger2.LogTrace("This is a Trace message!");
-
-
-
-
 
 
         logger1.LogDebug("This is a Debug message!");

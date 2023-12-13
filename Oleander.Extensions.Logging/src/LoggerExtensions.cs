@@ -34,11 +34,11 @@ namespace Oleander.Extensions.Logging
         {
             var sb = new StringBuilder();
 
-            foreach (var (k, v) in attributes)
+            foreach (var item in attributes)
             {
                 if (sb.Length > 0) sb.Append("; ");
-                var key = k.Replace("; ", ";").Replace(", ", ",");
-                var value = v.ToString()?.Replace("; ", ";").Replace(", ", ",");
+                var key = item.Key.Replace("; ", ";").Replace(", ", ",");
+                var value = item.Value.ToString()?.Replace("; ", ";").Replace(", ", ",");
                 sb.Append(key).Append(", ").Append(value);
             }
 

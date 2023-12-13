@@ -17,7 +17,12 @@ namespace Oleander.Extensions.Logging
         private static readonly string domainName = Environment.UserDomainName;
         private static readonly string machineName = Environment.MachineName;
         private static readonly int appDomainId = AppDomain.CurrentDomain.Id;
+
+#if NET7_0_OR_GREATER
         private static readonly int processId = Environment.ProcessId;
+#else
+        private static readonly int processId = Process.GetCurrentProcess().Id;
+#endif
         private static readonly string processName = Process.GetCurrentProcess().ProcessName;
 
         public LogEntry()
@@ -59,12 +64,7 @@ namespace Oleander.Extensions.Logging
         private string? _source;
         public string Source
         {
-            get
-            {
-                if (!string.IsNullOrEmpty(this._source)) return this._source;
-                return SourceResolver.TryFindFromAttributes(this.Attributes, out this._source) ? 
-                    this._source ?? string.Empty : string.Empty;
-            }
+            get => this._source ?? string.Empty;
             set => this._source = value;
         }
 

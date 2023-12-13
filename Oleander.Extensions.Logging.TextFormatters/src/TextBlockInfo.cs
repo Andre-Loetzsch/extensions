@@ -28,11 +28,12 @@ public class TextBlockInfo
         if (maxLength > this.MaxLength) this.MaxLength = maxLength;
     }
 
-    public Pad Pad { get; init; }
+    public Pad Pad { get; private set; }
+    public string Prefix { get; private set; }
+    public string PostFix { get; private set; }
+
     public int MaxLength { get; private set; }
     public string[] Lines { get; private set; }
-    public string Prefix { get; init; }
-    public string PostFix { get; init; }
 
 
     public string this[int index]

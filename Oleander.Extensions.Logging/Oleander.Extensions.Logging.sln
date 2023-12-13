@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Logging
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Configuration", "..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj", "{A4300EA4-12A6-4BFE-9593-028E6B47E2B4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Logging.Abstractions", "..\Oleander.Extensions.Logging.Abstractions\src\Oleander.Extensions.Logging.Abstractions.csproj", "{0A4FF588-FDFC-48E4-B228-47085E6B1293}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{A4300EA4-12A6-4BFE-9593-028E6B47E2B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4300EA4-12A6-4BFE-9593-028E6B47E2B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4300EA4-12A6-4BFE-9593-028E6B47E2B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4FF588-FDFC-48E4-B228-47085E6B1293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4FF588-FDFC-48E4-B228-47085E6B1293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4FF588-FDFC-48E4-B228-47085E6B1293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4FF588-FDFC-48E4-B228-47085E6B1293}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{10BEB8A9-4DB6-4C3A-AA4A-D5244B9D79B7} = {A2987C76-E7C2-4631-A5B4-B44CF0F00564}
 		{A3E074AB-71F2-4B6C-983F-8E4AA5F868ED} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
 		{A4300EA4-12A6-4BFE-9593-028E6B47E2B4} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
+		{0A4FF588-FDFC-48E4-B228-47085E6B1293} = {19884DEC-9623-42FA-BB3A-B4C3DAA57C4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59DEB116-9148-479C-957C-C816F2AC6903}

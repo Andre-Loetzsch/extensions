@@ -35,7 +35,12 @@ namespace Oleander.Extensions.Logging.Loggers
 
                 if (state is IEnumerable<KeyValuePair<string, object>> attributes)
                 {
-                    logEntry.Attributes = new Dictionary<string, object>(attributes);
+                    logEntry.Attributes = new Dictionary<string, object>();
+
+                    foreach (var item in attributes)
+                    {
+                        logEntry.Attributes[item.Key] = item.Value;
+                    }
                 }
               
                 if (logEntry.IsSourceNullOrEmpty)
@@ -52,6 +57,11 @@ namespace Oleander.Extensions.Logging.Loggers
                             .Append(callerLineNumber);
 
                         sourceKey = sb.ToString();
+
+                        if (SourceResolver.TryFindFromAttributes(logEntry.Attributes, out var sourceValue))
+                        {
+                            this._sourceCache.AddSource(sourceKey, sourceValue);
+                        }
                     }
                     else
                     {

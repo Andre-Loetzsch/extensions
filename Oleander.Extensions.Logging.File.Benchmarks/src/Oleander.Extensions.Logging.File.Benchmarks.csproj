@@ -6,12 +6,13 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.8" />
-    <PackageReference Include="Oleander.Extensions.Logging.Abstractions" Version="1.1.23142.1757" />
-    <PackageReference Include="Oleander.Extensions.Logging.File" Version="1.1.23142.1757" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.11" />
+    <PackageReference Include="Oleander.Extensions.Logging.Abstractions" Version="1.1.23254.10530" />
+    <PackageReference Include="Oleander.Extensions.Logging.File" Version="1.1.23254.10530" />
   </ItemGroup>
 
 </Project>

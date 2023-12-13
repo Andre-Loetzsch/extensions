@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using Oleander.Extensions.Logging.BackgroundWork;
@@ -9,6 +10,7 @@ using Oleander.Extensions.Logging.Providers;
 
 namespace Oleander.Extensions.Logging.SourceHelper
 {
+    [SuppressMessage("ReSharper", "ReplaceSubstringWithRangeIndexer")]
     internal static class SourceResolver
     {
         private static readonly List<Type> typeIgnoreList = new();
@@ -33,7 +35,7 @@ namespace Oleander.Extensions.Logging.SourceHelper
             if (traceNamespace != null) namespaceIgnoreList.Add(traceNamespace);
         }
 
-        public static bool TryFindFromStackTrace(Type? logSourceType, StackTrace? stackTrace, out string? stackTraceSource)
+        public static bool TryFindFromStackTrace(Type? logSourceType, StackTrace? stackTrace, [MaybeNullWhen(false)]out string stackTraceSource)
         {
             stackTraceSource = null;
 
@@ -66,13 +68,14 @@ namespace Oleander.Extensions.Logging.SourceHelper
             //Oleander.Tracing.Test.SourceResolverTest+<>c.<TestTraceAsync>b__4_0
             if (stackTraceSource != null && stackTraceSource.Contains("+<>"))
             {
-                stackTraceSource = stackTraceSource[..^2];
+                //stackTraceSource = stackTraceSource[..^2];
+                stackTraceSource = stackTraceSource.Substring(0, stackTraceSource.Length - 2);
             }
 
             return !string.IsNullOrEmpty(stackTraceSource);
         }
 
-        public static bool TryFindFromAttributes(IDictionary<string, object> attributes, out string? source)
+        public static bool TryFindFromAttributes(IDictionary<string, object> attributes, [MaybeNullWhen(false)] out string source)
         {
             source = null;
 
@@ -81,21 +84,25 @@ namespace Oleander.Extensions.Logging.SourceHelper
                 attributes.TryGetValue("{CallerMemberName}", out value) && value is string callerMemberName &&
                 attributes.TryGetValue("{CallerLineNumber}", out value) && value is int callerLineNumber)
             {
+                var callerFilePathReplaced = callerFilePath.Replace('\\', '.').Replace('/', '.');
                 var assemblyName = assemblyFullName.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries)[0];
-                var indexOf = callerFilePath.IndexOf(assemblyName, StringComparison.Ordinal);
+                var indexOf = callerFilePathReplaced.ToLower().IndexOf(assemblyName.ToLower(), StringComparison.Ordinal);
 
                 if (indexOf == -1)
                 {
-                    source = $"{callerFilePath}[{callerLineNumber}]";
+                    source = $"{callerFilePathReplaced}.{callerMemberName}[{callerLineNumber}]";
                     return true;
                 }
 
-                source = string
-                    .Join(".", callerFilePath
-                    .Replace("\\", ".")
-                    .Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[..^1])[indexOf..];
+                var typeName = callerFilePathReplaced.Substring(indexOf + assemblyName.Length + 1);
 
-                source = $"{source}.{callerMemberName}[{callerLineNumber}]";
+                // ReSharper disable once UseIndexFromEndExpression
+                if (typeName[typeName.Length - 3] == '.')
+                {
+                    typeName = typeName.Substring(0, typeName.Length - 3);
+                }
+
+                source = $"{assemblyName}.{typeName}.{callerMemberName}[{callerLineNumber}]";
                 return true;
             }
 

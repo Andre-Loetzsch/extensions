@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oleander.Extensions.Configuration;
+using Oleander.Extensions.Logging.Abstractions;
 using Oleander.Extensions.Logging.Providers;
 
 namespace Oleander.Extensions.Logging.Tests;
@@ -559,4 +560,6 @@ public class LoggerSinkProviderTest
         Assert.AreEqual("This is test message 3.", loggerSink4.Entries[2].Message);
         Assert.AreEqual("This is test message 4.", loggerSink4.Entries[3].Message);
     }
+
+    
 }
