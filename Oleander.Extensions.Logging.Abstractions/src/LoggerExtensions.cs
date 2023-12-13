@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using Oleander.Extensions.Logging.Abstractions.Performance;
+using System.Reflection;
 
 namespace Oleander.Extensions.Logging.Abstractions
 {
@@ -19,6 +20,7 @@ namespace Oleander.Extensions.Logging.Abstractions
             {
                 var loggerMapper = new LoggerMapper(logger);
                 loggerMapper.AdditionalData.Clear();
+                loggerMapper.AdditionalData["{CallingAssembly}"] = Assembly.GetCallingAssembly().FullName;
                 loggerMapper.AdditionalData["{CallerFilePath}"] = callerFilePath;
                 loggerMapper.AdditionalData["{CallerMemberName}"] = callerMemberName;
                 loggerMapper.AdditionalData["{CallerLineNumber}"] = callerLineNumber;

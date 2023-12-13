@@ -5,7 +5,16 @@
     <Product>Logging Extensions</Product>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <NoWarn>$(NoWarn);nullable</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
+    <Compile Include="..\..\Common\src\NullableAttributes.cs" Link="Common\NullableAttributes.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

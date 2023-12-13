@@ -2,6 +2,7 @@
   <Import Project="..\..\.targets\common.targets"> </Import>
 
   <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -19,6 +20,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj" />
+	  <ProjectReference Include="..\..\Oleander.Extensions.Logging.Abstractions\src\Oleander.Extensions.Logging.Abstractions.csproj" />
 	  <ProjectReference Include="..\src\Oleander.Extensions.Logging.csproj" />
 	</ItemGroup>
 

@@ -57,6 +57,11 @@ namespace Oleander.Extensions.Logging.Loggers
                             .Append(callerLineNumber);
 
                         sourceKey = sb.ToString();
+
+                        if (SourceResolver.TryFindFromAttributes(logEntry.Attributes, out var sourceValue))
+                        {
+                            this._sourceCache.AddSource(sourceKey, sourceValue);
+                        }
                     }
                     else
                     {

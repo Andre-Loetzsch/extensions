@@ -2,6 +2,7 @@
   <Import Project="..\..\.targets\common.targets"> </Import>
 
   <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

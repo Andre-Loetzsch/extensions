@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\.targets\common.targets"> </Import>
+
   <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
   </PropertyGroup>
-
-  <Import Project="..\..\.targets\common.targets"> </Import>
 
   <ItemGroup>
     <Compile Include="..\..\Common\tests\Extensions\Configuration\Class1.cs" Link="Common\tests\Extensions\Configuration\Class1.cs" />
