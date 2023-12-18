@@ -1,12 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\.targets\common.targets"> </Import>
 
   <PropertyGroup>
+    <Product>$(AssemblyName)</Product>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <Product>Json Configuration Extensions</Product>
+    <LangVersion>12</LangVersion>
+    <Copyright>Copyright © Oleander 2023</Copyright>
+    <Company>Oleander</Company>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
+    <VersionSuffix>beta</VersionSuffix>
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>Configuration extensions</Description>
+    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Oleander; Configuration; Json; C#</PackageTags>
+    <PackageReleaseNotes>Release $(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.0" />
@@ -14,10 +35,6 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-
-  <!--<ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
-    <ProjectReference Include="..\..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj" />
-  </ItemGroup>-->
 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj" />

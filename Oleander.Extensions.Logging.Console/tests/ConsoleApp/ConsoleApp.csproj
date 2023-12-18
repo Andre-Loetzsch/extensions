@@ -1,9 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\..\.targets\common.targets"> </Import>
-
   <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <OutputType>Exe</OutputType>
+    <OutputType>Exe</OutputType><Nullable>enable</Nullable>
+    <Product>$(AssemblyName)</Product>
+    <LangVersion>12</LangVersion>
+    <Copyright>Copyright © Oleander 2023</Copyright>
+    <Company>Oleander</Company>
+    <AssemblyVersion>1.1.23347.11357</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
+    <VersionSuffix />
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -11,6 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
   </ItemGroup>

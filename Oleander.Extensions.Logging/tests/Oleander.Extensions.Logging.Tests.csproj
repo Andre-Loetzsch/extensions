@@ -1,9 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\.targets\common.targets"> </Import>
-
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable><Product>$(AssemblyName)</Product>
+    <LangVersion>12</LangVersion>
+    <Copyright>Copyright © Oleander 2023</Copyright>
+    <Company>Oleander</Company>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>1.1.23347.11357</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
+    <VersionSuffix />
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+   
   </PropertyGroup>
 
   <ItemGroup>
