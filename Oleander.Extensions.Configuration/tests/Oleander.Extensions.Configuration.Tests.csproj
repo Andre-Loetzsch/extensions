@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Common\targets\common.targets" />
 
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
-
-    <Copyright>Copyright © Oleander 2023</Copyright>
-    <Company>Oleander</Company>
-    <Nullable>enable</Nullable>
-    <AssemblyVersion>1.1.23347.11357</AssemblyVersion>
+    <AssemblyVersion>1.1.23347.11358</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
+    <SourceRevisionId>2673c72bd7e4a3035a8cc5294f45526d2619416b</SourceRevisionId>
     <VersionSuffix />
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
