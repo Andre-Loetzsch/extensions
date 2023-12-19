@@ -1,13 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+
+  <Import Project="..\..\Common\targets\common.targets" />
+
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
-    <Product>$(AssemblyName)</Product>
-    <LangVersion>12</LangVersion>
-    <Copyright>Copyright © Oleander 2023</Copyright>
-    <Company>Oleander</Company>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
     <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>

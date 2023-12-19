@@ -3,15 +3,15 @@
   <Import Project="..\..\Common\targets\common.targets" />
  
   <PropertyGroup>
-    <AssemblyVersion>1.1.23347.11358</AssemblyVersion>
+    <AssemblyVersion>1.1.23347.11359</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>2673c72bd7e4a3035a8cc5294f45526d2619416b</SourceRevisionId>
-    <VersionSuffix>beta</VersionSuffix>
+    <SourceRevisionId>8f992879e81d4a67e3e8a104ec8dc72972c0148b</SourceRevisionId>
+    <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-
-    <Description>Pleander Configuration extensions</Description>
+     
+    <Description>Oleander Configuration extensions</Description>
     <PackageTags>Oleander; Extensions; Configuration; C#</PackageTags>
   </PropertyGroup>
 

@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\.targets\common.targets" />
+  <Import Project="..\..\Common\targets\common.targets" />
 
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+ 
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable</NoWarn>

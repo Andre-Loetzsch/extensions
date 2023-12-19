@@ -1,30 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\Common\targets\common.targets" />
+
   <PropertyGroup>
-    <Product>$(AssemblyName)</Product>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
-    <LangVersion>12</LangVersion>
-    <Copyright>Copyright © Oleander 2023</Copyright>
-    <Company>Oleander</Company>
-    <Nullable>enable</Nullable>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
+    <SourceRevisionId>8f992879e81d4a67e3e8a104ec8dc72972c0148b</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Configuration extensions</Description>
-    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+    
+    <Description>Oleander logging extensions</Description>
     <PackageTags>Oleander; Extensions; Logging; C#</PackageTags>
-    <PackageReleaseNotes>Release $(Version)</PackageReleaseNotes>
   </PropertyGroup>
-
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable</NoWarn>
