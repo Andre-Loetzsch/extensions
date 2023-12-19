@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.1.23347.11357</AssemblyVersion>
+    <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
     <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
     <VersionSuffix />

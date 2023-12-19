@@ -6,9 +6,9 @@
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>8f992879e81d4a67e3e8a104ec8dc72972c0148b</SourceRevisionId>
+    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
     <VersionSuffix />
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>

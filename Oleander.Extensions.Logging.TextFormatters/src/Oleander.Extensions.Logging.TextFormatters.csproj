@@ -2,12 +2,23 @@
 
   <Import Project="..\..\Common\targets\common.targets" />
 
- 
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <NoWarn>$(NoWarn);nullable</NoWarn>
+  <PropertyGroup>
+    <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
+    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
+    <VersionSuffix>alpha</VersionSuffix>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+    
+    <Description>Oleander logging text-formatters extensions</Description>
+    <PackageTags>Oleander; Extensions; Logging; TextFormatters; C#</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" PrivateAssets="all" />
+  </ItemGroup>
+ 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />
