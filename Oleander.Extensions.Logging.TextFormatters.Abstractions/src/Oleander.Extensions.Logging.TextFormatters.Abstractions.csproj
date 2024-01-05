@@ -1,9 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\.targets\common.targets" />
-  
-   <PropertyGroup>
-    <Product>TextFormatters Abstractions</Product>
+
+  <Import Project="..\..\Common\targets\common.targets" />
+
+  <PropertyGroup>
+    <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
+    <VersionSuffix></VersionSuffix>
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Oleander Logging Abstractions</Description>
+    <PackageTags>Oleander; Extensions; Logging; Abstractions; C#</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />

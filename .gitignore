@@ -360,4 +360,5 @@ MigrationBackup/
 /out
 
 # version informations
-/.version
+/.version# Versioning cache
+**/.[Vv]ersioning/[Cc]ache/

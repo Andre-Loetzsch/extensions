@@ -1,15 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\.targets\common.targets"> </Import>
+
+  <Import Project="..\..\Common\targets\common.targets" />
 
   <PropertyGroup>
-    <Product>Dependency Injection Extensions</Product>
+    <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
+    <VersionSuffix></VersionSuffix>
+    <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
   </PropertyGroup>
-  
+
+  <PropertyGroup>
+    <Description>Oleander DependencyInjection Extensions</Description>
+    <PackageTags>Oleander; Extensions; DependencyInjection; C#</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" PrivateAssets="all"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
