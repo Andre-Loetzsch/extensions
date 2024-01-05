@@ -6,7 +6,8 @@
     <LangVersion>12</LangVersion>
     <Copyright>Copyright © Oleander $([System.DateTime]::UtcNow.Year)</Copyright>
     <Company>Oleander</Company>
-  
+    <Product>$(AssemblyName)</Product>
+
     <GeneratePackageOnBuild Condition="$(IsPackable) != false AND $(MSBuildProjectDirectory.Contains('src'))">true"</GeneratePackageOnBuild>
     <Description>Oleander extensions</Description>
     <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>

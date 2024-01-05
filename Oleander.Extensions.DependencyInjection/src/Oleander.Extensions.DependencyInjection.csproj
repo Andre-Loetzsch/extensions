@@ -10,7 +10,9 @@
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-    
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Description>Oleander DependencyInjection Extensions</Description>
     <PackageTags>Oleander; Extensions; DependencyInjection; C#</PackageTags>
   </PropertyGroup>
@@ -20,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" PrivateAssets="all"/>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" PrivateAssets="all"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />

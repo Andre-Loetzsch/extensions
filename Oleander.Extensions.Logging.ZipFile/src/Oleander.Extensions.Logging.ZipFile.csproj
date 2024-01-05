@@ -10,13 +10,15 @@
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-    
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Description>Oleander logging zip-file extensions</Description>
     <PackageTags>Oleander; Extensions; Logging; File; Zip;; C#</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
   </ItemGroup>
 

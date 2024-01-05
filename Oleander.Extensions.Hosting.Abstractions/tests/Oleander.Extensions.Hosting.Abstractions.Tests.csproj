@@ -3,19 +3,20 @@
   <Import Project="..\..\Common\targets\common.targets" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
     <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>ef902e31d21688ac140cabb9f1ac90b43a00a08e</SourceRevisionId>
-    <VersionSuffix />
+    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
+    <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
   </PropertyGroup>
-  
-  
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" PrivateAssets="all"/>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />

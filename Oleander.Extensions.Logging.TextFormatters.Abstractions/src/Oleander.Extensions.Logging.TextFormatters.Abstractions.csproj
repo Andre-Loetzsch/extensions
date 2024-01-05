@@ -13,17 +13,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>Configuration extensions</Description>
-    <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>Oleander; Extensions; Logging; TextFormatters; Abstractions; C#</PackageTags>
-    <PackageReleaseNotes>Release $(Version)</PackageReleaseNotes>
+    <Description>Oleander Logging Abstractions</Description>
+    <PackageTags>Oleander; Extensions; Logging; Abstractions; C#</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" />
   </ItemGroup>
 
   <ItemGroup>

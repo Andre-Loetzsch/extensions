@@ -4,21 +4,23 @@
 
   <PropertyGroup>
     <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
-    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
-    <VersionSuffix>alpha</VersionSuffix>
     <FileVersion>$(AssemblyVersion)</FileVersion>
+    <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
+    <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-    
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Description>Oleander logging text-formatters extensions</Description>
     <PackageTags>Oleander; Extensions; Logging; TextFormatters; C#</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" PrivateAssets="all" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" PrivateAssets="all" />
   </ItemGroup>
- 
+
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />

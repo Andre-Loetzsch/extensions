@@ -3,23 +3,23 @@
   <Import Project="..\..\Common\targets\common.targets" />
 
   <PropertyGroup>
-   
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <IsPackable>false</IsPackable>
     <AssemblyVersion>1.1.23347.11356</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
     <SourceRevisionId>31f0c7aa863e832421ea0eebfe63dc78b5987f5c</SourceRevisionId>
-    <VersionSuffix />
+    <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+  </PropertyGroup>
   
+  <PropertyGroup>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <OutputType>Exe</OutputType>
+    <Description>Logging file Benchmarks</Description>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.18-dev" PrivateAssets="all" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.53-dev" PrivateAssets="all" />
     <PackageReference Include="BenchmarkDotNet" Version="0.13.11" />
   </ItemGroup>
   
