@@ -20,4 +20,8 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.56.0-dev" PrivateAssets="all" />
+  </ItemGroup>
 </Project>
