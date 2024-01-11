@@ -8,7 +8,7 @@
     <Company>Oleander</Company>
     <Product>$(AssemblyName)</Product>
 
-    <GeneratePackageOnBuild Condition="$(IsPackable) != false AND $(MSBuildProjectDirectory.Contains('src'))">true"</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild Condition="$(IsPackable) != false AND $(MSBuildProjectDirectory.Contains('src'))">true</GeneratePackageOnBuild>
     <Description>Oleander extensions</Description>
     <PackageProjectUrl>https://nuget.pkg.github.com/Andre-Loetzsch/index.json</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
@@ -20,8 +20,8 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable</NoWarn>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="0.0.56.0-dev" PrivateAssets="all" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="[0.1.59.1-dev, 2.0)" />
   </ItemGroup>
 </Project>
