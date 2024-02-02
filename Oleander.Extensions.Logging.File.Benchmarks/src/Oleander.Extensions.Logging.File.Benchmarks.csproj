@@ -1,11 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Common\targets\common.targets" />
-
   <PropertyGroup>
-    <AssemblyVersion>1.1.23347.11357</AssemblyVersion>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <Product>$(AssemblyName)</Product>
+    <LangVersion>12</LangVersion>
+    <Copyright>Copyright © Oleander $([System.DateTime]::UtcNow.Year)</Copyright>
+    <Company>Oleander</Company>
+    <Product>$(AssemblyName)</Product>
+
+    <AssemblyVersion>1.1.23347.11358</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>4873404bc40ffa73abeeafa0d2f9f840f57e9676</SourceRevisionId>
+    <SourceRevisionId>7e9a353437b59ddfdf22160cffdf64b297dd10f0</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -19,7 +25,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.11" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
   </ItemGroup>
   
   <ItemGroup>
