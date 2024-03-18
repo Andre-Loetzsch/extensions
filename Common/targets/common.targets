@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\"/>
+    <None Include="$(ProjectDir)README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
