@@ -68,7 +68,7 @@ jobs:
 
 
      - name: 'Build and test extensions.sln'
-       uses: Andre-Loetzsch/actions/buildAndTestSolutionWithVersionCalculation@main
+       uses: Andre-Loetzsch/actions/buildAndTestSolutionWithVersionCalculation@v2
        with:
          solution: '${{ github.workspace }}\extensions.sln'
          version-suffix: ${{ env.VERSION_SUFFIX }}
