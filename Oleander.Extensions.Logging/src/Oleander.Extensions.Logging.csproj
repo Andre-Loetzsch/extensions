@@ -37,6 +37,7 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,7 +72,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
-  </ItemGroup>
 </Project>

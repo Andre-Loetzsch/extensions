@@ -19,9 +19,7 @@
 
   <ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
-  </ItemGroup>
 </Project>

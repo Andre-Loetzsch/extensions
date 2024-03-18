@@ -24,16 +24,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />
     <ProjectReference Include="..\src\Oleander.Extensions.Logging.TextFormatters.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

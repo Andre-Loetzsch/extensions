@@ -20,9 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
     <ProjectReference Include="..\..\Oleander.Extensions.Logging\src\Oleander.Extensions.Logging.csproj" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
-  </ItemGroup>
 </Project>

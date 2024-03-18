@@ -26,6 +26,7 @@
   
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
   
   <ItemGroup>

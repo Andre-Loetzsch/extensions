@@ -19,15 +19,12 @@
 
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.File\src\Oleander.Extensions.Logging.File.csproj" />
     <ProjectReference Include="..\..\Oleander.Extensions.Logging.TextFormatters.Abstractions\src\Oleander.Extensions.Logging.TextFormatters.Abstractions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

@@ -27,6 +27,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,7 +45,4 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
-	</ItemGroup>
 </Project>

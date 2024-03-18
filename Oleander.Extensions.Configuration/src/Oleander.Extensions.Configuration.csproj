@@ -5,7 +5,7 @@
   <PropertyGroup>
     <AssemblyVersion>1.1.23347.11358</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>9aa47677569eb249ab1ccf88de8741864379777f</SourceRevisionId>
+    <SourceRevisionId>4ec9c5d738e985f09911e59e09807ff53e9fec50</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -27,13 +27,10 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 </Project>

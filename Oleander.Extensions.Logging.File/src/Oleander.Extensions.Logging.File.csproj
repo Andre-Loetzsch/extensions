@@ -24,6 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuidTask" Version="1.0.0" />
   </ItemGroup>
 </Project>
