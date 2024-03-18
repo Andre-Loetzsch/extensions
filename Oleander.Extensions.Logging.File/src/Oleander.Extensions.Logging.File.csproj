@@ -5,7 +5,7 @@
   <PropertyGroup>
     <AssemblyVersion>1.1.23347.11358</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>9aa47677569eb249ab1ccf88de8741864379777f</SourceRevisionId>
+    <SourceRevisionId>8da5dcf15cab9193b3b5141c2b89051494111def</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -24,6 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuidTask" Version="1.0.0" />
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.0.0" />
   </ItemGroup>
 </Project>
