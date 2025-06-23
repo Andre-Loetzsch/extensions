@@ -19,8 +19,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
-    <!--<SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0'">True</SignAssembly>-->
-    <AssemblyOriginatorKeyFile  Condition="'$(TargetFramework)' == 'netstandard2.0'">$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0'">True</SignAssembly>
+    <AssemblyOriginatorKeyFile >$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
