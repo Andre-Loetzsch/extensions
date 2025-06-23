@@ -3,7 +3,7 @@
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <Product>$(AssemblyName)</Product>
-    <LangVersion>12</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Copyright>Copyright © Oleander $([System.DateTime]::UtcNow.Year)</Copyright>
     <Company>Oleander</Company>
     <Product>$(AssemblyName)</Product>
@@ -18,6 +18,9 @@
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+    <!--<SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0'">True</SignAssembly>-->
+    <AssemblyOriginatorKeyFile  Condition="'$(TargetFramework)' == 'netstandard2.0'">$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

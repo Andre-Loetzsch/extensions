@@ -47,6 +47,39 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Logging
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oleander.Extensions.Logging.ZipFile", "Oleander.Extensions.Logging.ZipFile\src\Oleander.Extensions.Logging.ZipFile.csproj", "{9AF3577F-635F-413A-B4EC-F1C750B5F5CB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8EF140AE-72F8-45F5-856A-914D353AB192}"
+	ProjectSection(SolutionItems) = preProject
+		Common\src\NullableAttributes.cs = Common\src\NullableAttributes.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{0D8B191B-2AE7-44A5-9E5C-05CE7956A89A}"
+	ProjectSection(SolutionItems) = preProject
+		Common\targets\common.targets = Common\targets\common.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5F98BE3C-51C2-4E64-9BB3-9686BBD1432A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{C043E956-2E58-49FE-A673-CF425FE865FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{4FA64591-8089-43F1-A7A9-DE05E8C197E1}"
+	ProjectSection(SolutionItems) = preProject
+		Common\tests\Extensions\Configuration\Class1.cs = Common\tests\Extensions\Configuration\Class1.cs
+		Common\tests\Extensions\Configuration\Class1_2.cs = Common\tests\Extensions\Configuration\Class1_2.cs
+		Common\tests\Extensions\Configuration\Class1_2_3.cs = Common\tests\Extensions\Configuration\Class1_2_3.cs
+		Common\tests\Extensions\Configuration\Class2.cs = Common\tests\Extensions\Configuration\Class2.cs
+		Common\tests\Extensions\Configuration\Class2_3.cs = Common\tests\Extensions\Configuration\Class2_3.cs
+		Common\tests\Extensions\Configuration\Class3.cs = Common\tests\Extensions\Configuration\Class3.cs
+		Common\tests\Extensions\Configuration\IInterface1.cs = Common\tests\Extensions\Configuration\IInterface1.cs
+		Common\tests\Extensions\Configuration\IInterface1_2.cs = Common\tests\Extensions\Configuration\IInterface1_2.cs
+		Common\tests\Extensions\Configuration\IInterface2.cs = Common\tests\Extensions\Configuration\IInterface2.cs
+		Common\tests\Extensions\Configuration\IInterface2_3.cs = Common\tests\Extensions\Configuration\IInterface2_3.cs
+		Common\tests\Extensions\Configuration\IInterface3.cs = Common\tests\Extensions\Configuration\IInterface3.cs
+		Common\tests\Extensions\Configuration\JsonStringBuilder.cs = Common\tests\Extensions\Configuration\JsonStringBuilder.cs
+		Common\tests\Extensions\Configuration\NestedClass.cs = Common\tests\Extensions\Configuration\NestedClass.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +191,11 @@ Global
 		{6BA8607E-8A25-46B2-AA6D-BB426C7E3E3D} = {8E26E355-6FC7-4B3E-80B0-AA8BEE4D522B}
 		{6039BF64-AF9E-4FE8-B522-7CF85DDE8254} = {92FA743E-CBD3-4A68-97E5-4F4F91419F88}
 		{9AF3577F-635F-413A-B4EC-F1C750B5F5CB} = {8E26E355-6FC7-4B3E-80B0-AA8BEE4D522B}
+		{8EF140AE-72F8-45F5-856A-914D353AB192} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0D8B191B-2AE7-44A5-9E5C-05CE7956A89A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5F98BE3C-51C2-4E64-9BB3-9686BBD1432A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C043E956-2E58-49FE-A673-CF425FE865FD} = {5F98BE3C-51C2-4E64-9BB3-9686BBD1432A}
+		{4FA64591-8089-43F1-A7A9-DE05E8C197E1} = {C043E956-2E58-49FE-A673-CF425FE865FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {457CE358-6A7C-4E10-9AFC-107FE3BA04A5}
