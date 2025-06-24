@@ -32,11 +32,21 @@ jobs:
        shell: bash
        run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
 
+     - name: 'echo VERSION_SUFFIX 2'
+       shell: bash
+       run: echo ${{ env.VERSION_SUFFIX }}
+
      - name: 'Set VERSION_SUFFIX: string.Empty'
        # if: ${{ startsWith(env.VERSION_SUFFIX, 'release') }}
        if: ${{ env.VERSION_SUFFIX }} == 'release'
        shell: bash
        run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
+
+
+     - name: 'echo VERSION_SUFFIX 3'
+       shell: bash
+       run: echo ${{ env.VERSION_SUFFIX }}
+
 
      - name: 'Checkout'
        uses: actions/checkout@v4
