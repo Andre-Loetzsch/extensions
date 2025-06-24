@@ -46,11 +46,9 @@ jobs:
        shell: bash
        run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
 
-
      - name: 'echo VERSION_SUFFIX 3'
        shell: bash
        run: echo ${{ env.VERSION_SUFFIX }}
-
 
      - name: 'Checkout'
        uses: actions/checkout@v4
