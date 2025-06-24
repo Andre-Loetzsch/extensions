@@ -71,7 +71,7 @@ namespace Oleander.Extensions.Logging.Loggers
 
                     if (string.IsNullOrEmpty(sourceKey)) sourceKey = Guid.NewGuid().ToString();
 
-                    if (this._sourceCache.TryGetSource(sourceKey, out var source))
+                    if (this._sourceCache.TryGetSource(sourceKey!, out var source))
                     {
                         logEntry.Source = source ?? string.Empty;
                     }
@@ -80,7 +80,7 @@ namespace Oleander.Extensions.Logging.Loggers
                         if (SourceResolver.TryFindFromStackTrace(logEntry.LoggerSinkType, new(), out source))
                         {
                             logEntry.Source = source ?? string.Empty;
-                            this._sourceCache.AddSource(sourceKey, logEntry.Source);
+                            this._sourceCache.AddSource(sourceKey!, logEntry.Source);
                         }
                     }
                 }

@@ -26,7 +26,7 @@ public class ShortTextFormatter : ITextFormatter
         return string.IsNullOrEmpty(logEntry.Message) ? 
             this._formatBuilder.ToString() : 
             this._formatBuilder.Append("  ")
-                .Append(logEntry.Message.Replace(Environment.NewLine, "{NewLine}"))
+                .Append(logEntry.Message!.Replace(Environment.NewLine, "{NewLine}"))
                 .AppendLine().ToString();
     }
 }
