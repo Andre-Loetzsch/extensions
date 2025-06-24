@@ -20,7 +20,7 @@ public class ShortVerticalTextFormatter : ITextFormatter
 
         if (string.IsNullOrEmpty(logEntry.Message)) return this._formatBuilder.ToString();
 
-        foreach (var line in logEntry.Message.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+        foreach (var line in logEntry.Message!.Split([Environment.NewLine], StringSplitOptions.None))
         {
             this._formatBuilder.Append("  ").Append(line).AppendLine();
         }

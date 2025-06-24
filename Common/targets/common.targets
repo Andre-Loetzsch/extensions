@@ -22,9 +22,9 @@
     <AssemblyOriginatorKeyFile >$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <!--<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable</NoWarn>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
   <PropertyGroup Condition="'$(VersionSuffix)' == '' AND '$(VersionDevSuffix)' != ''">
     <Version>$(AssemblyVersion)-$(VersionDevSuffix)</Version>
