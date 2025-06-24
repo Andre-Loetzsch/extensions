@@ -6,7 +6,8 @@
     <LangVersion>latest</LangVersion>
     <Copyright>Copyright © Oleander $([System.DateTime]::UtcNow.Year)</Copyright>
     <Company>Oleander</Company>
-    <Product>$(AssemblyName)</Product>
+    <Product Condition="'$(VersionSuffix)' != ''">$(AssemblyName)-$(TargetFramework)+$(VersionSuffix)+$(Configuration)</Product>
+    <Product Condition="'$(VersionSuffix)' == ''">$(AssemblyName)-$(TargetFramework)+$(Configuration)</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild Condition="$(IsPackable) != false AND $(MSBuildProjectDirectory.Contains('src'))">true</GeneratePackageOnBuild>
     <Description>Oleander extensions</Description>
@@ -14,17 +15,21 @@
     <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Oleander; Extensions; C#</PackageTags>
-    <PackageReleaseNotes>Added support for Netstandard2.0</PackageReleaseNotes>
-
+    <PackageReleaseNotes>Added strong name for Netstandard2.0</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-
     <SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0'">True</SignAssembly>
     <AssemblyOriginatorKeyFile >$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <NoWarn>$(NoWarn);nullable</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(VersionSuffix)' == '' AND '$(VersionDevSuffix)' != ''">
+    <Version>$(AssemblyVersion)-$(VersionDevSuffix)</Version>
+    <InformationalVersion>$(AssemblyVersion)+$(VersionDevSuffix)</InformationalVersion>
+    <Product>$(AssemblyName)-$(TargetFramework)+$(VersionDevSuffix)+$(Configuration)</Product>
   </PropertyGroup>
 
   <ItemGroup>
