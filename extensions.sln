@@ -80,6 +80,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		Common\tests\Extensions\Configuration\NestedClass.cs = Common\tests\Extensions\Configuration\NestedClass.cs
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{063E4612-DD6B-4BC7-A09F-EEF4C38EC906}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\deployNugetPackages.yml = .github\workflows\deployNugetPackages.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

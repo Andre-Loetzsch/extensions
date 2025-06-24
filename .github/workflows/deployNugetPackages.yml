@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_SUFFIX: ${{ github.ref_name }}
+  VERSION_SUFFIX: ${{ github.base_ref || github.ref_name }}
   PACKOUTDIR: ${{ github.workspace }}\packoutput
                     
 jobs:
@@ -28,24 +28,14 @@ jobs:
        run: echo ${{ env.VERSION_SUFFIX }}
 
      - name: 'Set VERSION_SUFFIX: dev'
-       if: ${{ github.ref_name }} == 'main'
+       if: ${{ env.VERSION_SUFFIX }} == 'main'
        shell: bash
        run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
 
      - name: 'Set VERSION_SUFFIX: string.Empty'
-       if: ${{ startsWith(github.ref_name, 'release/v') }}
+       if: ${{ startsWith(env.VERSION_SUFFIX, 'release') }}
        shell: bash
        run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
-
-     - name: 'Set VERSION_SUFFIX: alpha'
-       if: ${{ startsWith(github.ref_name, 'release/alpha') }}
-       shell: bash
-       run: echo "VERSION_SUFFIX=alpha" >> $GITHUB_ENV
-
-     - name: 'Set VERSION_SUFFIX: beta'
-       if: ${{ startsWith(github.ref_name, 'release/beta') }}
-       shell: bash
-       run:  echo "VERSION_SUFFIX=beta" >> $GITHUB_ENV
 
      - name: 'Checkout'
        uses: actions/checkout@v4
@@ -181,7 +171,7 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'push nuget packages to nuget gallery'
-       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' && env.VERSION_SUFFIX != 'dev'
+       if: matrix.os == 'windows-latest' && github.event_name != 'pull_request' && env.VERSION_SUFFIX == ''
        uses: Andre-Loetzsch/actions/pushNugetPackagesToNugetOrg@v1
        with:
          packagedir: ${{ env.PACKOUTDIR }}
