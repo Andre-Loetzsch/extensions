@@ -168,7 +168,7 @@ jobs:
          delete-only-pre-release-versions: "true"
 
      - name: 'push nuget packages'
-       if: matrix.os == 'windows-latest' && github.event_name == 'pull_request'
+       if: matrix.os == 'windows-latest'
        uses: Andre-Loetzsch/actions/pushNugetPackages@v1
        with:
          outdir: ${{ env.PACKOUTDIR }}
