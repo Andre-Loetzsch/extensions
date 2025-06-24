@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_SUFFIX: ${{ github.ref_name }}
+  VERSION_SUFFIX: ${{ github.base_ref || github.ref_name }}
   PACKOUTDIR: ${{ github.workspace }}\packoutput
                     
 jobs:
