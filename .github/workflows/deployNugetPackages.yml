@@ -23,19 +23,32 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
     steps:
+     - name: 'echo github.event_name'
+       shell: bash
+       run: echo ${{ github.event_name }}
+
      - name: 'echo VERSION_SUFFIX'
        shell: bash
        run: echo ${{ env.VERSION_SUFFIX }}
 
      - name: 'Set VERSION_SUFFIX: dev'
-       if: ${{ env.VERSION_SUFFIX }} == 'main'
+       if: env.VERSION_SUFFIX == 'main'
        shell: bash
        run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
 
+     - name: 'echo VERSION_SUFFIX 2'
+       shell: bash
+       run: echo ${{ env.VERSION_SUFFIX }}
+
      - name: 'Set VERSION_SUFFIX: string.Empty'
-       if: ${{ startsWith(env.VERSION_SUFFIX, 'release') }}
+       # if: ${{ startsWith(env.VERSION_SUFFIX, 'release') }}
+       if: env.VERSION_SUFFIX == 'release'
        shell: bash
        run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
+
+     - name: 'echo VERSION_SUFFIX 3'
+       shell: bash
+       run: echo ${{ env.VERSION_SUFFIX }}
 
      - name: 'Checkout'
        uses: actions/checkout@v4
