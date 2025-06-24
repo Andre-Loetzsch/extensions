@@ -28,7 +28,7 @@ jobs:
        run: echo ${{ env.VERSION_SUFFIX }}
 
      - name: 'Set VERSION_SUFFIX: dev'
-       if: ${{ env.VERSION_SUFFIX }} == 'main'
+       if: env.VERSION_SUFFIX == 'main'
        shell: bash
        run: echo "VERSION_SUFFIX=dev" >> $GITHUB_ENV
 
@@ -38,7 +38,7 @@ jobs:
 
      - name: 'Set VERSION_SUFFIX: string.Empty'
        # if: ${{ startsWith(env.VERSION_SUFFIX, 'release') }}
-       if: ${{ env.VERSION_SUFFIX }} == 'release'
+       if: env.VERSION_SUFFIX == 'release'
        shell: bash
        run: echo "VERSION_SUFFIX=" >> $GITHUB_ENV
 
