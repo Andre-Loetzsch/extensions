@@ -15,7 +15,6 @@
   <PropertyGroup>
     <Description>Oleander Configuration extensions</Description>
     <PackageTags>Oleander; Extensions; Configuration; C#</PackageTags>
-    <SignAssembly>True</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>

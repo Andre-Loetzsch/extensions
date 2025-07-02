@@ -17,14 +17,14 @@
     <PackageTags>Oleander; Extensions; C#</PackageTags>
     <PackageReleaseNotes>Added strong name for Netstandard2.0</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0' AND '$Configuration)'=='Debug'">True</SignAssembly>
-    <AssemblyOriginatorKeyFile Condition="'$Configuration)'=='Debug'">$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
+    <requireLicenseAcceptance>False</requireLicenseAcceptance>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
-  <!--<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <NoWarn>$(NoWarn);nullable</NoWarn>
-  </PropertyGroup>-->
+  <PropertyGroup Condition="Exists('$(SolutionDir)Common\oleander.snk')">
+    <SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0'">True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(VersionSuffix)' == '' AND '$(VersionDevSuffix)' != ''">
     <Version>$(AssemblyVersion)-$(VersionDevSuffix)</Version>
