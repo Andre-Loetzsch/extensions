@@ -18,8 +18,8 @@
     <PackageReleaseNotes>Added strong name for Netstandard2.0</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0'">True</SignAssembly>
-    <AssemblyOriginatorKeyFile >$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly Condition="'$(TargetFramework)' == 'netstandard2.0' AND '$Configuration)'=='Debug'">True</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$Configuration)'=='Debug'">$(SolutionDir)Common\oleander.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <!--<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
