@@ -224,7 +224,9 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[]{ waitHandle1, waitHandle2 }, 300));
+            //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[]{ waitHandle1, waitHandle2 }, 300));
+            Assert.IsTrue(waitHandle1.WaitOne(300));
+            Assert.IsTrue(waitHandle2.WaitOne(300));
             Assert.IsFalse(waitHandle3.WaitOne(300));
 
             Assert.AreEqual(1, onChangeResult1.Count);
@@ -364,7 +366,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 3000));
+            //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2, waitHandle3 }, 3000));
+            Assert.IsTrue(waitHandle.WaitOne(3000));
+            Assert.IsTrue(waitHandle1.WaitOne(3000));
+            Assert.IsTrue(waitHandle2.WaitOne(3000));
+            Assert.IsTrue(waitHandle3.WaitOne(3000));
 
             Thread.Sleep(200);
 
@@ -513,7 +519,10 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
+            //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
+            Assert.IsTrue(waitHandle.WaitOne(3000));
+            Assert.IsTrue(waitHandle1.WaitOne(3000));
+            Assert.IsTrue(waitHandle2.WaitOne(3000));
 
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
@@ -645,9 +654,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
-
-
+            //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
+            Assert.IsTrue(waitHandle.WaitOne(3000));
+            Assert.IsTrue(waitHandle1.WaitOne(3000));
+            Assert.IsTrue(waitHandle2.WaitOne(3000));
+            
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
             Assert.AreEqual(2, onChangeResult2.Count);
@@ -783,8 +794,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
-            Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000)); 
-
+            //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
+            Assert.IsTrue(waitHandle.WaitOne(3000));
+            Assert.IsTrue(waitHandle1.WaitOne(3000));
+            Assert.IsTrue(waitHandle2.WaitOne(3000));
+            
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
             Assert.AreEqual(2, onChangeResult2.Count);

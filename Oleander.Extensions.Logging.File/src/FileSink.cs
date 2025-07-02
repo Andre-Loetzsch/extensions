@@ -36,7 +36,7 @@ namespace Oleander.Extensions.Logging.File
             get => this._fileName;
             set
             {
-                var directory = Path.GetDirectoryName(value);
+                var directory = string.IsNullOrEmpty(value) ? string.Empty : Path.GetDirectoryName(value);
                 if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
                 this._fileName = value;
@@ -66,7 +66,7 @@ namespace Oleander.Extensions.Logging.File
             get => this._archiveFileName;
             set
             {
-                var directory = Path.GetDirectoryName(value);
+                var directory = string.IsNullOrEmpty(value) ? string.Empty : Path.GetDirectoryName(value);
                 if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
                 this._archiveFileName = value;

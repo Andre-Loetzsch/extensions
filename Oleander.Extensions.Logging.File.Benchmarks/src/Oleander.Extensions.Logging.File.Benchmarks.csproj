@@ -9,9 +9,9 @@
     <Company>Oleander</Company>
     <Product>$(AssemblyName)</Product>
 
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>22c52137d95abf0755ed27db445dab17ff2dfeae</SourceRevisionId>
+    <SourceRevisionId>be2517f715b26976bf0dfab59f216696722abb6d</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -19,6 +19,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net48</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <OutputType>Exe</OutputType>
     <Description>Logging file Benchmarks</Description>
@@ -26,7 +27,7 @@
   
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.3.0">
+    <PackageReference Condition="'$Configuration)'=='Debug'" Include="Oleander.Assembly.Versioning.BuildTask" Version="1.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
