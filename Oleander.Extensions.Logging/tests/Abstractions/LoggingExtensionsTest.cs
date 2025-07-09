@@ -88,9 +88,9 @@ namespace Oleander.Extensions.Logging.Tests.Abstractions
             loggerSinkProvider.AddOrUpdateLoggerSinks([loggerSink]);
             var logger = loggerSinkProvider.CreateLogger("Test");
 
-            logger = logger
-                .AddCorrelationId(67)
-                .AddCorrelationId(76);
+            var logger2 = logger
+                .AddCorrelationId("67")
+                .AddCorrelationId("76");
 
             logger
                 .AddCorrelationId("ABC")
@@ -98,13 +98,13 @@ namespace Oleander.Extensions.Logging.Tests.Abstractions
                 .LogInformation("This is test message 1.");
 
             logger.LogInformation("This is test message 2.");
-            logger.LogInformation("This is test message 3.");
+            logger2.LogInformation("This is test message 3.");
 
             Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
             Assert.AreEqual(3, loggerSink.Entries.Count);
-            Assert.AreEqual(new KeyValuePair<string, int>("X", 1234), loggerSink.Entries[0].Correlation); 
-            Assert.AreEqual(76, loggerSink.Entries[1].Correlation);
-            Assert.AreEqual(76, loggerSink.Entries[2].Correlation);
+            Assert.AreEqual(new KeyValuePair<string, int>("X", 1234), loggerSink.Entries[0].Correlation);
+            Assert.IsTrue(loggerSink.Entries[1].Correlation is int);
+            Assert.AreEqual("76", loggerSink.Entries[2].Correlation);
         }
 
         [TestMethod]
@@ -163,6 +163,24 @@ namespace Oleander.Extensions.Logging.Tests.Abstractions
             Assert.IsFalse(loggerSink.Entries[1].Attributes.TryGetValue("key2", out value));
             Assert.IsFalse(loggerSink.Entries[1].Attributes.TryGetValue("key3", out value));
             Assert.IsFalse(loggerSink.Entries[1].Attributes.TryGetValue("key4", out value));
+        }
+
+        [TestMethod]
+        public void LogCorrelationDebugTest()
+        {
+            var loggerSinkProvider = new LoggerSinkProvider();
+            var loggerSink = new FakeLoggerSink { Name = "S1", LogLevel = LogLevel.Information, Categories = ["Test"] };
+
+            loggerSinkProvider.AddOrUpdateLoggerSinks([loggerSink]);
+            var logger = loggerSinkProvider.CreateLogger("Test");
+
+            logger.LogCorrelationDebug("correlationId", new EventId(1, "TestEvent"), null, "This is a debug message with correlation ID {CorrelationId}", "correlationId");
+            logger.LogCorrelationDebug("correlationId", new EventId(1, "TestEvent"), "This is a debug message with correlation ID {CorrelationId}", "correlationId");
+            logger.LogCorrelationDebug("correlationId", null, "This is a debug message with correlation ID {CorrelationId}", "correlationId");
+            logger.LogCorrelationDebug("correlationId", "This is a debug message with correlation ID {CorrelationId}", "correlationId");
+            Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
+
+
         }
     }
 }

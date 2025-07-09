@@ -94,6 +94,8 @@ public static class LoggerExtensions
 
     #region LogCorrelation
 
+    #region LogCorrelationDebug
+
     public static void LogCorrelationDebug(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Debug, eventId, exception, message, args);
@@ -113,6 +115,10 @@ public static class LoggerExtensions
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Debug, message, args);
     }
+
+    #endregion
+
+    #region LogCorrelationTrace
 
     public static void LogCorrelationTrace(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
     {
@@ -134,6 +140,10 @@ public static class LoggerExtensions
         logger.AddCorrelationId(correlationId).Log(LogLevel.Trace, message, args);
     }
 
+    #endregion
+
+    #region LogCorrelationInformation
+
     public static void LogCorrelationInformation(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Information, eventId, exception, message, args);
@@ -144,7 +154,6 @@ public static class LoggerExtensions
         logger.AddCorrelationId(correlationId).Log(LogLevel.Information, eventId, message, args);
     }
 
-    
     public static void LogCorrelationInformation(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Information, exception, message, args);
@@ -154,6 +163,10 @@ public static class LoggerExtensions
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Information, message, args);
     }
+
+    #endregion
+
+    #region LogCorrelationWarning
 
     public static void LogCorrelationWarning(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
     {
@@ -175,6 +188,10 @@ public static class LoggerExtensions
         logger.AddCorrelationId(correlationId).Log(LogLevel.Warning, message, args);
     }
 
+    #endregion
+
+    #region LogCorrelationError
+
     public static void LogCorrelationError(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Error, eventId, exception, message, args);
@@ -195,6 +212,10 @@ public static class LoggerExtensions
         logger.AddCorrelationId(correlationId).Log(LogLevel.Error, message, args);
     }
 
+    #endregion
+
+    #region LogCorrelationCritical
+
     public static void LogCorrelationCritical(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Critical, eventId, exception, message, args);
@@ -214,6 +235,8 @@ public static class LoggerExtensions
     {
         logger.AddCorrelationId(correlationId).Log(LogLevel.Critical, message, args);
     }
+
+    #endregion
 
     #endregion
 }
