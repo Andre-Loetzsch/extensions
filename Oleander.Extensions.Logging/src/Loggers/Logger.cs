@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Logging.Providers;
 using Oleander.Extensions.Logging.SourceHelper;
@@ -13,22 +14,27 @@ namespace Oleander.Extensions.Logging.Loggers
         private readonly string _category;
         private readonly SourceCache _sourceCache = new();
 
+        private static int instanceId;
+        private readonly int _instanceId;
+
         internal Logger(LoggerSinkProvider loggerProvider, string category)
         {
             this._loggerProvider = loggerProvider ?? throw new ArgumentNullException(nameof(loggerProvider));
             this._category = category;
+
+            this._instanceId = Interlocked.Increment(ref instanceId);
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             if (state is not LogEntry logEntry)
             {
-                logEntry = new LogEntry
+                logEntry = new()
                 {
                     LogLevel = logLevel,
                     LogCategory = this._category,
                     EventId = eventId.Id,
-                    Message = state?.ToString(),
+                    Message = formatter(state, exception),
                     State = state,
                     Exception = exception
                 };
@@ -42,7 +48,17 @@ namespace Oleander.Extensions.Logging.Loggers
                         logEntry.Attributes[item.Key] = item.Value;
                     }
                 }
-              
+
+                if (logEntry.Attributes.TryGetValue("{CorrelationId}", out var correlationId))
+                {
+                    logEntry.Correlation = correlationId;
+                }
+                else
+                {
+                    logEntry.Correlation = this._instanceId;
+                    logEntry.Attributes["{CorrelationId}"] = this._instanceId;
+                }
+
                 if (logEntry.IsSourceNullOrEmpty)
                 {
                     var sb = new StringBuilder();
@@ -79,7 +95,7 @@ namespace Oleander.Extensions.Logging.Loggers
                     {
                         if (SourceResolver.TryFindFromStackTrace(logEntry.LoggerSinkType, new(), out source))
                         {
-                            logEntry.Source = source ?? string.Empty;
+                            logEntry.Source = source;
                             this._sourceCache.AddSource(sourceKey!, logEntry.Source);
                         }
                     }
@@ -94,7 +110,7 @@ namespace Oleander.Extensions.Logging.Loggers
             return this._loggerProvider.IsEnabled(logLevel);
         }
 
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+        public IDisposable BeginScope<TState>(TState state) where TState : notnull
         {
             return this._loggerProvider.ScopeProvider.Push(state);
         }

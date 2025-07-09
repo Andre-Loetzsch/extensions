@@ -19,6 +19,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <requireLicenseAcceptance>False</requireLicenseAcceptance>
     <SignAssembly>False</SignAssembly>
+    <WarningsAsErrors>OAVBT47</WarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup Condition="Exists('$(SolutionDir)Common\oleander.snk')">
