@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Oleander.Extensions.Logging.TextFormatters.Abstractions;
 
 namespace Oleander.Extensions.Logging.TextFormatters;
 
 public class BlockTextFormatter : BlockTextFormatterBase
 {
-    private readonly List<TextBlockInfo> _textBlockInfos = new();
+    private readonly List<TextBlockInfo> _textBlockInfos = [];
 
     public BlockTextFormatter()
     {
@@ -70,6 +72,14 @@ public class BlockTextFormatter : BlockTextFormatterBase
         
         this._textBlockInfos[18].SetValue(logEntry.Message);
 
-        return this._textBlockInfos;
+        if (logEntry.Exception is null) return this._textBlockInfos;
+
+        var list = this._textBlockInfos.ToList();
+        var item = new TextBlockInfo(Pad.PadRight, "Exception:", "|");
+        item.SetValue(logEntry.Exception);
+
+        list.Add(item);
+
+        return list;
     }
 }

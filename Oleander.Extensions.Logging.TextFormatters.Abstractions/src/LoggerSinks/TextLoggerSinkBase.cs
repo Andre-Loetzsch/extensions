@@ -11,7 +11,7 @@ public abstract class TextLoggerSinkBase : LoggerSinkBase
 
     protected void CreateTextFormatter()
     {
-        if (string.IsNullOrEmpty(this.TextFormatterType)) return;
+        if (this.TextFormatterType == null) return;
 
         var type = Type.GetType(this.TextFormatterType);
         

@@ -43,18 +43,12 @@ public static class LoggerExtensions
         return logger.AddAttributes([new(key, value)]);
     }
 
-
-
     public static ILogger AddAttributes(this ILogger logger, IEnumerable<KeyValuePair<string, object>> attributes)
     {
         lock (loggerMapperSync)
         {
             var keyValueList = attributes.ToList();
             if (!keyValueList.Any()) return logger;
-
-            //if (logger is not LoggerMapper loggerMapper) loggerMapper = new(logger);
-            //// TODO new LoggerMapper(logger);
-            ////var loggerMapper = new LoggerMapper(logger);
 
             var loggerMapper = new LoggerMapper(logger);
             if (logger is LoggerMapper mapper)
@@ -91,152 +85,4 @@ public static class LoggerExtensions
 
         return new(logger, policies, logger.BeginScope(messageFormat, args));
     }
-
-    #region LogCorrelation
-
-    #region LogCorrelationDebug
-
-    public static void LogCorrelationDebug(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Debug, eventId, exception, message, args);
-    }
-
-    public static void LogCorrelationDebug(this ILogger logger, object correlationId, EventId eventId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Debug, eventId, message, args);
-    }
-
-    public static void LogCorrelationDebug(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Debug, exception, message, args);
-    }
-
-    public static void LogCorrelationDebug(this ILogger logger, object correlationId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Debug, message, args);
-    }
-
-    #endregion
-
-    #region LogCorrelationTrace
-
-    public static void LogCorrelationTrace(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Trace, eventId, exception, message, args);
-    }
-
-    public static void LogCorrelationTrace(this ILogger logger, object correlationId, EventId eventId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Trace, eventId, message, args);
-    }
-
-    public static void LogCorrelationTrace(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Trace, exception, message, args);
-    }
-
-    public static void LogCorrelationTrace(this ILogger logger, object correlationId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Trace, message, args);
-    }
-
-    #endregion
-
-    #region LogCorrelationInformation
-
-    public static void LogCorrelationInformation(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Information, eventId, exception, message, args);
-    }
-
-    public static void LogCorrelationInformation(this ILogger logger, object correlationId, EventId eventId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Information, eventId, message, args);
-    }
-
-    public static void LogCorrelationInformation(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Information, exception, message, args);
-    }
-
-    public static void LogCorrelationInformation(this ILogger logger, object correlationId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Information, message, args);
-    }
-
-    #endregion
-
-    #region LogCorrelationWarning
-
-    public static void LogCorrelationWarning(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Warning, eventId, exception, message, args);
-    }
-
-    public static void LogCorrelationWarning(this ILogger logger, object correlationId, EventId eventId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Warning, eventId, message, args);
-    }
-
-    public static void LogCorrelationWarning(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Warning, exception, message, args);
-    }
-
-    public static void LogCorrelationWarning(this ILogger logger, object correlationId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Warning, message, args);
-    }
-
-    #endregion
-
-    #region LogCorrelationError
-
-    public static void LogCorrelationError(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Error, eventId, exception, message, args);
-    }
-
-    public static void LogCorrelationError(this ILogger logger, object correlationId, EventId eventId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Error, eventId, message, args);
-    }
-
-    public static void LogCorrelationError(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Error, exception, message, args);
-    }
-
-    public static void LogCorrelationError(this ILogger logger, object correlationId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Error, message, args);
-    }
-
-    #endregion
-
-    #region LogCorrelationCritical
-
-    public static void LogCorrelationCritical(this ILogger logger, object correlationId, EventId eventId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Critical, eventId, exception, message, args);
-    }
-
-    public static void LogCorrelationCritical(this ILogger logger, object correlationId, EventId eventId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Critical, eventId, message, args);
-    }
-
-    public static void LogCorrelationCritical(this ILogger logger, object correlationId, Exception? exception, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Critical, exception, message, args);
-    }
-
-    public static void LogCorrelationCritical(this ILogger logger, object correlationId, string? message, params object?[] args)
-    {
-        logger.AddCorrelationId(correlationId).Log(LogLevel.Critical, message, args);
-    }
-
-    #endregion
-
-    #endregion
 }

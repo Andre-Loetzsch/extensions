@@ -70,7 +70,7 @@ public class FileSinkTests
             _ = fs.Read(buffer, 0, buffer.Length);
         }
 
-        var logContent = Encoding.UTF8.GetString(buffer).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        var logContent = Encoding.UTF8.GetString(buffer).Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
         var format1Counter = logContent.Count(l => l.Contains("Format1"));
         var format2Counter = logContent.Count(l => l.Contains("Format2"));
 
@@ -115,13 +115,11 @@ public class FileSinkTests
         if (IOFile.Exists(traceCFileName)) IOFile.Delete(traceCFileName);
         if (IOFile.Exists(traceCFileName)) IOFile.Delete(traceDFileName);
 
-        using (var fileSink = new FileSink
+        using (var fileSink = new FileSink())
         {
-            FileNameTemplate = traceCFileName,
-            ArchiveFileNameTemplate = archiveCFileName,
-            MaxFileSize = 1000
-        })
-        {
+            fileSink.FileNameTemplate = traceCFileName;
+            fileSink.ArchiveFileNameTemplate = archiveCFileName;
+            fileSink.MaxFileSize = 1000;
             for (var i = 0; i < 110; i++)
             {
                 fileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = $"Test message {i}" });
@@ -163,17 +161,13 @@ public class FileSinkTests
 
         if (IOFile.Exists(traceCFileName)) IOFile.Delete(traceCFileName);
 
-        using var fileSink1 = new FileSink
-        {
-            FileNameTemplate = traceCFileName,
-            ArchiveFileNameTemplate = archiveCFileName
-        };
+        using var fileSink1 = new FileSink();
+        fileSink1.FileNameTemplate = traceCFileName;
+        fileSink1.ArchiveFileNameTemplate = archiveCFileName;
 
-        using var fileSink2 = new FileSink
-        {
-            FileNameTemplate = traceCFileName,
-            ArchiveFileNameTemplate = archiveCFileName,
-        };
+        using var fileSink2 = new FileSink();
+        fileSink2.FileNameTemplate = traceCFileName;
+        fileSink2.ArchiveFileNameTemplate = archiveCFileName;
 
         fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 1" });
         fileSink1.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message 2" });

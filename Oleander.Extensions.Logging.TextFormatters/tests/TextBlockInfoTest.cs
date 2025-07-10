@@ -95,4 +95,38 @@ public class TextBlockInfoTest
         Assert.Equal("                                ", textBlockInfo[2]);
         Assert.Equal("                                ", textBlockInfo[3]);
     }
+
+    [Fact]
+    public void TestWrdWordWrap()
+    {
+        var textBlockInfo = new TextBlockInfo(Pad.PadRight, "Message:", "|") { WordWrapWidth = 10 };
+
+        textBlockInfo.SetValue("This is a test message. This is line two.");
+
+        Assert.Equal(9, textBlockInfo.MaxLength);
+        Assert.Equal(5, textBlockInfo.Lines.Length);
+
+        Assert.Equal("Message:This is a|", textBlockInfo[0]);
+        Assert.Equal("        test      ", textBlockInfo[1]);
+        Assert.Equal("        message.  ", textBlockInfo[2]);
+        Assert.Equal("        This is   ", textBlockInfo[3]);
+        Assert.Equal("        line two. ", textBlockInfo[4]);
+    }
+
+    [Fact]
+    public void TestWrdWordWrap2()
+    {
+        var textBlockInfo = new TextBlockInfo(Pad.PadRight, "Message:", "|") { WordWrapWidth = 10 };
+
+        textBlockInfo.SetValue("This/is\\a test message./This is line two..");
+
+        Assert.Equal(9, textBlockInfo.MaxLength);
+        Assert.Equal(5, textBlockInfo.Lines.Length);
+
+        Assert.Equal("Message:This.is.a|", textBlockInfo[0]);
+        Assert.Equal("        test      ", textBlockInfo[1]);
+        Assert.Equal("        message.  ", textBlockInfo[2]);
+        Assert.Equal("        This is   ", textBlockInfo[3]);
+        Assert.Equal("        line two. ", textBlockInfo[4]);
+    }
 }

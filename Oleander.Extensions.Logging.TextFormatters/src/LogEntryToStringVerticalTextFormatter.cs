@@ -7,6 +7,8 @@ public class LogEntryToStringVerticalTextFormatter : ITextFormatter
 {
     public string Format(LogEntry logEntry)
     {
-        return string.Concat(Environment.NewLine, logEntry.ToString().Replace(Environment.NewLine, "{NewLine}").Replace("|", Environment.NewLine), Environment.NewLine);
+        return string.Concat(Environment.NewLine, 
+            logEntry.ToString().Replace(Environment.NewLine, "{NewLine}")
+                .Replace("|", Environment.NewLine), Environment.NewLine);
     }
 }

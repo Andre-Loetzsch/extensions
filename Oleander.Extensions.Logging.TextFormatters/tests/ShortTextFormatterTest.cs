@@ -8,14 +8,14 @@ namespace Oleander.Extensions.Logging.TextFormatters.Tests
         [Fact]
         public void TestShortTextFormatter()
         {
-            var logHelper = new LogHelper(new ShortTextFormatter(), "ShortTextFormatter.log");
-            logHelper.DeleteFile();
-            logHelper.LogDebug();
-            logHelper.LogTrace();
-            logHelper.LogInformation();
-            logHelper.LogWarning();
-            logHelper.LogError();
-            logHelper.LogCritical();
+            new LogHelper(new ShortTextFormatter(), "ShortTextFormatter.log")
+                .DeleteFile()
+                .LogTrace()
+                .LogInformation()
+                .LogWarning()
+                .LogError()
+                .LogCritical()
+                .LogDebug();
         }
     }
 }
