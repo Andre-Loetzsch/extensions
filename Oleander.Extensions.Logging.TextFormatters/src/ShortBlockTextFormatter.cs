@@ -78,7 +78,7 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
         if (logEntry.Exception is null) return this._textBlockInfos;
 
         var list = this._textBlockInfos.ToList();
-        var item = new TextBlockInfo(Pad.PadRight, string.Empty, "|") {WordWrapWidth = 1};
+        var item = new TextBlockInfo(Pad.PadRight, string.Empty, "|") {WordWrapWidth = 100};
         
         item.SetValue(logEntry.Exception);
 

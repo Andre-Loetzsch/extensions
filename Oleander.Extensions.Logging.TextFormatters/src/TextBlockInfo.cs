@@ -43,7 +43,9 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
 
             return index == 0 ?
                 string.Concat(this.Prefix, line, this.PostFix) :
-                string.Concat(string.Empty.PadLeft(this.Prefix.Length), line, string.Empty.PadRight(this.PostFix.Length));
+                string.Concat(string.Empty.PadLeft(this.Prefix.Length), line, this.PostFix);
+
+            //string.Concat(string.Empty.PadLeft(this.Prefix.Length), line, string.Empty.PadRight(this.PostFix.Length));
         }
     }
 
@@ -68,10 +70,33 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
             lines = string.Join(Environment.NewLine, resultList)
                 .Split([Environment.NewLine], StringSplitOptions.None).ToList();
 
-            if (lines.All(x => x.Length <= maxWidth)) return lines.ToArray();
+            //if (lines.All(x => x.Length <= maxWidth)) return lines.ToArray();
+            if (lines.All(x => x.Length <= maxWidth)) break;
+
         }
 
-        return lines.ToArray();
+        var zipList = new List<string>();
+        var zipIndex = 0;
+
+        foreach (var line in lines)
+        {
+            if (zipList.Count <= zipIndex)
+            {
+                zipList.Add(line);
+                continue;
+            }
+
+            if (line.Length + zipList[zipIndex].Length < maxWidth)
+            {
+                zipList[zipIndex] = string.Concat(zipList[zipIndex], line);
+                continue;
+            }
+
+            zipList.Add(line);
+            zipIndex++;
+        }
+
+        return zipList.Select(x => x.TrimEnd(' ')).ToArray();
     }
 
     private static string WordWrap(string text, char separator, int maxWidth)
@@ -84,52 +109,31 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
         var wrappedText = new StringBuilder();
         var currentLine = new StringBuilder();
 
+        var index = 0;
+
         foreach (var word in words)
         {
             if (currentLine.Length + word.Length + 1 > maxWidth)
             {
                 if (wrappedText.Length > 0) wrappedText.AppendLine();
 
-                wrappedText.Append(currentLine.ToString().TrimEnd(' '));
+                //wrappedText.Append(currentLine.ToString().TrimEnd(' '));
+                wrappedText.Append(currentLine);
+
                 currentLine.Clear();
             }
 
-            //currentLine.Append(separator).Append(word);
-
-
             currentLine.Append(word);
+            index += word.Length;
 
-            if (currentLine.Length + 1 > maxWidth) continue;
+            if (text.Length <= index || text[index] != separator) continue;
             currentLine.Append(separator);
-
-
-
-
-
-
-            //if (currentLine.Length > 0)
-            //{
-            //    currentLine.Append(word).Append(separator);
-            //    continue;
-            //}
-
-            //if (separator != ' ')
-            //{
-            //    currentLine.Append(separator).Append(word);
-            //}
-            //else
-            //{
-            //    currentLine.Append(separator).Append(word);
-            //}
-
-
-
-
+            index++;
         }
 
         if (currentLine.Length <= 0) return wrappedText.ToString();
         if (wrappedText.Length > 0) wrappedText.AppendLine();
-        wrappedText.Append(currentLine);
+        wrappedText.Append(currentLine.ToString().TrimEnd(' '));
 
         return wrappedText.ToString();
     }
