@@ -124,9 +124,9 @@ public class TextBlockInfoTest
         Assert.Equal(5, textBlockInfo.Lines.Length);
 
         Assert.Equal("Message:This is a|", textBlockInfo[0]);
-        Assert.Equal("test             |", textBlockInfo[1]);
-        Assert.Equal("message.         |", textBlockInfo[2]);
-        Assert.Equal("This is          |", textBlockInfo[3]);
-        Assert.Equal("line two.        |", textBlockInfo[4]);
+        Assert.Equal("             test|", textBlockInfo[1]);
+        Assert.Equal("         message.|", textBlockInfo[2]);
+        Assert.Equal("          This is|", textBlockInfo[3]);
+        Assert.Equal("        line two.|", textBlockInfo[4]);
     }
 }
