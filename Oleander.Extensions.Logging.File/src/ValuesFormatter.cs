@@ -3,14 +3,9 @@ using System.Collections.Generic;
 
 namespace Oleander.Extensions.Logging.File
 {
-    public class ValuesFormatter
+    public class ValuesFormatter(string formatTemplate)
     {
-        public ValuesFormatter(string formatTemplate)
-        {
-            this.FormatTemplate = formatTemplate;
-        }
-
-        public string FormatTemplate { get; }
+        public string FormatTemplate { get; } = formatTemplate;
 
         public static IEnumerable<string> ExtractDateTimeFormats(string value)
         {

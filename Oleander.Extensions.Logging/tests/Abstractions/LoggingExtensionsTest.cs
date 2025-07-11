@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Oleander.Extensions.DependencyInjection;
 using Oleander.Extensions.Logging.Abstractions;
 using Oleander.Extensions.Logging.Providers;
+using System.Collections.Generic;
 
 namespace Oleander.Extensions.Logging.Tests.Abstractions;
 
@@ -22,7 +25,7 @@ public class LoggingExtensionsTest
 
         Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
         Assert.AreEqual(1, loggerSink.Entries.Count);
-        Assert.AreEqual(loggerSink.Entries[0].Source, $"{this.GetType().Namespace}.{this.GetType().Name}.TestAddCallerInfos[21]");
+        Assert.AreEqual(loggerSink.Entries[0].Source, $"{this.GetType().Namespace}.{this.GetType().Name}.TestAddCallerInfos[24]");
     }
 
     [TestMethod]
@@ -40,7 +43,7 @@ public class LoggingExtensionsTest
         Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
         Assert.AreEqual(2, loggerSink.Entries.Count);
-        Assert.AreEqual(loggerSink.Entries[0].Source, $"{this.GetType().Namespace}.{this.GetType().Name}.TestCallerInfosMayOnlyBeUsedOnce[35]");
+        Assert.AreEqual(loggerSink.Entries[0].Source, $"{this.GetType().Namespace}.{this.GetType().Name}.TestCallerInfosMayOnlyBeUsedOnce[38]");
         Assert.AreEqual(loggerSink.Entries[1].Source, $"{this.GetType().Namespace}.{this.GetType().Name}.TestCallerInfosMayOnlyBeUsedOnce");
     }
 
@@ -163,6 +166,24 @@ public class LoggingExtensionsTest
         Assert.IsFalse(loggerSink.Entries[1].Attributes.TryGetValue("key2", out value));
         Assert.IsFalse(loggerSink.Entries[1].Attributes.TryGetValue("key3", out value));
         Assert.IsFalse(loggerSink.Entries[1].Attributes.TryGetValue("key4", out value));
+    }
+
+    [TestMethod]
+    public void TestILoggerProviderIsLoggerSinkProvider()
+    {
+        var builder = Host.CreateApplicationBuilder();
+
+        builder.Logging
+            .AddLoggerSinkProvider()
+            .Services
+            .AddConfiguredTypes("loggerTypes")
+            .BuildServiceProvider();
+
+        var host = builder.Build();
+        host.Services.InitLoggerFactory();
+
+        var loggerProvider = host.Services.GetRequiredService<ILoggerProvider>();
+        Assert.IsTrue(loggerProvider is LoggerSinkProvider);
     }
 }
 

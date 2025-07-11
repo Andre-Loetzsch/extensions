@@ -5,20 +5,13 @@ using Oleander.Extensions.Logging.Providers;
 
 namespace Oleander.Extensions.Logging.BackgroundWork
 {
-    internal class BackgroundWorker : IDisposable
+    internal class BackgroundWorker(LoggerSinkProvider provider) : IDisposable
     {
-        private readonly LoggerSinkProvider _provider;
-        private readonly ILogger _logger;
+        private readonly ILogger _logger = provider.CreateLogger("Oleander.Logger");
         private Thread? _backgroundThread;
-        private readonly ManualResetEvent _wait;
+        private readonly ManualResetEvent _wait = new(false);
         private bool _logEntryBackgroundStackIsEmpty = true;
         private readonly LogEntryStackManager _logEntryStackManager = new();
-        public BackgroundWorker(LoggerSinkProvider provider)
-        {
-            this._provider = provider;
-            this._logger = provider.CreateLogger("Oleander.Logger");
-            this._wait = new(false);
-        } 
 
         public bool IsRunning { get; private set; }
 
@@ -83,7 +76,7 @@ namespace Oleander.Extensions.Logging.BackgroundWork
                 {
                     try
                     {
-                        this._provider.InternalLog(next);
+                        provider.InternalLog(next);
                     }
                     catch (Exception ex)
                     {
@@ -95,7 +88,7 @@ namespace Oleander.Extensions.Logging.BackgroundWork
                     lock (this._logEntryStackManager)
                     {
                         this._logEntryBackgroundStackIsEmpty = true;
-                        this._provider.BackgroundStackIsEmpty();
+                        provider.BackgroundStackIsEmpty();
                     }
                     
                     this._wait.Reset();

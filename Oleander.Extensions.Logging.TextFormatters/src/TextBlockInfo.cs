@@ -24,11 +24,11 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
 
     public int WordWrapWidth { get; set; }
 
-    public Pad Pad { get; private set; } = pad;
-    public string Prefix { get; private set; } = preFix;
-    public string PostFix { get; private set; } = postFix;
+    public Pad Pad { get; } = pad;
+    public string Prefix { get; } = preFix;
+    public string PostFix { get; } = postFix;
 
-    public int MaxLength { get; private set; }
+    public int MaxLength { get; set; }
     public string[] Lines { get; private set; } = [];
 
     public string this[int index]
@@ -44,8 +44,6 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
             return index == 0 ?
                 string.Concat(this.Prefix, line, this.PostFix) :
                 string.Concat(string.Empty.PadLeft(this.Prefix.Length), line, this.PostFix);
-
-            //string.Concat(string.Empty.PadLeft(this.Prefix.Length), line, string.Empty.PadRight(this.PostFix.Length));
         }
     }
 
@@ -70,33 +68,10 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
             lines = string.Join(Environment.NewLine, resultList)
                 .Split([Environment.NewLine], StringSplitOptions.None).ToList();
 
-            //if (lines.All(x => x.Length <= maxWidth)) return lines.ToArray();
             if (lines.All(x => x.Length <= maxWidth)) break;
-
         }
 
-        var zipList = new List<string>();
-        var zipIndex = 0;
-
-        foreach (var line in lines)
-        {
-            if (zipList.Count <= zipIndex)
-            {
-                zipList.Add(line);
-                continue;
-            }
-
-            if (line.Length + zipList[zipIndex].Length < maxWidth)
-            {
-                zipList[zipIndex] = string.Concat(zipList[zipIndex], line);
-                continue;
-            }
-
-            zipList.Add(line);
-            zipIndex++;
-        }
-
-        return zipList.Select(x => x.TrimEnd(' ')).ToArray();
+        return lines.Select(x => x.TrimEnd(' ')).ToArray();
     }
 
     private static string WordWrap(string text, char separator, int maxWidth)
@@ -117,9 +92,7 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
             {
                 if (wrappedText.Length > 0) wrappedText.AppendLine();
 
-                //wrappedText.Append(currentLine.ToString().TrimEnd(' '));
                 wrappedText.Append(currentLine);
-
                 currentLine.Clear();
             }
 

@@ -5,12 +5,7 @@ namespace Oleander.Extensions.Logging.Abstractions
 {
     public class Logger<T> : ILogger
     {
-        private readonly ILogger _innerInstance;
-
-        public Logger()
-        {
-            this._innerInstance = LoggerFactory.CreateLogger<T>();
-        }
+        private readonly ILogger _innerInstance = LoggerFactory.CreateLogger<T>();
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {

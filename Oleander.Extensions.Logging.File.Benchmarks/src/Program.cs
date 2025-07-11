@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using BenchmarkDotNet.Running;
 using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Logging.Abstractions;
 using Oleander.Extensions.Logging.Providers;
@@ -44,7 +43,7 @@ namespace Oleander.Extensions.Logging.File.Benchmarks
 
                 loggerSinkProvider.AddOrUpdateLoggerSink(new FileSink
                 {
-                    Categories = new[] { "test" },
+                    Categories = ["test"],
                     LogLevel = LogLevel.Debug,
                     Name = "Unit Test Sink",
                     OverrideExistingFile = true,
@@ -98,7 +97,7 @@ namespace Oleander.Extensions.Logging.File.Benchmarks
 
                 loggerSinkProvider.AddOrUpdateLoggerSink(new FileSink
                 {
-                    Categories = new[] { "test" },
+                    Categories = ["test"],
 
                     LogLevel = LogLevel.Debug,
                     Name = "Unit Test Sink",

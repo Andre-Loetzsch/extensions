@@ -8,6 +8,8 @@ namespace Oleander.Extensions.Logging.Abstractions
     {
         private static ILoggerFactory instance = new NullLoggerFactory();
 
+        public static bool IsInitialized { get; private set; }
+
         public static ILogger CreateLogger(string categoryName)
         {
             return instance.CreateLogger(categoryName);
@@ -25,7 +27,10 @@ namespace Oleander.Extensions.Logging.Abstractions
 
         public static void InitLoggerFactory(this IServiceProvider provider)
         {
-            LoggerFactory.instance = provider.GetService(typeof(ILoggerFactory)) as ILoggerFactory ?? new NullLoggerFactory();
+            var factory = provider.GetService(typeof(ILoggerFactory)) as ILoggerFactory;
+
+            IsInitialized = factory != null;
+            LoggerFactory.instance = factory ?? new NullLoggerFactory();
         }
     }
 }

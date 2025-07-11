@@ -45,13 +45,11 @@ public class ZipFileSinkTests
         var archiveCFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logging", "traceArchiveC.log");
         var archiveDFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logging", "traceArchiveD.log");
 
-        using (var zipFileSink = new ZipFileSink
+        using (var zipFileSink = new ZipFileSink())
         {
-            FileNameTemplate = traceCFileName,
-            ArchiveFileNameTemplate = archiveCFileName,
-            MaxFileSize = 1000
-        })
-        {
+            zipFileSink.FileNameTemplate = traceCFileName;
+            zipFileSink.ArchiveFileNameTemplate = archiveCFileName;
+            zipFileSink.MaxFileSize = 1000;
             for (var i = 0; i < 110; i++)
             {
                 zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = $"Test message {i}" });
@@ -100,14 +98,12 @@ public class ZipFileSinkTests
         var archiveDFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logging", "traceArchiveD.log");
 
 
-        using (var zipFileSink = new ZipFileSink
+        using (var zipFileSink = new ZipFileSink())
         {
-            FileNameTemplate = traceCFileName,
-            ArchiveFileNameTemplate = archiveCFileName,
-            MaxFileSize = 1000, 
-            CompressEachPartialFiles = true
-        })
-        {
+            zipFileSink.FileNameTemplate = traceCFileName;
+            zipFileSink.ArchiveFileNameTemplate = archiveCFileName;
+            zipFileSink.MaxFileSize = 1000;
+            zipFileSink.CompressEachPartialFiles = true;
             for (var i = 0; i < 110; i++)
             {
                 zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = $"Test message {i}" });
@@ -170,7 +166,7 @@ public class ZipFileSinkTests
             var now = DateTime.Now;
             zipFileSink.ArchiveFileNameTemplate = traceFFileName;
             traceFFileName = zipFileSink.FileName;
-            zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = $"Test message" });
+            zipFileSink.Log(new() { LogLevel = LogLevel.Information, LogCategory = "Test", Message = "Test message" });
 
             var diff = DateTime.Now - now;
             Assert.True(diff.TotalMilliseconds < 20000, $"diff.TotalMilliseconds={diff.TotalMilliseconds}");

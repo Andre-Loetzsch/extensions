@@ -196,7 +196,7 @@ public class FileSinkTests
             _ = fs.Read(buffer, 0, buffer.Length);
         }
 
-        var logContent = Encoding.UTF8.GetString(buffer).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        var logContent = Encoding.UTF8.GetString(buffer).Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
 
         Assert.Equal(12, logContent.Length);
         Assert.Contains("Test message 1", logContent[0]);

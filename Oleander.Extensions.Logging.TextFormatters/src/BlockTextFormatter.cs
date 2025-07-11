@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Oleander.Extensions.Logging.TextFormatters.Abstractions;
 
 namespace Oleander.Extensions.Logging.TextFormatters;
 

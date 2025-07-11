@@ -7,17 +7,13 @@ using Microsoft.Extensions.Options;
 
 namespace Oleander.Extensions.Configuration
 {
-    public class ConfiguredTypesOptionsSnapshot<TOptions> : IConfiguredTypesOptionsSnapshot<TOptions> where TOptions : class
+    public class ConfiguredTypesOptionsSnapshot<TOptions>(IOptionsSnapshot<ConfiguredTypes> optionsSnapshot, IConfigurationRoot configurationRoot)
+        : IConfiguredTypesOptionsSnapshot<TOptions>
+        where TOptions : class
     {
-        private readonly IOptionsSnapshot<ConfiguredTypes> _optionsSnapshot;
-        private readonly IConfigurationRoot _configurationRoot;
+        private readonly IOptionsSnapshot<ConfiguredTypes> _optionsSnapshot = optionsSnapshot ?? throw new ArgumentNullException(nameof(optionsSnapshot));
+        private readonly IConfigurationRoot _configurationRoot = configurationRoot ?? throw new ArgumentNullException(nameof(configurationRoot));
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, TOptions>> _cache = new();
-
-        public ConfiguredTypesOptionsSnapshot(IOptionsSnapshot<ConfiguredTypes> optionsSnapshot, IConfigurationRoot configurationRoot)
-        {
-            this._optionsSnapshot = optionsSnapshot ?? throw new ArgumentNullException(nameof(optionsSnapshot));
-            this._configurationRoot = configurationRoot ?? throw new ArgumentNullException(nameof(configurationRoot));
-        }
 
         #region IConfiguredTypesOptionsSnapshot
 

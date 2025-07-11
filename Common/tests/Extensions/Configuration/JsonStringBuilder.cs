@@ -16,7 +16,7 @@ public static class JsonStringBuilder
         {
             var assemblyQualifiedName = item.Value.GetType().AssemblyQualifiedName;
             if (assemblyQualifiedName == null) continue;
-            var typeInfos = assemblyQualifiedName.Split(new []{", "}, StringSplitOptions.RemoveEmptyEntries);
+            var typeInfos = assemblyQualifiedName.Split([", "], StringSplitOptions.RemoveEmptyEntries);
             typeDescriptions.Add(item.Key, new ConfiguredType { Type = $"{typeInfos[0]}, {typeInfos[1]}" });
         }
 
@@ -24,7 +24,7 @@ public static class JsonStringBuilder
             .Append($"  \"{sectionName}\":");
 
         var jsonString = JsonSerializer.Serialize(typeDescriptions, new JsonSerializerOptions { WriteIndented = true });
-        var lines = jsonString.Split(new []{  Environment.NewLine }, StringSplitOptions.None);
+        var lines = jsonString.Split([Environment.NewLine], StringSplitOptions.None);
 
         for (var i = 0; i < lines.Length; i++)
         {
@@ -41,7 +41,7 @@ public static class JsonStringBuilder
             sb.AppendLine(",").Append($"  \"{item.Key}\":");
 
             jsonString = JsonSerializer.Serialize(item.Value, new JsonSerializerOptions { WriteIndented = true });
-            lines = jsonString.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines = jsonString.Split([Environment.NewLine], StringSplitOptions.None);
 
             for (var i = 0; i < lines.Length; i++)
             {

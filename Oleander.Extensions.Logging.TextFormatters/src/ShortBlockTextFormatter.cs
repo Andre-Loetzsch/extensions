@@ -36,7 +36,7 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
         this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|"));
         this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|"));
 
-        this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|"));
+        this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|") { WordWrapWidth = 250 });
     }
 
     public static ShortBlockTextFormatter CreateInstance()
@@ -46,7 +46,7 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
 
     protected override IEnumerable<TextBlockInfo> GeTextBlockInfos(LogEntry logEntry)
     {
-        this._textBlockInfos[0].SetValue(logEntry.LogEntryId);
+        this._textBlockInfos[0].SetValue(logEntry.LogEntryId.ToString("000000"));
         this._textBlockInfos[1].SetValue(logEntry.DateTime.ToString("yyyy-MM-dd HH:mm:ss fff"));
         
         this._textBlockInfos[2].SetValue(logEntry.MachineName);
@@ -78,7 +78,7 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
         if (logEntry.Exception is null) return this._textBlockInfos;
 
         var list = this._textBlockInfos.ToList();
-        var item = new TextBlockInfo(Pad.PadRight, string.Empty, "|") {WordWrapWidth = 100};
+        var item = new TextBlockInfo(Pad.PadRight, string.Empty, "|") {WordWrapWidth = 150};
         
         item.SetValue(logEntry.Exception);
 
