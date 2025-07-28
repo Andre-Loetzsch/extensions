@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading;
+#if RELEASE
+using BenchmarkDotNet.Running;
+#endif
 using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Logging.Abstractions;
 using Oleander.Extensions.Logging.Providers;

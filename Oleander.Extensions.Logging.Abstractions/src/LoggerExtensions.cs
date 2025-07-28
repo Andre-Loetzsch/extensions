@@ -20,7 +20,7 @@ public static class LoggerExtensions
         lock (loggerMapperSync)
         {
             return logger.AddAttributes([
-                new("{CallingAssembly}", Assembly.GetCallingAssembly().FullName),
+                new("{CallingAssembly}", Assembly.GetCallingAssembly().FullName ?? string.Empty),
                 new("{CallerFilePath}", callerFilePath),
                 new("{CallerMemberName}", callerMemberName),
                 new("{CallerLineNumber}", callerLineNumber)
