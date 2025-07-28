@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Logging.TextFormatters.Abstractions.LoggerSinks;
 
@@ -53,7 +52,7 @@ namespace Oleander.Extensions.Logging.Console
         {
             logEntry.Message ??= string.Empty;
 
-            var messageLines = logEntry.Message.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var messageLines = logEntry.Message.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
             var messageLineDict = new Dictionary<string, string>();
 
             for (var i = 0; i < messageLines.Length; i++)
@@ -61,7 +60,7 @@ namespace Oleander.Extensions.Logging.Console
                 messageLineDict[$"Message{i}"] = messageLines[i];
             }
 
-            var formatMessageLines = formatMessage.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var formatMessageLines = formatMessage.Split([Environment.NewLine], StringSplitOptions.None);
 
             for (var i = 0; i < formatMessageLines.Length; i++)
             {
@@ -79,7 +78,7 @@ namespace Oleander.Extensions.Logging.Console
 
             foreach (var line in formatMessageLines)
             {
-                foreach (var test in line.Split(new []{"%%"}, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var test in line.Split(["%%"], StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (messageLineDict.TryGetValue(test, out var msg))
                     {

@@ -8,13 +8,13 @@ public class LogEntryToStringTextFormatterTest
     [Fact]
     public void TestLogEntryToStringTextFormatter()
     {
-        var logHelper = new LogHelper(new LogEntryToStringTextFormatter(), "LogEntryToStringTextFormatter.log");
-        logHelper.DeleteFile();
-        logHelper.LogDebug();
-        logHelper.LogTrace();
-        logHelper.LogInformation();
-        logHelper.LogWarning();
-        logHelper.LogError();
-        logHelper.LogCritical();
+        new LogHelper(new LogEntryToStringTextFormatter(), "LogEntryToStringTextFormatter.log")
+            .DeleteFile()
+            .LogTrace()
+            .LogInformation()
+            .LogWarning()
+            .LogError()
+            .LogCritical()
+            .LogDebug();
     }
 }

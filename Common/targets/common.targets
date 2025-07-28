@@ -15,10 +15,11 @@
     <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Oleander; Extensions; C#</PackageTags>
-    <PackageReleaseNotes>Added strong name for Netstandard2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>nuget packages updated, Logger extended and log output improved</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <requireLicenseAcceptance>False</requireLicenseAcceptance>
     <SignAssembly>False</SignAssembly>
+    <WarningsAsErrors>OAVBT47</WarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup Condition="Exists('$(SolutionDir)Common\oleander.snk')">

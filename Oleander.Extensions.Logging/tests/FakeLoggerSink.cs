@@ -5,7 +5,7 @@ namespace Oleander.Extensions.Logging.Tests;
 
 public class FakeLoggerSink : LoggerSinkBase
 {
-    public List<LogEntry> Entries { get; } = new();
+    public List<LogEntry> Entries { get; } = [];
 
     public override void Log(LogEntry logEntry)
     {

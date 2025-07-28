@@ -3,14 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Oleander.Extensions.Logging.Abstractions
 {
-    public class Logger : ILogger
+    public class Logger(string category) : ILogger
     {
-        private readonly ILogger _innerInstance;
-
-        public Logger(string category)
-        {
-            this._innerInstance = LoggerFactory.CreateLogger(category);
-        }
+        private readonly ILogger _innerInstance = LoggerFactory.CreateLogger(category);
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {

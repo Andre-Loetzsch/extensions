@@ -5,7 +5,7 @@ namespace Oleander.Extensions.Logging.BackgroundWork
 {
     internal class LogEntryStack : IDisposable
     {
-        private readonly List<LogEntry?> _stack = new();
+        private readonly List<LogEntry?> _stack = [];
         private int _getIndex;
 
         public int Length => this._stack.Count;

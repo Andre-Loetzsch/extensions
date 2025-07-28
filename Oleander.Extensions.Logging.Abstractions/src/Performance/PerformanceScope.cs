@@ -5,19 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Oleander.Extensions.Logging.Abstractions.Performance
 {
-    public class PerformanceScope : IDisposable
+    public class PerformanceScope(ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, IDisposable? innerScope)
+        : IDisposable
     {
-        private readonly ILogger _logger;
-        private readonly IEnumerable<PerformanceControlPointPolicy> _policies;
-        private readonly IDisposable? _innerScope;
+        private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IEnumerable<PerformanceControlPointPolicy> _policies = policies ?? throw new ArgumentNullException(nameof(policies));
         private DateTime _startDateTime = DateTime.Now;
-
-        public PerformanceScope(ILogger logger, IEnumerable<PerformanceControlPointPolicy> policies, IDisposable? innerScope)
-        {
-            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this._policies = policies ?? throw new ArgumentNullException(nameof(policies));
-            this._innerScope = innerScope;
-        }
 
         public void SetPerformanceControlPoint(string policyName)
         {
@@ -35,7 +28,7 @@ namespace Oleander.Extensions.Logging.Abstractions.Performance
 
         public void Dispose()
         {
-            this._innerScope?.Dispose();
+            innerScope?.Dispose();
             GC.SuppressFinalize(this);
         }
 

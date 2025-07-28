@@ -1,7 +1,9 @@
-﻿using System;
-using System.IO;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Logging.TextFormatters.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Oleander.Extensions.Logging.TextFormatters.Tests.Common
 {
@@ -17,61 +19,77 @@ namespace Oleander.Extensions.Logging.TextFormatters.Tests.Common
             this._fileName = Path.Combine(loggingDir, fileName);
         }
 
-        public void LogDebug()
+        public LogHelper LogDebug()
         {
-            this.Log("Test Debug", "This is a test debug message.", LogLevel.Debug);
+            this.Log(null, "Test Debug", "This is a test debug message.", LogLevel.Debug);
+            return this;
         }
 
-        public void LogTrace()
+        public LogHelper LogTrace()
         {
-            this.Log("Test Trace", "This is a test trace message.", LogLevel.Trace);
+            this.Log(null, "Test Trace", "This is a test trace message.", LogLevel.Trace);
+            return this;
         }
 
-        public void LogInformation()
+        public LogHelper LogInformation()
         {
-            this.Log("Test Information", "This is a test information message.", LogLevel.Information);
+            this.Log(null, "Test Information", "This is a test information message.", LogLevel.Information);
+            return this;
         }
 
-        public void LogWarning()
+        public LogHelper LogWarning()
         {
-            this.Log("Test Warning", "This is a test warning message.", LogLevel.Warning);
+            this.Log(null, "Test Warning", "This is a test warning message.", LogLevel.Warning);
+            return this;
         }
 
-        public void LogError()
+        public LogHelper LogError()
         {
-            this.Log("Test Error", $"This is a test error message.{Environment.NewLine}{Environment.NewLine}Error occurred!", LogLevel.Error);
+            this.Log(null, "Test Error", $"This is a test error message.{Environment.NewLine}{Environment.NewLine}Error occurred!", LogLevel.Error);
+            return this;
         }
 
-        public void LogCritical()
+        public LogHelper LogCritical()
         {
             try
             {
-                throw new NotImplementedException("Exception occurred!");
+                throw new NotImplementedException("This operation is not supported!", 
+                    new ArgumentException("The argument is not valid in this context!", "arg1"));
             }
             catch (Exception ex)
             {
-                this.Log("Test Critical", $"This is a test critical message.{Environment.NewLine}{ex}", LogLevel.Critical);
+                this.Log(ex, "Test Critical", $"This is a  test critical message: {ex.Message}", LogLevel.Critical);
             }
+            return this;
         }
 
-        public void Log(string logCategory, string message, LogLevel logLevel)
+        private void Log(Exception? ex, string logCategory, string message, LogLevel logLevel)
         {
-            this.WriteFile(this._textFormatter.Format(new()
+            var logEnty = new LogEntry
             {
                 LogCategory = logCategory,
                 Message = message,
-                LogLevel = logLevel
-            }));
+                LogLevel = logLevel,
+                Correlation = new KeyValuePair<string, int>("TEST", 1234), 
+                Exception = ex
+            };
+
+            logEnty.Attributes["{CorrelationId}"] = logEnty.Correlation;
+            logEnty.Attributes["{CallingAssembly}"] = Assembly.GetCallingAssembly().FullName ?? "";
+            logEnty.Attributes["{CallerFilePath}"] = Assembly.GetCallingAssembly().Location;
+
+            this.WriteFile(this._textFormatter.Format(logEnty));
         }
 
-        public void WriteFile(string logEntry)
+        private void WriteFile(string logEntry)
         {
             File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this._fileName), logEntry);
         }
 
-        public void DeleteFile()
+        public LogHelper DeleteFile()
         {
             File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this._fileName));
+            return this;
         }
     }
 }

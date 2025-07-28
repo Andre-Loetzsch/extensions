@@ -8,13 +8,13 @@ public class LogEntryToStringVerticalTextFormatterTest
     [Fact]
     public void TestLogEntryToStringVerticalTextFormatter()
     {
-        var logHelper = new LogHelper(new LogEntryToStringVerticalTextFormatter(), "LogEntryToStringVerticalTextFormatter.log");
-        logHelper.DeleteFile();
-        logHelper.LogDebug();
-        logHelper.LogTrace();
-        logHelper.LogInformation();
-        logHelper.LogWarning();
-        logHelper.LogError();
-        logHelper.LogCritical();
+        new LogHelper(new LogEntryToStringVerticalTextFormatter(), "LogEntryToStringVerticalTextFormatter.log")
+            .DeleteFile()
+            .LogTrace()
+            .LogInformation()
+            .LogWarning()
+            .LogError()
+            .LogCritical()
+            .LogDebug();
     }
 }

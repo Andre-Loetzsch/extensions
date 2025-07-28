@@ -4,23 +4,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Oleander.Extensions.Logging.Abstractions
 {
-    internal class LoggerMapper : ILogger
+    internal class LoggerMapper(ILogger logger) : ILogger
     {
-        private readonly ILogger _logger;
-
+        private readonly ILogger _logger = logger;
         private static readonly Func<FormattedLogValues, Exception?, string> messageFormatter = MessageFormatter;
 
-        public LoggerMapper(ILogger logger)
-        {
-            this._logger = logger;
-        }
 
         private static string MessageFormatter(FormattedLogValues state, Exception? error)
         {
             return state.ToString();
         }
 
-        public Dictionary<string, object?> AdditionalData { get; set; } = new();
+        public Dictionary<string, object?> AdditionalData { get; } = new();
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
@@ -43,7 +38,20 @@ namespace Oleander.Extensions.Logging.Abstractions
 
             values.AddRange(this.AdditionalData);
             var formattedLogValues = new FormattedLogValues(state?.ToString() ?? string.Empty, values);
-            this._logger.Log(logLevel, eventId, formattedLogValues, exception, messageFormatter);
+            var logger = this._logger;
+
+            while (logger is LoggerMapper loggerMapper)
+            {
+                logger = loggerMapper._logger;
+            }
+
+            logger.Log(logLevel, eventId, formattedLogValues, exception, messageFormatter);
+
+            // may only be used once, otherwise the information may be incorrect
+            this.AdditionalData.Remove("{CallingAssembly}");
+            this.AdditionalData.Remove("{CallerFilePath}");
+            this.AdditionalData.Remove("{CallerMemberName}");
+            this.AdditionalData.Remove("{CallerLineNumber}");
         }
     }
 }

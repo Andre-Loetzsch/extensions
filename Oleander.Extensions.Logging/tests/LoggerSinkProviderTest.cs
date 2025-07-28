@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oleander.Extensions.Configuration;
-using Oleander.Extensions.Logging.Abstractions;
 using Oleander.Extensions.Logging.Providers;
 
 namespace Oleander.Extensions.Logging.Tests;
@@ -31,12 +30,11 @@ public class LoggerSinkProviderTest
     {
         var loggerSinkProvider = new LoggerSinkProvider();
 
-        loggerSinkProvider.AddOrUpdateLoggerSinks(new []
-        {
+        loggerSinkProvider.AddOrUpdateLoggerSinks([
             new FakeLoggerSink { Name = "s1"},
             new FakeLoggerSink { Name = "s2"},
             new FakeLoggerSink { Name = "s3"}
-        });
+        ]);
 
         foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
         {
@@ -45,12 +43,11 @@ public class LoggerSinkProviderTest
 
         var loggerSinks = loggerSinkProvider.LoggerSinks.ToList();
 
-        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
-        {
+        loggerSinkProvider.AddOrUpdateLoggerSinks([
             new FakeLoggerSink { Name = "s1"},
             new FakeLoggerSink { Name = "s2"},
             new FakeLoggerSink { Name = "s3"}
-        });
+        ]);
 
         foreach (var loggerSink in loggerSinks)
         {
@@ -68,12 +65,11 @@ public class LoggerSinkProviderTest
     {
         var loggerSinkProvider = new LoggerSinkProvider();
 
-        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
-        {
+        loggerSinkProvider.AddOrUpdateLoggerSinks([
             new FakeLoggerSink { Name = "s1"},
             new FakeLoggerSink { Name = "s2"},
             new FakeLoggerSink { Name = "s3"}
-        });
+        ]);
 
         foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
         {
@@ -97,12 +93,11 @@ public class LoggerSinkProviderTest
     {
         var loggerSinkProvider = new LoggerSinkProvider();
 
-        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
-        {
+        loggerSinkProvider.AddOrUpdateLoggerSinks([
             new FakeLoggerSink { Name = "s1"},
             new FakeLoggerSink { Name = "s2"},
             new FakeLoggerSink { Name = "s3"}
-        });
+        ]);
 
         foreach (var loggerSink in loggerSinkProvider.LoggerSinks.ToList())
         {
@@ -205,23 +200,23 @@ public class LoggerSinkProviderTest
     {
         var defaultCfg = new Dictionary<string, object>
         {
-            ["sink 1"] = new FakeLoggerSink { Categories = new[] { "A", "B", "D" }, LogLevel = LogLevel.Debug, Name = "Sink 1" },
-            ["sink 2"] = new FakeLoggerSink { Categories = new[] { "A", "B", "C" }, LogLevel = LogLevel.Information, Name = "Sink 2" },
-            ["sink 3"] = new FakeLoggerSink { Categories = new[] { "A", "C", "D" }, LogLevel = LogLevel.Error, Name = "Sink 3" }
+            ["sink 1"] = new FakeLoggerSink { Categories = ["A", "B", "D"], LogLevel = LogLevel.Debug, Name = "Sink 1" },
+            ["sink 2"] = new FakeLoggerSink { Categories = ["A", "B", "C"], LogLevel = LogLevel.Information, Name = "Sink 2" },
+            ["sink 3"] = new FakeLoggerSink { Categories = ["A", "C", "D"], LogLevel = LogLevel.Error, Name = "Sink 3" }
         };
 
         var prodCfg = new Dictionary<string, object>
         {
-            ["sink 4"] = new FakeLoggerSink { Categories = new[] { "A", "B", "D" }, LogLevel = LogLevel.Debug, Name = "Sink 4" },
-            ["sink 5"] = new FakeLoggerSink { Categories = new[] { "A", "B", "C" }, LogLevel = LogLevel.Information, Name = "Sink 5" },
-            ["sink 6"] = new FakeLoggerSink { Categories = new[] { "A", "C", "D" }, LogLevel = LogLevel.Error, Name = "Sink 6" }
+            ["sink 4"] = new FakeLoggerSink { Categories = ["A", "B", "D"], LogLevel = LogLevel.Debug, Name = "Sink 4" },
+            ["sink 5"] = new FakeLoggerSink { Categories = ["A", "B", "C"], LogLevel = LogLevel.Information, Name = "Sink 5" },
+            ["sink 6"] = new FakeLoggerSink { Categories = ["A", "C", "D"], LogLevel = LogLevel.Error, Name = "Sink 6" }
         };
 
         var devCfg = new Dictionary<string, object>
         {
-            ["sink 7"] = new FakeLoggerSink { Categories = new[] { "A", "B", "D" }, LogLevel = LogLevel.Debug, Name = "Sink 7" },
-            ["sink 8"] = new FakeLoggerSink { Categories = new[] { "A", "B", "C" }, LogLevel = LogLevel.Information, Name = "Sink 8" },
-            ["sink 9"] = new FakeLoggerSink { Categories = new[] { "A", "C", "D" }, LogLevel = LogLevel.Error, Name = "Sink 9" }
+            ["sink 7"] = new FakeLoggerSink { Categories = ["A", "B", "D"], LogLevel = LogLevel.Debug, Name = "Sink 7" },
+            ["sink 8"] = new FakeLoggerSink { Categories = ["A", "B", "C"], LogLevel = LogLevel.Information, Name = "Sink 8" },
+            ["sink 9"] = new FakeLoggerSink { Categories = ["A", "C", "D"], LogLevel = LogLevel.Error, Name = "Sink 9" }
         };
 
         var defaultMs = new MemoryStream();
@@ -518,18 +513,17 @@ public class LoggerSinkProviderTest
     {
         var loggerSinkProvider = new LoggerSinkProvider();
 
-        var loggerSink1 = new FakeLoggerSink { Name = "S1", LogLevel = LogLevel.Information, Categories = new[] { "Test" } };
-        var loggerSink2 = new FakeLoggerSink { Name = "S2", LogLevel = LogLevel.Information, Categories = new[] { "Test*" } };
-        var loggerSink3 = new FakeLoggerSink { Name = "S3", LogLevel = LogLevel.Information, Categories = new[] { "*Test" } };
-        var loggerSink4 = new FakeLoggerSink { Name = "S4", LogLevel = LogLevel.Information, Categories = new[] { "*Test*" } };
+        var loggerSink1 = new FakeLoggerSink { Name = "S1", LogLevel = LogLevel.Information, Categories = ["Test"] };
+        var loggerSink2 = new FakeLoggerSink { Name = "S2", LogLevel = LogLevel.Information, Categories = ["Test*"] };
+        var loggerSink3 = new FakeLoggerSink { Name = "S3", LogLevel = LogLevel.Information, Categories = ["*Test"] };
+        var loggerSink4 = new FakeLoggerSink { Name = "S4", LogLevel = LogLevel.Information, Categories = ["*Test*"] };
 
-        loggerSinkProvider.AddOrUpdateLoggerSinks(new[]
-        {
+        loggerSinkProvider.AddOrUpdateLoggerSinks([
             loggerSink1,
             loggerSink2,
             loggerSink3,
             loggerSink4
-        });
+        ]);
 
         var logger1 = loggerSinkProvider.CreateLogger("Test");
         var logger2 = loggerSinkProvider.CreateLogger("Test1");
