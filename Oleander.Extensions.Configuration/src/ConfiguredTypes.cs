@@ -84,7 +84,7 @@ namespace Oleander.Extensions.Configuration
             try
             {
                 return string.IsNullOrEmpty(configuredType.Type) ?
-                    default : Type.GetType(configuredType.Type, true);
+                    null : Type.GetType(configuredType.Type, true);
             }
             catch (Exception ex)
             {

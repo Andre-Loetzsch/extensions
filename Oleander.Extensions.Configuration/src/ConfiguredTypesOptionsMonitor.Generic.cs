@@ -14,7 +14,7 @@ namespace Oleander.Extensions.Configuration
         private readonly IConfigurationRoot _configurationRoot;
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, TOptions>> _cache = new();
 
-        private readonly List<IDisposable> _registrations = new();
+        private readonly List<IDisposable> _registrations = [];
         private event Action<TOptions?, string?, string?>? Changed;
         private event Action<string?>? ConfigurationChanged;
 
@@ -83,8 +83,8 @@ namespace Oleander.Extensions.Configuration
 
         public TOptions? Get(string? name, string? key)
         {
-            if (name == null) return default;
-            if (key == null) return default;
+            if (name == null) return null;
+            if (key == null) return null;
 
             if (this.GetInnerCache(name).TryGetValue(key, out var options))
             {

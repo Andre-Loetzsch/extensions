@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.Logging;
-using Oleander.Extensions.Logging.SourceHelper;
 
 namespace Oleander.Extensions.Logging
 {
@@ -71,7 +70,7 @@ namespace Oleander.Extensions.Logging
         public IDictionary<string, object> Attributes { get; set; }
         public string? Message { get; set; }
         // ReSharper disable once CollectionNeverQueried.Global
-        public List<LogScopeInfo> Scopes { get; set; } = new ();
+        public List<LogScopeInfo> Scopes { get; set; } = [];
 
         internal bool IsSourceNullOrEmpty => string.IsNullOrEmpty(this._source);
 

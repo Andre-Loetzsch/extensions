@@ -13,8 +13,8 @@ namespace Oleander.Extensions.Logging.SourceHelper
     [SuppressMessage("ReSharper", "ReplaceSubstringWithRangeIndexer")]
     internal static class SourceResolver
     {
-        private static readonly List<Type> typeIgnoreList = new();
-        private static readonly List<string> namespaceIgnoreList = new();
+        private static readonly List<Type> typeIgnoreList = [];
+        private static readonly List<string> namespaceIgnoreList = [];
 
         static SourceResolver()
         {
@@ -85,7 +85,7 @@ namespace Oleander.Extensions.Logging.SourceHelper
                 attributes.TryGetValue("{CallerLineNumber}", out value) && value is int callerLineNumber)
             {
                 var callerFilePathReplaced = callerFilePath.Replace('\\', '.').Replace('/', '.');
-                var assemblyName = assemblyFullName.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries)[0];
+                var assemblyName = assemblyFullName.Split([", "], StringSplitOptions.RemoveEmptyEntries)[0];
                 var indexOf = callerFilePathReplaced.ToLower().IndexOf(assemblyName.ToLower(), StringComparison.Ordinal);
 
                 if (indexOf == -1)

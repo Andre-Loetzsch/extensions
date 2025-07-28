@@ -79,7 +79,7 @@ public class ZipFileSink : FileSink
             partialFileName = tempFileName;
         }
 
-        CompressFiles(this.CompressionLevel, zipFileName, new[] { partialFileName });
+        CompressFiles(this.CompressionLevel, zipFileName, [partialFileName]);
 
         IOFile.Delete(partialFileName);
     }

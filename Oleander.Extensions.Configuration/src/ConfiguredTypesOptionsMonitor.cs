@@ -13,7 +13,7 @@ namespace Oleander.Extensions.Configuration
         private readonly IConfigurationRoot _configurationRoot;
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, object>> _cache = new();
 
-        private readonly List<IDisposable> _registrations = new();
+        private readonly List<IDisposable> _registrations = [];
         private event Action<object?, string?, string>? Changed;
         private event Action<string?>? ConfigurationChanged;
         

@@ -7,16 +7,10 @@ namespace Oleander.Extensions.Logging.SourceHelper
     internal class SourceCache
     {
         [DebuggerDisplay("Count:{Count} Source:{Source}")]
-        private class SourceCacheItem
+        private class SourceCacheItem(string source)
         {
-            public SourceCacheItem(string source)
-            {
-                this.Source = source;
-                this.Count = 1;
-            }
-
-            public string Source { get; }
-            public int Count { get; set; }
+            public string Source { get; } = source;
+            public int Count { get; set; } = 1;
         }
 
         private readonly ConcurrentDictionary<string, SourceCacheItem> _cache = new();

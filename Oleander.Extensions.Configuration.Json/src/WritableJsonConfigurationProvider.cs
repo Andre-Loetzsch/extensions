@@ -3,12 +3,8 @@ using Microsoft.Extensions.Configuration.Json;
 
 namespace Oleander.Extensions.Configuration.Json
 {
-    public class WritableJsonConfigurationProvider : JsonConfigurationProvider
+    public class WritableJsonConfigurationProvider(JsonConfigurationSource source) : JsonConfigurationProvider(source)
     {
-        public WritableJsonConfigurationProvider(JsonConfigurationSource source) : base(source)
-        {
-        }
-
         public override void Set(string key, string? value)
         {
             if (this.Source.FileProvider == null) return;

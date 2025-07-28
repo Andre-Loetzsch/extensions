@@ -16,7 +16,7 @@ namespace Oleander.Extensions.Logging.File.Benchmarks
         {
             this._loggerSinkProvider.AddOrUpdateLoggerSink(new FileSink
             {
-                Categories = new[] { "ParameterizedLogFormat", "UnparameterizedLogFormat" },
+                Categories = ["ParameterizedLogFormat", "UnparameterizedLogFormat"],
                 LogLevel = LogLevel.Debug,
                 Name = "Unit Test Sink",
                 OverrideExistingFile = true,

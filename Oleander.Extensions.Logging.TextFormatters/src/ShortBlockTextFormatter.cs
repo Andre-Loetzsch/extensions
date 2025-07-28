@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Oleander.Extensions.Logging.TextFormatters;
 
 public class ShortBlockTextFormatter : BlockTextFormatterBase
 {
-    private readonly List<TextBlockInfo> _textBlockInfos = new();
+    private readonly List<TextBlockInfo> _textBlockInfos = [];
 
     public ShortBlockTextFormatter()
     {
@@ -35,7 +36,7 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
         this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|"));
         this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|"));
 
-        this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|"));
+        this._textBlockInfos.Add(new(Pad.PadRight, string.Empty, "|") { WordWrapWidth = 250 });
     }
 
     public static ShortBlockTextFormatter CreateInstance()
@@ -45,7 +46,7 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
 
     protected override IEnumerable<TextBlockInfo> GeTextBlockInfos(LogEntry logEntry)
     {
-        this._textBlockInfos[0].SetValue(logEntry.LogEntryId);
+        this._textBlockInfos[0].SetValue(logEntry.LogEntryId.ToString("000000"));
         this._textBlockInfos[1].SetValue(logEntry.DateTime.ToString("yyyy-MM-dd HH:mm:ss fff"));
         
         this._textBlockInfos[2].SetValue(logEntry.MachineName);
@@ -74,6 +75,15 @@ public class ShortBlockTextFormatter : BlockTextFormatterBase
         
         this._textBlockInfos[18].SetValue(logEntry.Message);
 
-        return this._textBlockInfos;
+        if (logEntry.Exception is null) return this._textBlockInfos;
+
+        var list = this._textBlockInfos.ToList();
+        var item = new TextBlockInfo(Pad.PadRight, string.Empty, "|") {WordWrapWidth = 150};
+        
+        item.SetValue(logEntry.Exception);
+
+        list.Add(item);
+
+        return list;
     }
 }

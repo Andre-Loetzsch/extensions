@@ -8,13 +8,13 @@ public class ShortBlockTextFormatterTest
     [Fact]
     public void TestBlockTextFormatter()
     {
-        var logHelper = new LogHelper(new ShortBlockTextFormatter(), "ShortBlockTextFormatter.log");
-        logHelper.DeleteFile();
-        logHelper.LogDebug();
-        logHelper.LogTrace();
-        logHelper.LogInformation();
-        logHelper.LogWarning();
-        logHelper.LogError();
-        logHelper.LogCritical();
+        new LogHelper(new ShortBlockTextFormatter(), "ShortBlockTextFormatter.log")
+            .DeleteFile()
+            .LogTrace()
+            .LogInformation()
+            .LogWarning()
+            .LogError()
+            .LogCritical()
+            .LogDebug();
     }
 }
