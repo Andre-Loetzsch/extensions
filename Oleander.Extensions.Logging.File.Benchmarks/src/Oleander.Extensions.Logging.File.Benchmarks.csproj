@@ -27,7 +27,7 @@
   
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
-    <PackageReference Condition="'$Configuration)'=='Debug'" Include="Oleander.Assembly.Versioning.BuildTask" Version="1.3.0">
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
