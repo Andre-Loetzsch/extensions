@@ -3,9 +3,9 @@
 	<Import Project="..\..\Common\targets\common.targets" />
 
 	<PropertyGroup>
-		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<AssemblyVersion>2.1.0.0</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
-		<SourceRevisionId>776169f20b9fde9acb608f2cd0f16e4a90048bff</SourceRevisionId>
+		<SourceRevisionId>07a06422273d47ade98a1325553430defa46efe6</SourceRevisionId>
 		<VersionSuffix></VersionSuffix>
 		<Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
 		<Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>

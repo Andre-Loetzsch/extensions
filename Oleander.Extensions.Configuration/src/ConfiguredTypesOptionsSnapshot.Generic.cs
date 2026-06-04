@@ -66,6 +66,8 @@ namespace Oleander.Extensions.Configuration
 
         private static TOptions? GetOrCreateInstance(TOptions? instance)
         {
+            return instance;
+
             if (instance != null) return instance;
 
             var constructorInfo = typeof(TOptions).GetConstructor(

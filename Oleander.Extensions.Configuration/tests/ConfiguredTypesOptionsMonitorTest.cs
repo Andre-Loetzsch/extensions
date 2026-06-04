@@ -97,8 +97,8 @@ namespace Oleander.Extensions.Configuration.Tests
             Assert.AreEqual("C1B", c1OptionsMonitor.GetKeys("B").ToList()[0]);
             Assert.AreEqual("Value1B", c1OptionsMonitor.Get("B", "C1B")!.Property1);
             
-            Assert.IsNull(c1OptionsMonitor.Get("C2")!.Property1);
-            Assert.IsNull(c1OptionsMonitor.Get("C3")!.Property1);
+            Assert.IsNull(c1OptionsMonitor.Get("C2"));
+            Assert.IsNull(c1OptionsMonitor.Get("C3"));
 
             // -- Class2 monitor
             Assert.AreEqual(1, c2OptionsMonitor.GetKeys().Count);
@@ -113,8 +113,8 @@ namespace Oleander.Extensions.Configuration.Tests
             Assert.AreEqual("C2B", c2OptionsMonitor.GetKeys("B").ToList()[0]);
             Assert.AreEqual("Value2B", c2OptionsMonitor.Get("B", "C2B")!.Property2);
 
-            Assert.IsNull(c2OptionsMonitor.Get("C1")!.Property2);
-            Assert.IsNull(c2OptionsMonitor.Get("C3")!.Property2);
+            Assert.IsNull(c2OptionsMonitor.Get("C1"));
+            Assert.IsNull(c2OptionsMonitor.Get("C3"));
 
             // -- Class3 monitor
             Assert.AreEqual(1, c3OptionsMonitor.GetKeys().Count);
@@ -129,8 +129,8 @@ namespace Oleander.Extensions.Configuration.Tests
             Assert.AreEqual("C3B", c3OptionsMonitor.GetKeys("B").ToList()[0]);
             Assert.AreEqual("Value3B", c3OptionsMonitor.Get("B", "C3B")!.Property3);
 
-            Assert.IsNull(c3OptionsMonitor.Get("C1")!.Property3);
-            Assert.IsNull(c3OptionsMonitor.Get("C2")!.Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C1"));
+            Assert.IsNull(c3OptionsMonitor.Get("C2"));
         }
 
         [TestMethod]
