@@ -45,7 +45,6 @@ jobs:
         run: dotnet nuget push "${{env.PACKOUTDIR}}\*.nupkg" -k ${{secrets.GITHUB_TOKEN}} -s "https://nuget.pkg.github.com/${{github.repository_owner}}/index.json" --skip-duplicate
 
       - name: 'delete Oleander.Extensions.Configuration-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Configuration'
@@ -54,7 +53,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Configuration.Json-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Configuration.Json'
@@ -63,7 +61,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.DependencyInjection-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.DependencyInjection'
@@ -72,7 +69,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging'
@@ -81,7 +77,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging.Abstractions-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging.Abstractions'
@@ -90,7 +85,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging.Console-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging.Console'
@@ -99,7 +93,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging.File-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging.File'
@@ -108,7 +101,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging.TextFormatters-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging.TextFormatters'
@@ -117,7 +109,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging.TextFormatters.Abstractions-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging.TextFormatters.Abstractions'
@@ -126,7 +117,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Logging.ZipFile-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Logging.ZipFile'
@@ -135,7 +125,6 @@ jobs:
           delete-only-pre-release-versions: "true"
          
       - name: 'delete Oleander.Extensions.Hosting.Abstractions-dev old packages'
-        if: env.VERSION_SUFFIX == 'dev'
         uses: actions/delete-package-versions@v5
         with:
           package-name: 'Oleander.Extensions.Hosting.Abstractions'
