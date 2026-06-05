@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -27,22 +26,7 @@ namespace Oleander.Extensions.Configuration
         public TOptions? Get(string? key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
-            return GetOrCreateInstance(this._configuredTypes.Get<TOptions>(key));
-        }
-
-        #endregion
-
-        #region private members
-
-        private static TOptions? GetOrCreateInstance(TOptions? instance)
-        {
-            if (instance != null) return instance;
-
-            var constructorInfo = typeof(TOptions).GetConstructor(
-                BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null);
-
-            return constructorInfo == null ?
-                null : Activator.CreateInstance<TOptions>();
+            return this._configuredTypes.Get<TOptions>(key);
         }
 
         #endregion

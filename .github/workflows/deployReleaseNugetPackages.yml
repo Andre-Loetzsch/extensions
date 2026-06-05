@@ -1,0 +1,55 @@
+name: 'deployReleaseNugetPackages'
+
+on:
+  pull_request:
+    branches:
+    - release
+    # types: [opened, reopened]
+
+  workflow_dispatch:
+
+env:
+  PACKOUTDIR: ${{ github.workspace }}\packoutput
+  SOLUTION: ${{ github.workspace }}\extensions.sln
+jobs:
+  deploy_dev:
+    name: 'Deploy release packages'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'nuget add source'
+        shell: bash
+        run: dotnet nuget add source --username "Andre-Loetzsch" --password ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Andre-Loetzsch/index.json"
+
+      - name: 'dotnet build to calculate versions'
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: dotnet build "${{env.SOLUTION}}" --configuration Release --property:GeneratePackageOnBuild=false 
+
+      - name: 'dotnet build'
+        shell: bash
+        run: dotnet build "${{env.SOLUTION}}" --configuration Release --property:versioningTask-disabled=true
+
+      - name: 'dotnet test'
+        shell: bash
+        run: dotnet test "${{env.SOLUTION}}" --configuration Release --no-build 
+
+      - name: 'dotnet pack release version'
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: dotnet pack "${{env.SOLUTION}}" --configuration Release --output "${{env.PACKOUTDIR}}" --no-restore --property:versioningTask-disabled=true --property:NoWarn=OAVBT46
+
+      - name: 'Push nuget packages'
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: dotnet nuget push "${{env.PACKOUTDIR}}\*.nupkg" --api-key ${{secrets.GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/${{github.repository_owner}}/index.json" --skip-duplicate
+
+      - name: 'Push nuget packages to NugetOrg'
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: dotnet nuget push "${{env.PACKOUTDIR}}\*.nupkg" --api-key "${{ secrets.NUGETORG_ACCESS_TOKEN }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
