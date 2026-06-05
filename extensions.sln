@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34701.34
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11801.241 oobstable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8E26E355-6FC7-4B3E-80B0-AA8BEE4D522B}"
 EndProject
@@ -82,7 +82,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{063E4612-DD6B-4BC7-A09F-EEF4C38EC906}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\deployNugetPackages.yml = .github\workflows\deployNugetPackages.yml
+		.github\workflows\deployDevNugetPackages.yml = .github\workflows\deployDevNugetPackages.yml
+		.github\workflows\deployReleaseNugetPackages.yml = .github\workflows\deployReleaseNugetPackages.yml
 	EndProjectSection
 EndProject
 Global

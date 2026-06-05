@@ -1,0 +1,144 @@
+name: 'deployDevNugetPackages'
+
+on:
+  pull_request:
+    branches:
+    - main
+    # types: [opened, reopened, edited]
+
+  workflow_dispatch:
+
+env:
+  PACKOUTDIR: ${{ github.workspace }}\packoutput
+  SOLUTION: ${{ github.workspace }}\extensions.sln
+jobs:
+  deploy_dev:
+    name: 'Deploy dev packages'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+    
+      - name: 'nuget add source'
+        shell: bash
+        run: dotnet nuget add source --username "Andre-Loetzsch" --password ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Andre-Loetzsch/index.json"
+
+      - name: 'dotnet build'
+        shell: bash
+        run: dotnet build "${{env.SOLUTION}}" --configuration Debug --property:VersionDevSuffix=dev --property:GeneratePackageOnBuild=false --property:versioningTask-disabled=true
+
+      - name: 'dotnet test'
+        shell: bash
+        run: dotnet test "${{env.SOLUTION}}" --configuration Debug --no-build 
+
+      - name: 'dotnet pack dev version'
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: dotnet pack "${{env.SOLUTION}}" --configuration Debug --output "${{env.PACKOUTDIR}}" --no-restore --property:versioningTask-disabled=true --property:VersionDevSuffix=dev 
+
+      - name: 'Push nuget packages'
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: dotnet nuget push "${{env.PACKOUTDIR}}\*.nupkg" -k ${{secrets.GITHUB_TOKEN}} -s "https://nuget.pkg.github.com/${{github.repository_owner}}/index.json" --skip-duplicate
+
+      - name: 'delete Oleander.Extensions.Configuration-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Configuration'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Configuration.Json-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Configuration.Json'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.DependencyInjection-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.DependencyInjection'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging.Abstractions-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging.Abstractions'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging.Console-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging.Console'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging.File-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging.File'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging.TextFormatters-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging.TextFormatters'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging.TextFormatters.Abstractions-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging.TextFormatters.Abstractions'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Logging.ZipFile-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Logging.ZipFile'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
+         
+      - name: 'delete Oleander.Extensions.Hosting.Abstractions-dev old packages'
+        if: env.VERSION_SUFFIX == 'dev'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'Oleander.Extensions.Hosting.Abstractions'
+          package-type: 'nuget'
+          min-versions-to-keep: 5
+          delete-only-pre-release-versions: "true"
