@@ -66,7 +66,7 @@ namespace Oleander.Extensions.Configuration.Tests
             {
                 var serviceProvider = collection.BuildServiceProvider();
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                
+
                 collection
                     .AddSingleton((IConfigurationRoot)configuration)
                     .Configure<ConfiguredTypes>(configuration.GetSection("types"))
@@ -96,7 +96,7 @@ namespace Oleander.Extensions.Configuration.Tests
             Assert.AreEqual(1, c1OptionsMonitor.GetKeys("B").Count);
             Assert.AreEqual("C1B", c1OptionsMonitor.GetKeys("B").ToList()[0]);
             Assert.AreEqual("Value1B", c1OptionsMonitor.Get("B", "C1B")!.Property1);
-            
+
             Assert.IsNull(c1OptionsMonitor.Get("C2"));
             Assert.IsNull(c1OptionsMonitor.Get("C3"));
 
@@ -106,7 +106,7 @@ namespace Oleander.Extensions.Configuration.Tests
             Assert.AreEqual("Value2", c2OptionsMonitor.Get("C2")!.Property2);
 
             Assert.AreEqual(1, c2OptionsMonitor.GetKeys("A").Count);
-            Assert.AreEqual("C2A", c2OptionsMonitor.GetKeys("A").ToList()[0]); 
+            Assert.AreEqual("C2A", c2OptionsMonitor.GetKeys("A").ToList()[0]);
             Assert.AreEqual("Value2A", c2OptionsMonitor.Get("A", "C2A")!.Property2);
 
             Assert.AreEqual(1, c2OptionsMonitor.GetKeys().Count);
@@ -118,7 +118,7 @@ namespace Oleander.Extensions.Configuration.Tests
 
             // -- Class3 monitor
             Assert.AreEqual(1, c3OptionsMonitor.GetKeys().Count);
-            Assert.AreEqual("C3", c3OptionsMonitor.GetKeys().ToList()[0]); 
+            Assert.AreEqual("C3", c3OptionsMonitor.GetKeys().ToList()[0]);
             Assert.AreEqual("Value3", c3OptionsMonitor.Get("C3")!.Property3);
 
             Assert.AreEqual(1, c3OptionsMonitor.GetKeys().Count);
@@ -182,7 +182,7 @@ namespace Oleander.Extensions.Configuration.Tests
             {
                 var serviceProvider = collection.BuildServiceProvider();
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                
+
                 collection
                     .AddSingleton((IConfigurationRoot)configuration)
                     .Configure<ConfiguredTypes>(configuration.GetSection("types"))
@@ -298,7 +298,7 @@ namespace Oleander.Extensions.Configuration.Tests
             {
                 var serviceProvider = collection.BuildServiceProvider();
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                
+
                 collection
                     .AddSingleton((IConfigurationRoot)configuration)
                     .Configure<ConfiguredTypes>(configuration.GetSection("types"))
@@ -410,7 +410,7 @@ namespace Oleander.Extensions.Configuration.Tests
             {
                 var serviceProvider = collection.BuildServiceProvider();
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                
+
                 collection
                     .AddSingleton((IConfigurationRoot)configuration)
                     .Configure<ConfiguredTypes>(configuration.GetSection("types"))
@@ -480,7 +480,7 @@ namespace Oleander.Extensions.Configuration.Tests
             {
                 var serviceProvider = collection.BuildServiceProvider();
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                
+
                 collection
                     .AddSingleton((IConfigurationRoot)configuration)
                     .Configure<ConfiguredTypes>(configuration.GetSection("types"))
@@ -566,15 +566,17 @@ namespace Oleander.Extensions.Configuration.Tests
             var class1A = c1OptionsMonitor.Get("C1A");
             var class1B = c1OptionsMonitor.Get("C1B");
             var waitHandle = new AutoResetEvent(false);
+            var waitHandleCount = 0;
 
             c1OptionsMonitor.OnChange((class1, name) =>
             {
                 if (name == "C1A" && class1A != class1) class1A = class1;
                 if (name == "C1B" && class1B != class1) class1B = class1;
+                waitHandleCount++;
+                if (waitHandleCount < 2) return;
                 waitHandle.Set();
             });
 
-            Assert.IsNotNull(class1A);
             Assert.IsNotNull(class1A);
 
             Assert.AreEqual("Value1A", class1A.Property1);
@@ -582,7 +584,7 @@ namespace Oleander.Extensions.Configuration.Tests
 
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A1.json"), "{\"C1A\": {\"Property1\": \"Value2A\"}}");
             Assert.IsTrue(waitHandle.WaitOne(500));
-            Assert.IsTrue(waitHandle.WaitOne(500));
+            //Assert.IsTrue(waitHandle.WaitOne(500));
 
             Assert.AreEqual("Value2A", class1A.Property1);
             Assert.AreEqual("Value1B", class1B?.Property1);
