@@ -24,7 +24,8 @@ namespace Oleander.Extensions.Configuration
                         var type = Type.GetType(item.Value.Type!, true);
                         if (type == null) continue;
 
-                        item.Value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(item.Key.Replace("__", ":")).Get(type);
+                        item.Value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(item.Key.Replace("__", ":")).Get(type) ?? 
+                                              Activator.CreateInstance<T>();
                     }
                     catch (Exception ex)
                     {
@@ -59,7 +60,8 @@ namespace Oleander.Extensions.Configuration
                     var type = Type.GetType(item.Type, true);
                     if (type == null) return default;
 
-                    item.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(type);
+                    item.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(type) ?? 
+                                    Activator.CreateInstance<T>();
                 }
                 catch (Exception ex)
                 {

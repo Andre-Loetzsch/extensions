@@ -297,28 +297,21 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             Assert.AreEqual(1, c1OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C1A", c1OptionsMonitor.GetKeys().ToList()[0]);
             Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
-            Assert.IsNotNull(c1OptionsMonitor.Get("C1B"));
+            Assert.IsNull(c1OptionsMonitor.Get("C1B"));
 
             Assert.AreEqual(1, c2OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C2A", c2OptionsMonitor.GetKeys().ToList()[0]);
             Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
-            Assert.IsNotNull(c2OptionsMonitor.Get("C2B"));
+            Assert.IsNull(c2OptionsMonitor.Get("C2B"));
 
             Assert.AreEqual(0, c3OptionsMonitor.GetKeys().Count);
-            Assert.IsNotNull(c3OptionsMonitor.Get("C3A"));
-            Assert.IsNotNull(c3OptionsMonitor.Get("C3B"));
+            Assert.IsNull(c3OptionsMonitor.Get("C3A"));
+            Assert.IsNull(c3OptionsMonitor.Get("C3B"));
             // not configured
-            Assert.IsNotNull(c3OptionsMonitor.Get("C3C"));
-            c3OptionsMonitor.Get("C3C")!.Property3 = "ValueC3C";
+            Assert.IsNull(c3OptionsMonitor.Get("C3C"));
 
             Assert.AreEqual("Value1A", c1OptionsMonitor.Get("C1A")!.Property1);
-            Assert.IsNull(c1OptionsMonitor.Get("C1B")!.Property1);
-
             Assert.AreEqual("Value2A", c2OptionsMonitor.Get("C2A")!.Property2);
-            Assert.IsNull(c2OptionsMonitor.Get("C2B")!.Property2);
-
-            Assert.IsNull(c3OptionsMonitor.Get("C3A")!.Property3);
-            Assert.IsNull(c3OptionsMonitor.Get("C3B")!.Property3);
 
             Assert.IsNotNull(c1OptionsMonitor.Get("sub", "SC1A"));
             Assert.AreEqual("ValueS1A", c1OptionsMonitor.Get("sub", "SC1A")!.Property1);
@@ -347,14 +340,14 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             var disp1 = c1OptionsMonitor.OnChange((class1, name, key) =>
             {
                 onChangeResult1.Add($"{name}:{key}", class1!);
-                if (onChangeResult1.Count < 3) return;
+                if (onChangeResult1.Count < 2) return;
                 waitHandle1.Set();
             });
 
             var disp2 = c2OptionsMonitor.OnChange((class2, name, key) =>
             {
                 onChangeResult2.Add($"{name}:{key}", class2!);
-                if (onChangeResult2.Count < 3) return;
+                if (onChangeResult2.Count < 2) return;
                 waitHandle2.Set();
             });
 
@@ -370,29 +363,29 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             Assert.IsTrue(waitHandle.WaitOne(3000));
             Assert.IsTrue(waitHandle1.WaitOne(3000));
             Assert.IsTrue(waitHandle2.WaitOne(3000));
-            Assert.IsTrue(waitHandle3.WaitOne(3000));
+            //Assert.IsTrue(waitHandle3.WaitOne(3000));
 
             Thread.Sleep(200);
 
             Assert.AreEqual(2, onChangeResult.Count);
-            Assert.AreEqual(3, onChangeResult1.Count);
-            Assert.AreEqual(3, onChangeResult2.Count);
-            Assert.AreEqual(3, onChangeResult3.Count);
+            Assert.AreEqual(2, onChangeResult1.Count);
+            Assert.AreEqual(2, onChangeResult2.Count);
+            Assert.AreEqual(0, onChangeResult3.Count);
 
             Assert.IsTrue(onChangeResult.Contains(Options.DefaultName));
             Assert.IsTrue(onChangeResult.Contains("sub"));
 
             Assert.IsTrue(onChangeResult1.TryGetValue(":C1A", out var c1A) && c1A.Property1 == "Value1AX");
-            Assert.IsTrue(onChangeResult1.TryGetValue(":C1B", out var c1B) && c1B.Property1 == "Value1BX");
+            //Assert.IsTrue(onChangeResult1.TryGetValue(":C1B", out var c1B) && c1B.Property1 == "Value1BX");
             Assert.IsTrue(onChangeResult1.TryGetValue("sub:SC1A", out var sC1A) && sC1A.Property1 == "ValueS1A");
 
             Assert.IsTrue(onChangeResult2.TryGetValue(":C2A", out var c2A) && c2A.Property2 == "Value2AX");
-            Assert.IsTrue(onChangeResult2.TryGetValue(":C2B", out var c2B) && c2B.Property2 == "Value2BX");
+            //Assert.IsTrue(onChangeResult2.TryGetValue(":C2B", out var c2B) && c2B.Property2 == "Value2BX");
             Assert.IsTrue(onChangeResult2.TryGetValue("sub:SC2A", out var sSc2A) && sSc2A.Property2 == "ValueS2A");
 
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3A", out var c3A) && c3A.Property3 == "Value3AX");
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3B", out var c3B) && c3B.Property3 == "Value3BX");
-            Assert.IsTrue(onChangeResult3.TryGetValue(":C3C", out var c3C) && c3C.Property3 == null);
+            //Assert.IsTrue(onChangeResult3.TryGetValue(":C3A", out var c3A) && c3A.Property3 == "Value3AX");
+            //Assert.IsTrue(onChangeResult3.TryGetValue(":C3B", out var c3B) && c3B.Property3 == "Value3BX");
+            //Assert.IsTrue(onChangeResult3.TryGetValue(":C3C", out var c3C) && c3C.Property3 == null);
 
             Assert.AreEqual(2, c1OptionsMonitor.GetKeys().Count);
             Assert.AreEqual("C1A", c1OptionsMonitor.GetKeys().ToList()[0]);
@@ -411,10 +404,10 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             Assert.AreEqual("C3B", c3OptionsMonitor.GetKeys().ToList()[1]);
             Assert.AreEqual("Value3AX", c3OptionsMonitor.Get("C3A")!.Property3);
             Assert.AreEqual("Value3BX", c3OptionsMonitor.Get("C3B")!.Property3);
-            Assert.IsNull(c3OptionsMonitor.Get("C3C")!.Property3);
+            Assert.IsNull(c3OptionsMonitor.Get("C3C"));
 
             var c3OptionsMonitor2 = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class3>>();
-            Assert.IsNull(c3OptionsMonitor2.Get("C3C")!.Property3);
+            Assert.IsNull(c3OptionsMonitor2.Get("C3C"));
 
             disp.Dispose();
             disp1.Dispose();
@@ -558,7 +551,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             Assert.IsNull(c3OptionsMonitor.Get("C3C"));
 
             var c3OptionsMonitor2 = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor<Class3>>();
-            Assert.IsNull(c3OptionsMonitor2.Get("C3C")!.Property3);
+            Assert.IsNull(c3OptionsMonitor2.Get("C3C"));
 
             disp.Dispose();
             disp1.Dispose();

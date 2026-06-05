@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\Common\targets\common.targets" />
-
   <PropertyGroup>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <AssemblyVersion>1.4.0.1</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>776169f20b9fde9acb608f2cd0f16e4a90048bff</SourceRevisionId>
+    <SourceRevisionId>46c43619944477721f6ef63d10ff1cb86aac1dac</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -14,6 +11,9 @@
     <PackageTags>Oleander;Extensions; Logging; Abstractions; C#</PackageTags>
   </PropertyGroup>
 
+  <Import Project="..\..\Common\targets\common.targets" />
+  <Import Project="..\..\Common\targets\generatePackage.targets" />
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
     <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.1">
@@ -21,5 +21,4 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
 </Project>

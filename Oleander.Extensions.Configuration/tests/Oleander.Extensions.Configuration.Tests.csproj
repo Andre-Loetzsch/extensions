@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Common\targets\common.targets" />
 
   <PropertyGroup>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>776169f20b9fde9acb608f2cd0f16e4a90048bff</SourceRevisionId>
+    <SourceRevisionId>46c43619944477721f6ef63d10ff1cb86aac1dac</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+  </PropertyGroup>
+
+  <Import Project="..\..\Common\targets\common.targets" />
+
+  <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0;net48</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net8.0;net10.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
@@ -50,10 +54,6 @@
     <PackageReference Include="MSTest.TestAdapter" Version="4.2.2" />
     <PackageReference Include="MSTest.TestFramework" Version="4.2.2" />
     <PackageReference Include="coverlet.collector" Version="10.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
