@@ -1,7 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\Common\targets\common.targets" />
-
   <PropertyGroup>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
@@ -13,6 +10,9 @@
     <Description>Oleander Configuration extensions</Description>
     <PackageTags>Oleander; Extensions; Configuration; C#</PackageTags>
   </PropertyGroup>
+
+  <Import Project="..\..\Common\targets\common.targets" />
+  <Import Project="..\..\Common\targets\generatePackage.targets" />
 
   <ItemGroup>
     <Compile Include="..\..\Common\src\NullableAttributes.cs" Link="Common\NullableAttributes.cs" />

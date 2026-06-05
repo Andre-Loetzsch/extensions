@@ -1,7 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\Common\targets\common.targets" />
-
   <PropertyGroup>
     <AssemblyVersion>1.4.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
@@ -13,6 +10,9 @@
     <Description>Oleander DependencyInjection Extensions</Description>
     <PackageTags>Oleander; Extensions; DependencyInjection; C#</PackageTags>
   </PropertyGroup>
+
+  <Import Project="..\..\Common\targets\common.targets" />
+  <Import Project="..\..\Common\targets\generatePackage.targets" />
 
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -1,7 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\Common\targets\common.targets" />
-
   <PropertyGroup>
     <AssemblyVersion>1.4.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
@@ -10,9 +7,15 @@
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <Description>Configuration extensions Json</Description>
     <PackageTags>Oleander; Configuration; Json; C#</PackageTags>
+  </PropertyGroup>
+
+  <Import Project="..\..\Common\targets\common.targets" />
+  <Import Project="..\..\Common\targets\generatePackage.targets" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

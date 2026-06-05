@@ -1,31 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<Import Project="..\..\Common\targets\common.targets" />
-
 	<PropertyGroup>
-		<AssemblyVersion>2.3.0.1</AssemblyVersion>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
-		<SourceRevisionId>787fb7f46363a3318faba228ec2e29e74445ff35</SourceRevisionId>
+		<SourceRevisionId>46c43619944477721f6ef63d10ff1cb86aac1dac</SourceRevisionId>
 		<VersionSuffix></VersionSuffix>
 		<Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
 		<Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
 		<InformationalVersion>$(AssemblyVersion)</InformationalVersion>
 		<OutputType>exe</OutputType>
-		<TargetFrameworks>net8.0;net10.0;net48</TargetFrameworks>
-		<TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net8.0;net10.0</TargetFrameworks>
-		<IsPackable>false</IsPackable>
-		<NoWarn Condition="$(AssemblyVersion)==2.0.0.0">OAVBT47</NoWarn>
 	</PropertyGroup>
+
+  <Import Project="..\..\Common\targets\common.targets" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0;net48</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">net8.0;net10.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
 		<PackageReference Include="xunit.v3" Version="3.2.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
