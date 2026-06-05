@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -91,7 +90,7 @@ namespace Oleander.Extensions.Configuration
                 return options;
             }
 
-            options = GetOrCreateInstance(this.GetConfiguredTypes(name).Get<TOptions>(key));
+            options = this.GetConfiguredTypes(name).Get<TOptions>(key);
             if (options != null) this.GetInnerCache(name).TryAdd(key, options);
 
             return options;
@@ -175,19 +174,6 @@ namespace Oleander.Extensions.Configuration
         private ConcurrentDictionary<string, TOptions> GetInnerCache(string? name)
         {
             return name == null ? new() : this._cache.GetOrAdd(name, _ => new());
-        }
-
-        private static TOptions? GetOrCreateInstance(TOptions? instance)
-        {
-            return instance;
-
-            if (instance != null) return instance;
-
-            var constructorInfo = typeof(TOptions).GetConstructor(
-                BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null);
-
-            return constructorInfo == null ? 
-                null : Activator.CreateInstance<TOptions>();
         }
 
         #endregion

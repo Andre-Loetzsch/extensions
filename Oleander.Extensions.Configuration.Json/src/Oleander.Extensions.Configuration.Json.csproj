@@ -5,7 +5,7 @@
   <PropertyGroup>
     <AssemblyVersion>1.4.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>07a06422273d47ade98a1325553430defa46efe6</SourceRevisionId>
+    <SourceRevisionId>787fb7f46363a3318faba228ec2e29e74445ff35</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
