@@ -786,7 +786,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredClasses()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -812,7 +812,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredClassesGetRequiredService()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -835,7 +835,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredClassesGetRequiredServicees()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -859,7 +859,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredClassesConfiguredTypesGetAll()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -886,7 +886,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredInterfaces()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -910,7 +910,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredInterfacesGetRequiredService()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -933,7 +933,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredInterfacesGetRequiredServices()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -956,7 +956,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
         [TestMethod]
         public void TestDefaultConfiguredInterfacesConfiguredTypesGetAll()
         {
-            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json");
 
             var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
             {

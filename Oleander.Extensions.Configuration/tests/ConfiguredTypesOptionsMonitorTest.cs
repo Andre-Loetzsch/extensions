@@ -692,7 +692,7 @@ public class ConfiguredTypesOptionsMonitorTest
         var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
         {
             configurationBuilder
-                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json"), false, false);
+                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json"), false, false);
 
         }).ConfigureServices(collection =>
         {
@@ -723,7 +723,7 @@ public class ConfiguredTypesOptionsMonitorTest
         var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
         {
             configurationBuilder
-                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json"), false, false);
+                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypesDefault.json"), false, false);
 
         }).ConfigureServices(collection =>
         {
