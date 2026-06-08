@@ -38,14 +38,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             ms.Write(buffer, 0, buffer.Length);
             ms.Position = 0;
 
-            var host = new HostBuilder().ConfigureServices(collection =>
-            {
-                collection.AddConfiguredTypes();
-
-            }).ConfigureAppConfiguration(builder =>
-            {
-                builder.AddJsonStream(ms);
-            }).Build();
+            var host = new HostBuilder().ConfigureServices(collection => { collection.AddConfiguredTypes(); }).ConfigureAppConfiguration(builder => { builder.AddJsonStream(ms); }).Build();
 
             var typesOptionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
             var objects = typesOptionsMonitor.GetAll<object>().ToList();
@@ -78,11 +71,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             {
                 collection
                     .AddConfiguredTypes();
-
-            }).ConfigureAppConfiguration(builder =>
-            {
-                builder.AddJsonStream(ms);
-            }).Build();
+            }).ConfigureAppConfiguration(builder => { builder.AddJsonStream(ms); }).Build();
 
 
             var list1 = host.Services.GetRequiredServices<IInterface1>().ToList();
@@ -116,14 +105,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             ms.Write(buffer, 0, buffer.Length);
             ms.Position = 0;
 
-            var host = new HostBuilder().ConfigureServices(collection =>
-            {
-                collection.AddConfiguredTypes();
-
-            }).ConfigureAppConfiguration(builder =>
-            {
-                builder.AddJsonStream(ms);
-            }).Build();
+            var host = new HostBuilder().ConfigureServices(collection => { collection.AddConfiguredTypes(); }).ConfigureAppConfiguration(builder => { builder.AddJsonStream(ms); }).Build();
 
 
             var serviceA1 = host.Services.GetRequiredService<IInterface1>("C1A");
@@ -152,7 +134,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             Assert.AreNotSame(serviceA1, services[1]);
             Assert.AreNotSame(serviceA2, services[1]);
-            Assert.AreSame(serviceB,  services[1]);
+            Assert.AreSame(serviceB, services[1]);
         }
 
         [TestMethod]
@@ -165,15 +147,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             File.Copy(testSettingsPath, testSettingsPath2, true);
 
 
-            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
-            {
-                configurationBuilder.AddJsonFile(testSettingsPath2, false, true);
-
-            }).ConfigureServices(collection =>
-            {
-                collection.AddConfiguredTypes().AddConfigureOptions();
-
-            }).Build();
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) => { configurationBuilder.AddJsonFile(testSettingsPath2, false, true); }).ConfigureServices(collection => { collection.AddConfiguredTypes().AddConfigureOptions(); }).Build();
 
 
             var c1OptionsMonitor = host.Services.GetRequiredService<IOptionsMonitor<Class1>>();
@@ -182,7 +156,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             Assert.IsNotNull(c1OptionsMonitor.Get("C1A"));
             Assert.IsNotNull(c1OptionsMonitor.Get("C1B"));
-            
+
             Assert.IsNotNull(c2OptionsMonitor.Get("C2A"));
             Assert.IsNotNull(c2OptionsMonitor.Get("C2B"));
 
@@ -280,13 +254,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 configurationBuilder
                     .AddJsonFile(testSettingsPath2, false, true)
                     .AddJsonFile(testSubSettingsPath, false, true);
-
             }).ConfigureServices(collection =>
             {
                 collection
                     .AddConfiguredTypes()
                     .AddConfiguredTypes("subTypes", "sub");
-
             }).Build();
 
 
@@ -430,13 +402,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 configurationBuilder
                     .AddJsonFile(testSettingsPath2, false, true)
                     .AddJsonFile(testSubSettingsPath, false, true);
-
             }).ConfigureServices(collection =>
             {
                 collection
                     .AddConfiguredTypes()
                     .AddConfiguredTypes("subTypes", "sub");
-
             }).Build();
 
 
@@ -506,10 +476,7 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 waitHandle2.Set();
             });
 
-            var disp3 = c3OptionsMonitor.OnChange((class3, name, key) =>
-            {
-                onChangeResult3.Add($"{name}:{key}", class3!);
-            });
+            var disp3 = c3OptionsMonitor.OnChange((class3, name, key) => { onChangeResult3.Add($"{name}:{key}", class3!); });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
             //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
@@ -574,13 +541,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 configurationBuilder
                     .AddJsonFile(testSettingsPath2, false, true)
                     .AddJsonFile(testSubSettingsPath, false, true);
-
             }).ConfigureServices(collection =>
             {
                 collection
                     .AddConfiguredTypes()
                     .AddConfiguredTypes("subTypes", "sub");
-
             }).Build();
 
             var optionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
@@ -641,17 +606,14 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 waitHandle2.Set();
             });
 
-            var disp3 = optionsMonitor.OnChange<Class3>((class3, name, key) =>
-            {
-                onChangeResult3.Add($"{name}:{key}", class3!);
-            });
+            var disp3 = optionsMonitor.OnChange<Class3>((class3, name, key) => { onChangeResult3.Add($"{name}:{key}", class3!); });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
             //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
             Assert.IsTrue(waitHandle.WaitOne(3000));
             Assert.IsTrue(waitHandle1.WaitOne(3000));
             Assert.IsTrue(waitHandle2.WaitOne(3000));
-            
+
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
             Assert.AreEqual(2, onChangeResult2.Count);
@@ -710,13 +672,11 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 configurationBuilder
                     .AddJsonFile(testSettingsPath2, false, true)
                     .AddJsonFile(testSubSettingsPath, false, true);
-
             }).ConfigureServices(collection =>
             {
                 collection
                     .AddConfiguredTypes()
                     .AddConfiguredTypes("subTypes", "sub");
-
             }).Build();
 
 
@@ -781,17 +741,14 @@ namespace Oleander.Extensions.DependencyInjection.Tests
                 waitHandle2.Set();
             });
 
-            var disp3 = c3OptionsMonitor.OnChange<Class3>((class3, name, key) =>
-            {
-                onChangeResult3.Add($"{name}:{key}", class3!);
-            });
+            var disp3 = c3OptionsMonitor.OnChange<Class3>((class3, name, key) => { onChangeResult3.Add($"{name}:{key}", class3!); });
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
             //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[] { waitHandle, waitHandle1, waitHandle2 }, 3000));
             Assert.IsTrue(waitHandle.WaitOne(3000));
             Assert.IsTrue(waitHandle1.WaitOne(3000));
             Assert.IsTrue(waitHandle2.WaitOne(3000));
-            
+
             Assert.AreEqual(2, onChangeResult.Count);
             Assert.AreEqual(2, onChangeResult1.Count);
             Assert.AreEqual(2, onChangeResult2.Count);
@@ -823,6 +780,204 @@ namespace Oleander.Extensions.DependencyInjection.Tests
             disp1.Dispose();
             disp2.Dispose();
             disp3.Dispose();
+        }
+
+
+        [TestMethod]
+        public void TestDefaultConfiguredClasses()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonFile(testSettingsPath, false, false);
+            }).ConfigureServices(collection =>
+            {
+                collection
+                    .AddConfiguredTypes();
+            }).Build();
+
+            var optionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
+
+            var c1 = optionsMonitor.Get<Class1>("C1");
+            var c2 = optionsMonitor.Get<Class2>("C2");
+            var c3 = optionsMonitor.Get<Class3>("C3");
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+        [TestMethod]
+        public void TestDefaultConfiguredClassesGetRequiredService()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath, false, false);
+            }).ConfigureServices(collection =>
+            {
+                collection
+                    .AddConfiguredTypes();
+            }).Build();
+
+            var c1 = host.Services.GetRequiredService<Class1>("C1");
+            var c2 = host.Services.GetRequiredService<Class2>("C2");
+            var c3 = host.Services.GetRequiredService<Class3>("C3");
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+        [TestMethod]
+        public void TestDefaultConfiguredClassesGetRequiredServicees()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonFile(testSettingsPath, false, false);
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+            }).Build();
+
+            var c1 = host.Services.GetRequiredServices<Class1>().FirstOrDefault();
+            var c2 = host.Services.GetRequiredServices<Class2>().FirstOrDefault();
+            var c3 = host.Services.GetRequiredServices<Class3>().FirstOrDefault();
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+
+        [TestMethod]
+        public void TestDefaultConfiguredClassesConfiguredTypesGetAll()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath, false, false);
+
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+
+            }).Build();
+
+            var configuredTypes = host.Services.GetRequiredService<IOptionsMonitor<ConfiguredTypes>>();
+            configuredTypes.CurrentValue.ConfigurationRoot = host.Services.GetRequiredService<IConfigurationRoot>();
+
+            var c1 = configuredTypes.CurrentValue.GetAll<Class1>().FirstOrDefault();
+            var c2 = configuredTypes.CurrentValue.GetAll<Class2>().FirstOrDefault();
+            var c3 = configuredTypes.CurrentValue.GetAll<Class3>().FirstOrDefault();
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+        [TestMethod]
+        public void TestDefaultConfiguredInterfaces()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath, false, true);
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+            }).Build();
+
+            var optionsMonitor = host.Services.GetRequiredService<IConfiguredTypesOptionsMonitor>();
+
+            var c1 = optionsMonitor.Get<IInterface1>("C1");
+            var c2 = optionsMonitor.Get<IInterface2>("C2");
+            var c3 = optionsMonitor.Get<IInterface3>("C3");
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+        [TestMethod]
+        public void TestDefaultConfiguredInterfacesGetRequiredService()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonFile(testSettingsPath, false, true);
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+            }).Build();
+
+            var c1 = host.Services.GetRequiredService<IInterface1>("C1");
+            var c2 = host.Services.GetRequiredService<IInterface2>("C2");
+            var c3 = host.Services.GetRequiredService<IInterface3>("C3");
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+        [TestMethod]
+        public void TestDefaultConfiguredInterfacesGetRequiredServices()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder
+                    .AddJsonFile(testSettingsPath, false, true);
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+            }).Build();
+
+            var c1 = host.Services.GetRequiredServices<IInterface1>().FirstOrDefault();
+            var c2 = host.Services.GetRequiredServices<IInterface2>().FirstOrDefault();
+            var c3 = host.Services.GetRequiredServices<IInterface3>().FirstOrDefault();
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
+        }
+
+        [TestMethod]
+        public void TestDefaultConfiguredInterfacesConfiguredTypesGetAll()
+        {
+            var testSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appTypes2.json");
+
+            var host = new HostBuilder().ConfigureAppConfiguration((_, configurationBuilder) =>
+            {
+                configurationBuilder.AddJsonFile(testSettingsPath, false, false);
+
+            }).ConfigureServices(collection =>
+            {
+                collection.AddConfiguredTypes();
+
+            }).Build();
+
+            var configuredTypes = host.Services.GetRequiredService<IOptionsMonitor<ConfiguredTypes>>();
+            configuredTypes.CurrentValue.ConfigurationRoot = host.Services.GetRequiredService<IConfigurationRoot>();
+
+            var c1 = configuredTypes.CurrentValue.GetAll<IInterface1>().FirstOrDefault();
+            var c2 = configuredTypes.CurrentValue.GetAll<IInterface2>().FirstOrDefault();
+            var c3 = configuredTypes.CurrentValue.GetAll<IInterface3>().FirstOrDefault();
+
+            Assert.IsNotNull(c1);
+            Assert.IsNotNull(c2);
+            Assert.IsNotNull(c3);
         }
     }
 }

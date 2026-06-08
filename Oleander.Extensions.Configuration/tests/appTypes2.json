@@ -1,0 +1,13 @@
+{
+  "types": {
+    "C1": {
+      "Type": "Oleander.Extensions.Configuration.Tests.Class1, Oleander.Extensions.Configuration.Tests"
+    },
+    "C2": {
+      "Type": "Oleander.Extensions.Configuration.Tests.Class2, Oleander.Extensions.Configuration.Tests"
+    },
+    "C3": {
+      "Type": "Oleander.Extensions.Configuration.Tests.Class3, Oleander.Extensions.Configuration.Tests"
+    }
+  }
+}
