@@ -65,6 +65,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appTypesDefault.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appTypes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

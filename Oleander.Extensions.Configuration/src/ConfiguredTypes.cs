@@ -25,7 +25,7 @@ namespace Oleander.Extensions.Configuration
                         if (type == null) continue;
 
                         item.Value.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(item.Key.Replace("__", ":")).Get(type) ?? 
-                                              Activator.CreateInstance<T>();
+                                              Activator.CreateInstance(type);
                     }
                     catch (Exception ex)
                     {
@@ -61,7 +61,7 @@ namespace Oleander.Extensions.Configuration
                     if (type == null) return default;
 
                     item.Instance = NotNullConfigurationRoot(this.ConfigurationRoot).GetSection(key.Replace("__", ":")).Get(type) ?? 
-                                    Activator.CreateInstance<T>();
+                                    Activator.CreateInstance(type);
                 }
                 catch (Exception ex)
                 {
