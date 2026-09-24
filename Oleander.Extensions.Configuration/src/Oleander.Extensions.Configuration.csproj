@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <AssemblyVersion>2.0.1.1</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>e4e97d4e023b2df48350417a46d3d5320db52f54</SourceRevisionId>
+    <SourceRevisionId>3a5c0f9f31ea5dc546a2ff4801418550ff9b922e</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -19,12 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.1">
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

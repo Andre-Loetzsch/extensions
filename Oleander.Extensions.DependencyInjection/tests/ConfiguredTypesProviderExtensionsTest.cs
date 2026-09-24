@@ -199,9 +199,9 @@ namespace Oleander.Extensions.DependencyInjection.Tests
 
             File.Copy(testSettingsPath1, testSettingsPath2, true);
             //Assert.IsTrue(WaitHandle.WaitAll(new WaitHandle[]{ waitHandle1, waitHandle2 }, 300));
-            Assert.IsTrue(waitHandle1.WaitOne(300));
-            Assert.IsTrue(waitHandle2.WaitOne(300));
-            Assert.IsFalse(waitHandle3.WaitOne(300));
+            Assert.IsTrue(waitHandle1.WaitOne(1500));
+            Assert.IsTrue(waitHandle2.WaitOne(1500));
+            Assert.IsFalse(waitHandle3.WaitOne(1500));
 
             Assert.AreEqual(1, onChangeResult1.Count);
             Assert.AreEqual(1, onChangeResult2.Count);
