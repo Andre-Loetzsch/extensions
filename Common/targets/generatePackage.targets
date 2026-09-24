@@ -1,8 +1,4 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup>
-      <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
-
     <PropertyGroup>
       <IsPackable>false</IsPackable>
       <IsPackable  Condition="$(MSBuildProjectDirectory.Contains('src'))">true</IsPackable>

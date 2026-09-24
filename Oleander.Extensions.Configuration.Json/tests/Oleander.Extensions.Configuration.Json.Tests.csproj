@@ -1,8 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSTest.Sdk/4.0.2">
 	<PropertyGroup>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
-		<SourceRevisionId>46c43619944477721f6ef63d10ff1cb86aac1dac</SourceRevisionId>
 		<VersionSuffix></VersionSuffix>
 		<Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
 		<Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -39,14 +38,14 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.12" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="10.0.12" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
-		<PackageReference Include="MSTest.TestAdapter" Version="4.4.1" />
-		<PackageReference Include="MSTest.TestFramework" Version="4.4.1" />
-		<PackageReference Include="coverlet.collector" Version="10.0.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.11.0" />
+    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.4.0" />
+    <PackageReference Update="MSTest.TestAdapter" Version="4.4.0" />
+    <PackageReference Update="MSTest.TestFramework" Version="4.4.0" />
+  </ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
 		<ProjectReference Include="..\..\Oleander.Extensions.Configuration\src\Oleander.Extensions.Configuration.csproj" />
