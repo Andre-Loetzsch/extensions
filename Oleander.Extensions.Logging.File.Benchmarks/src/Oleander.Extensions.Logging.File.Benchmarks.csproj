@@ -9,9 +9,9 @@
     <Company>Oleander</Company>
     <Product>$(AssemblyName)</Product>
 
-    <AssemblyVersion>3.1.0.0</AssemblyVersion>
+    <AssemblyVersion>3.1.0.1</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
-    <SourceRevisionId>776169f20b9fde9acb608f2cd0f16e4a90048bff</SourceRevisionId>
+    <SourceRevisionId>3a5c0f9f31ea5dc546a2ff4801418550ff9b922e</SourceRevisionId>
     <VersionSuffix></VersionSuffix>
     <Version Condition="'$(VersionSuffix)' != ''">$(AssemblyVersion)-$(VersionSuffix)</Version>
     <Version Condition="'$(VersionSuffix)' == ''">$(AssemblyVersion)</Version>
@@ -23,7 +23,7 @@
   
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.1">
+    <PackageReference Include="Oleander.Assembly.Versioning.BuildTask" Version="1.5.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

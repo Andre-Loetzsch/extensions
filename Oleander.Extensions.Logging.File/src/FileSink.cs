@@ -222,7 +222,7 @@ namespace Oleander.Extensions.Logging.File
             }
             else if (ts.Hours > 0)
             {
-                fileNameExpiryDateTime = fileDateTime.AddMinutes(1);
+                fileNameExpiryDateTime = fileDateTime.AddHours(1);
             }
             else if (ts.Days > 0)
             {
