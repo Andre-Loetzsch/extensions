@@ -10,7 +10,7 @@ on:
 
 env:
   PACKOUTDIR: ${{ github.workspace }}\packoutput
-  SOLUTION: ${{ github.workspace }}\extensions.sln
+  SOLUTION: ${{ github.workspace }}/extensions.sln
 jobs:
   deploy_dev:
     name: 'Deploy release packages'
@@ -37,7 +37,7 @@ jobs:
 
       - name: 'dotnet test'
         shell: bash
-        run: dotnet test "${{env.SOLUTION}}" --configuration Release --no-build 
+        run: dotnet test --solution "${{env.SOLUTION}}" --configuration Release --no-build 
 
       - name: 'dotnet pack release version'
         if: matrix.os == 'windows-latest'
