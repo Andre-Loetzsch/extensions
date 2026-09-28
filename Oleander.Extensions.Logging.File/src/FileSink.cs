@@ -127,13 +127,13 @@ namespace Oleander.Extensions.Logging.File
             {
                 if (IOFile.Exists(this.FileName)) IOFile.Delete(this.FileName);
 
-                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
+                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(DateTime.Now, this.FileNameTemplate);
                 (this._fileStream, this.FileName) = OpenFileStream(this.FileName, FileMode.Create);
                 return;
             }
 
-            (var fileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
-            (var archiveFileName, this._archiveFileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.ArchiveFileNameTemplate);
+            (var fileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(DateTime.Now, this.FileNameTemplate);
+            (var archiveFileName, this._archiveFileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(DateTime.Now, this.ArchiveFileNameTemplate);
            
             if (string.IsNullOrEmpty(this.ArchiveFileName)) this.ArchiveFileName = archiveFileName;
 
@@ -165,7 +165,7 @@ namespace Oleander.Extensions.Logging.File
             {
                 if (IOFile.Exists(this.FileName)) IOFile.Delete(this.FileName);
 
-                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(this.FileNameTemplate);
+                (this.FileName, this._fileNameExpiryDateTime) = CreateFileNameAndExpiryDateTimeFromTemplate(DateTime.Now, this.FileNameTemplate);
                 (this._fileStream, this.FileName) = OpenFileStream(this.FileName, FileMode.Create);
 
                 return;
@@ -185,48 +185,67 @@ namespace Oleander.Extensions.Logging.File
             (this._fileStream, this.FileName) = OpenFileStream(this.FileName, FileMode.Create);
         }
 
-        private static (string, DateTime) CreateFileNameAndExpiryDateTimeFromTemplate(string fileNameTemplate)
+        internal static (string, DateTime) CreateFileNameAndExpiryDateTimeFromTemplate(DateTime dateTimeNow, string fileNameTemplate)
         {
             var fileName = fileNameTemplate;
             fileName = fileName.Replace('\\', Path.DirectorySeparatorChar);
             fileName = fileName.Replace('/', Path.DirectorySeparatorChar);
 
-            var ts = TimeSpan.Zero;
-            var fileDateTime = DateTime.Now;
+            var b = new bool[6];
 
             foreach (var dateTimeFormat in ValuesFormatter.ExtractDateTimeFormats(fileName))
             {
-                var dateTimeAsString = fileDateTime.ToString(dateTimeFormat);
-                var dateTimeAsStringMinValue = new DateTime(1, 1, 1, 1, 1, 1).ToString(dateTimeFormat);
+                var dateTimeAsString = dateTimeNow.ToString(dateTimeFormat); 
+                var dateTimeAsStringMinValue = new DateTime(2, 2, 2, 1, 1, 1).ToString(dateTimeFormat);
 
-                if (DateTime.TryParseExact(dateTimeAsStringMinValue, dateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
-                {
-                    if (ts.Seconds == 0) ts = ts.Add(TimeSpan.FromSeconds(dateTime.Second));
-                    if (ts.Minutes == 0) ts = ts.Add(TimeSpan.FromMinutes(dateTime.Minute));
-                    if (ts.Hours == 0) ts = ts.Add(TimeSpan.FromHours(dateTime.Hour));
-                    if (ts.Days == 0) ts = ts.Add(TimeSpan.FromDays(dateTime.Day));
-                }
+                if (!DateTime.TryParseExact(dateTimeAsStringMinValue, dateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime)) continue;
+
+                if (dateTime.Year > 1) b[0] = true;
+                if (dateTime.Month > 1) b[1] = true;
+                if (dateTime.Day > 1) b[2] = true;
+                if (dateTime.Hour > 0) b[3] = true;
+                if (dateTime.Minute > 0) b[4] = true;
+                if (dateTime.Second > 0) b[5] = true;
 
                 fileName = fileName.Replace(string.Concat("{dateTime:", dateTimeFormat, "}"), dateTimeAsString);
             }
 
-            var fileNameExpiryDateTime = fileDateTime.Date.AddDays(1);
+            var fileNameExpiryDateTime = dateTimeNow.Date.AddDays(1);
 
-            if (ts.Seconds > 0)
+            if (b[5])
             {
-                fileNameExpiryDateTime = fileDateTime.AddSeconds(1);
+                fileNameExpiryDateTime = dateTimeNow.AddSeconds(1);
             }
-            else if (ts.Minutes > 0)
+            else if (b[4])
             {
-                fileNameExpiryDateTime = fileDateTime.AddMinutes(1);
+                fileNameExpiryDateTime = dateTimeNow
+                    .AddMinutes(1)
+                    .AddSeconds(dateTimeNow.Second * -1);
             }
-            else if (ts.Hours > 0)
+            else if (b[3])
             {
-                fileNameExpiryDateTime = fileDateTime.AddHours(1);
+                fileNameExpiryDateTime = dateTimeNow
+                    .AddHours(1)
+                    .AddMinutes(dateTimeNow.Minute * -1)
+                    .AddSeconds(dateTimeNow.Second * -1);
             }
-            else if (ts.Days > 0)
+            else if (b[2])
             {
-                fileNameExpiryDateTime = fileDateTime.Date.AddDays(1);
+                fileNameExpiryDateTime = dateTimeNow.Date.AddDays(1);
+            }
+            else if (b[1])
+            {
+                fileNameExpiryDateTime = dateTimeNow.Date
+                    .AddMonths(1)
+                    .AddDays((dateTimeNow.Day - 1) * -1);
+
+            }
+            else if (b[0])
+            {
+                fileNameExpiryDateTime = dateTimeNow.Date
+                    .AddYears(1)
+                    .AddMonths((dateTimeNow.Month - 1) * -1)
+                    .AddDays((dateTimeNow.Day - 1) * -1);
             }
 
             foreach (var key in ValuesFormatter.ExtractKeys(fileName))
