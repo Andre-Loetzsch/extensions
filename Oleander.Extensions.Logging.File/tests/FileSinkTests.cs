@@ -1,15 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Oleander.Extensions.Configuration;
 using Oleander.Extensions.Logging.Providers;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
 using Xunit;
 using IOFile = System.IO.File;
 
@@ -211,5 +212,53 @@ public class FileSinkTests
         Assert.Contains("Test message 10", logContent[9]);
         Assert.Contains("Test message 11", logContent[10]);
         Assert.Contains("Test message 12", logContent[11]);
+    }
+
+    [Fact]
+    public void TestCreateExpiryDateFromSeconds()
+    {
+        var (fileName, expiryDateTime) = FileSink.CreateFileNameAndExpiryDateTimeFromTemplate(new(2026, 9, 25, 15, 30, 34), "{dateTime:yyyyMMddHHss}.{processName}.log");
+        Assert.Equal(new(2026, 9, 25, 15, 30, 35), expiryDateTime);
+        Assert.Equal($"202609251534.{Process.GetCurrentProcess().ProcessName}.log", fileName);
+    }
+
+    [Fact]
+    public void TestCreateExpiryDateFromMinutes()
+    {
+        var (fileName, expiryDateTime) = FileSink.CreateFileNameAndExpiryDateTimeFromTemplate(new(2026, 9, 25, 15, 30, 34), "{dateTime:yyyyMMddHHmm}.{processName}.log");
+        Assert.Equal(new(2026, 9, 25, 15, 31, 0), expiryDateTime);
+        Assert.Equal($"202609251530.{Process.GetCurrentProcess().ProcessName}.log", fileName);
+    }
+
+    [Fact]
+    public void TestCreateExpiryDateFromHour()
+    {
+        var (fileName, expiryDateTime) = FileSink.CreateFileNameAndExpiryDateTimeFromTemplate(new(2026, 9, 25, 15, 30, 34), "{dateTime:yyyyMMddHH}.{processName}.log");
+        Assert.Equal(new(2026, 9, 25, 16, 0, 0), expiryDateTime);
+        Assert.Equal($"2026092515.{Process.GetCurrentProcess().ProcessName}.log", fileName);
+    }
+
+    [Fact]
+    public void TestCreateExpiryDateFromDay()
+    {
+        var (fileName, expiryDateTime) = FileSink.CreateFileNameAndExpiryDateTimeFromTemplate(new(2026, 9, 25, 15, 30, 34), "{dateTime:yyyyMMdd}.{processName}.log");
+        Assert.Equal(new(2026, 9, 26, 0, 0, 0), expiryDateTime);
+        Assert.Equal($"20260925.{Process.GetCurrentProcess().ProcessName}.log", fileName);
+    }
+
+    [Fact]
+    public void TestCreateExpiryDateFromMonths()
+    {
+        var (fileName, expiryDateTime) = FileSink.CreateFileNameAndExpiryDateTimeFromTemplate(new(2026, 9, 25, 15, 30, 34), "{dateTime:yyyyMM}.{processName}.log");
+        Assert.Equal(new(2026, 10, 1, 0, 0, 0), expiryDateTime);
+        Assert.Equal($"202609.{Process.GetCurrentProcess().ProcessName}.log", fileName);
+    }
+
+    [Fact]
+    public void TestCreateExpiryDateFromYear()
+    {
+        var (fileName, expiryDateTime) = FileSink.CreateFileNameAndExpiryDateTimeFromTemplate(new(2026, 9, 25, 15, 30, 34), "{dateTime:yyyy}.{processName}.log");
+        Assert.Equal(new(2027, 1, 1, 0, 0, 0), expiryDateTime);
+        Assert.Equal($"2026.{Process.GetCurrentProcess().ProcessName}.log", fileName);  
     }
 }

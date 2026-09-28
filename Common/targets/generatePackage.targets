@@ -12,7 +12,7 @@
       <RepositoryUrl>https://github.com/Andre-Loetzsch/extensions</RepositoryUrl>
       <RepositoryType>git</RepositoryType>
       <PackageTags Condition="'$(PackageTags)' == ''">Oleander; Extensions; C#</PackageTags>
-      <PackageReleaseNotes>Oleander.Extensions.Configuration: A standard instance is created if no JSON configuration exists</PackageReleaseNotes>
+      <PackageReleaseNotes>Oleander.Extensions.Logging.File: Bug #88 fixed</PackageReleaseNotes>
       <PackageLicenseExpression>MIT</PackageLicenseExpression>
       <requireLicenseAcceptance>False</requireLicenseAcceptance>
       <Authors>Oleander</Authors>
