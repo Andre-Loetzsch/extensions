@@ -7,6 +7,9 @@ public class LogEntryToStringTextFormatter : ITextFormatter
 {
     public string Format(LogEntry logEntry)
     {
-        return string.Concat(logEntry.ToString().Replace(Environment.NewLine, "{NewLine}"), Environment.NewLine);
+        return string.Concat(logEntry.ToString()
+            .Replace("\r\n", "{CRLF}")
+            .Replace("\r", "{CR}")
+            .Replace("\n", "{LF}"), Environment.NewLine);
     }
 }

@@ -8,7 +8,11 @@ public class LogEntryToStringVerticalTextFormatter : ITextFormatter
     public string Format(LogEntry logEntry)
     {
         return string.Concat(Environment.NewLine, 
-            logEntry.ToString().Replace(Environment.NewLine, "{NewLine}")
+            
+            logEntry.ToString()
+                .Replace("\r\n", "{CRLF}")
+                .Replace("\n", "{CR}")
+                .Replace("\r", "{LF}")
                 .Replace("|", Environment.NewLine), Environment.NewLine);
     }
 }
