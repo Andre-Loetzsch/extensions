@@ -45,7 +45,7 @@ namespace Oleander.Extensions.Logging.TextFormatters.Tests.Common
 
         public LogHelper LogError()
         {
-            this.Log(null, "Test Error", $"This is a test error message.{Environment.NewLine}{Environment.NewLine}Error occurred!", LogLevel.Error);
+            this.Log(null, "Test Error", $"This is a test error message.\n\r\nError occurred!", LogLevel.Error);
             return this;
         }
 
