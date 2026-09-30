@@ -49,7 +49,7 @@ public class TextBlockInfo(Pad pad, string preFix = "", string postFix = "")
 
     private static string[] WordWrap(string text, int maxWidth)
     {
-        var lines = text.Split([Environment.NewLine], StringSplitOptions.None).ToList();
+        var lines = text.Replace("\r\n", "\n").Split(["\n"], StringSplitOptions.None).ToList();
 
         if (maxWidth < 1 || text.Length <= maxWidth || lines.All(x => x.Length <= maxWidth)) return lines.ToArray();
 
