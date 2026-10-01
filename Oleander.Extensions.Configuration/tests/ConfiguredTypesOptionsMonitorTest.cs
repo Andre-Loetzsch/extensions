@@ -663,6 +663,8 @@ public class ConfiguredTypesOptionsMonitorTest
         Debug.WriteLine("WriteAllText A2");
         File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "A2.json"), "{\"C1A\": {\"Property1\": \"Value2A\"}}");
 
+        Thread.Sleep(500);
+
         while (waitHandle.WaitOne(300))
         {
             Debug.WriteLine("(waitHandle.WaitOne 1");
