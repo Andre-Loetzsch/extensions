@@ -513,10 +513,10 @@ public class LoggerSinkProviderTest
     {
         var loggerSinkProvider = new LoggerSinkProvider();
 
-        var loggerSink1 = new FakeLoggerSink { Name = "S1", LogLevel = LogLevel.Information, Categories = ["Test"] };
-        var loggerSink2 = new FakeLoggerSink { Name = "S2", LogLevel = LogLevel.Information, Categories = ["Test*"] };
-        var loggerSink3 = new FakeLoggerSink { Name = "S3", LogLevel = LogLevel.Information, Categories = ["*Test"] };
-        var loggerSink4 = new FakeLoggerSink { Name = "S4", LogLevel = LogLevel.Information, Categories = ["*Test*"] };
+        var loggerSink1 = new FakeLoggerSink { Name = "S1", LogLevel = LogLevel.Information, Categories = ["Test", "Oleander.Test"] };
+        var loggerSink2 = new FakeLoggerSink { Name = "S2", LogLevel = LogLevel.Information, Categories = ["Test*", "Ole*T*t"] };
+        var loggerSink3 = new FakeLoggerSink { Name = "S3", LogLevel = LogLevel.Information, Categories = ["*Test", "Oleander?Te??"] };
+        var loggerSink4 = new FakeLoggerSink { Name = "S4", LogLevel = LogLevel.Information, Categories = ["*Test*", "*ander.*T*"] };
 
         loggerSinkProvider.AddOrUpdateLoggerSinks([
             loggerSink1,
@@ -529,31 +529,35 @@ public class LoggerSinkProviderTest
         var logger2 = loggerSinkProvider.CreateLogger("Test1");
         var logger3 = loggerSinkProvider.CreateLogger("UnitTest");
         var logger4 = loggerSinkProvider.CreateLogger("UnitTest1");
+        var logger5 = loggerSinkProvider.CreateLogger("Oleander.Test");
 
         logger1.LogInformation("This is test message 1.");
         logger2.LogInformation("This is test message 2.");
         logger3.LogInformation("This is test message 3.");
         logger4.LogInformation("This is test message 4.");
+        logger5.LogInformation("This is test message 5.");
 
         Assert.AreEqual(0, loggerSinkProvider.WaitOne(3000));
 
-        Assert.AreEqual(1, loggerSink1.Entries.Count);
+        Assert.AreEqual(2, loggerSink1.Entries.Count);
         Assert.AreEqual("This is test message 1.", loggerSink1.Entries[0].Message);
+        Assert.AreEqual("This is test message 5.", loggerSink1.Entries[1].Message);
 
-        Assert.AreEqual(2, loggerSink2.Entries.Count);
+        Assert.AreEqual(3, loggerSink2.Entries.Count);
         Assert.AreEqual("This is test message 1.", loggerSink2.Entries[0].Message);
         Assert.AreEqual("This is test message 2.", loggerSink2.Entries[1].Message);
+        Assert.AreEqual("This is test message 5.", loggerSink2.Entries[2].Message);
 
-        Assert.AreEqual(2, loggerSink3.Entries.Count);
+        Assert.AreEqual(3, loggerSink3.Entries.Count);
         Assert.AreEqual("This is test message 1.", loggerSink3.Entries[0].Message);
         Assert.AreEqual("This is test message 3.", loggerSink3.Entries[1].Message);
+        Assert.AreEqual("This is test message 5.", loggerSink3.Entries[2].Message);
 
-        Assert.AreEqual(4, loggerSink4.Entries.Count);
+        Assert.AreEqual(5, loggerSink4.Entries.Count);
         Assert.AreEqual("This is test message 1.", loggerSink4.Entries[0].Message);
         Assert.AreEqual("This is test message 2.", loggerSink4.Entries[1].Message);
         Assert.AreEqual("This is test message 3.", loggerSink4.Entries[2].Message);
         Assert.AreEqual("This is test message 4.", loggerSink4.Entries[3].Message);
+        Assert.AreEqual("This is test message 5.", loggerSink4.Entries[4].Message);
     }
-
-    
 }
